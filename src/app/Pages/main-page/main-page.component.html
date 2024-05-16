@@ -1,0 +1,81 @@
+<div class="contenedor-grid">
+    <div class="menu-bar">
+        <div class="img-app">
+            <img
+                src="../../../assets/imagenes/app-icon/app-icon.png"
+                width="100px"
+                alt="hola" />
+            <span class="fs-3 text-dark fw-bold">Biblioteca Bliz</span>
+        </div>
+        <div class="user_menu">
+            <ul>
+                <li #item class="menu-item active">
+                    <a [routerLink]="['dashboard']" class="nav-link">
+                        <div class="menu-icon">
+                            <i class="fa-solid fa-home fs-4"></i>
+                        </div>
+                        <div class="menu-text fs-4">Principal</div>
+                    </a>
+                </li>
+                <li #item class="menu-item">
+                    <a [routerLink]="['prestamos']" class="nav-link">
+                        <div class="menu-icon">
+                            <i class="fa-solid fa-hand-holding-hand fs-4"></i>
+                        </div>
+                        <div class="menu-text fs-4">Préstamos</div>
+                    </a>
+                </li>
+                <li #item class="menu-item">
+                    <a [routerLink]="['devoluciones']" class="nav-link">
+                        <div class="menu-icon">
+                            <i class="fa-solid fa-hands-holding fs-4"></i>
+                        </div>
+                        <div class="menu-text fs-4">Devoluciones</div>
+                    </a>
+                </li>
+                <li #item class="menu-item">
+                    <a [routerLink]="['usuarios']" class="nav-link">
+                        <div class="menu-icon">
+                            <i class="fa-solid fa-users fs-4"></i>
+                        </div>
+                        <div class="menu-text fs-4">Usuarios</div>
+                    </a>
+                </li>
+                <li #item class="menu-item">
+                    <a [routerLink]="['libros']" class="nav-link">
+                        <div class="menu-icon">
+                            <i class="fa-solid fa-book fs-4"></i>
+                        </div>
+                        <div class="menu-text fs-4">Libros</div>
+                    </a>
+                </li>
+                <li #item class="menu-item">
+                    <a [routerLink]="['reportes']" class="nav-link">
+                        <div class="menu-icon">
+                            <i class="fa-solid fa-file-pdf fs-4"></i>
+                        </div>
+                        <div class="menu-text fs-4">Reportes</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="copyright">© 2024 Los gozu de ER. All rights reserved</div>
+    </div>
+    <div class="header-bar">
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <h1>BIBLIOTECA BLIZ</h1>
+            </div>
+        </div>
+        <div>
+            <div class="d-flex justify-content-center">
+                <span class="fs-4">Tus Libros son nuestra pasión</span>
+            </div>
+        </div>
+    </div>
+    <div class="contenedor">
+        <div class="container">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
