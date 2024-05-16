@@ -1,0 +1,15 @@
+.cajita{
+  p{
+    color: blue;
+    font-size: 20px;
+  }
+  button{
+    background-color: coral;
+  }
+  .subcajita{
+    button{
+      background-color: red;
+    }
+  }
+}
+
