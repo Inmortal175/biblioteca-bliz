@@ -1,1 +1,22 @@
-<p>login-page works!</p>
+<div class="contenedor">
+    <div class="background">
+        <img
+            src="../../../assets/imagenes/otros/bg-login.jpg"
+            alt="Fondo de biblioteca" />
+    </div>
+    <div class="name_biblioteca">
+        <h1>BIBLIOTECA BLIZ</h1>
+        <p>Tus libros nuestra pasión</p>
+    </div>
+    <div class="login-form">
+        <form [formGroup]="LoginForm">
+            <h1>LOGIN</h1>
+            <label for="username">USUARIO</label>
+            <input type="text" id="username" formControlName="usuario" />
+            <label for="password">CONTRASEÑA</label>
+            <input type="password" id="password" formControlName="password" />
+            <hr />
+            <a role="button" (click)="Login()">Iniciar Sesión</a>
+        </form>
+    </div>
+</div>

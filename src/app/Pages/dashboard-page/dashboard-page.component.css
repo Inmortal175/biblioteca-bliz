@@ -1,15 +1,6 @@
-.cajita{
-  p{
-    color: blue;
-    font-size: 20px;
-  }
-  button{
-    background-color: coral;
-  }
-  .subcajita{
-    button{
-      background-color: red;
-    }
-  }
+input[type='date']::-webkit-datetime-edit-month-field,
+input[type='date']::-webkit-datetime-edit-day-field,
+input[type='date']::-webkit-datetime-edit-text {
+    display: none;
 }
 

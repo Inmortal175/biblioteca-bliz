@@ -32,7 +32,8 @@
                         ],
                         "allowedCommonJsDependencies": [
                             "lodash",
-                            "sweetalert2"
+                            "sweetalert2",
+                            "pdfmake"
                         ]
                     },
                     "configurations": {

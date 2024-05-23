@@ -15,6 +15,12 @@ import { LibrosPageComponent } from './Pages/libros-page/libros-page.component';
 import { ReportePageComponent } from './Pages/reporte-page/reporte-page.component';
 import { DashboardPageComponent } from './Pages/dashboard-page/dashboard-page.component';
 
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+
+//interceptor
+import { JwtInterceptorInterceptor } from './Inteceptors/jwt-interceptor.interceptor';
+import { AdminPageComponent } from './Pages/admin-page/admin-page.component';
 @NgModule({
     declarations: [
         AppComponent,
@@ -26,9 +32,22 @@ import { DashboardPageComponent } from './Pages/dashboard-page/dashboard-page.co
         LibrosPageComponent,
         ReportePageComponent,
         DashboardPageComponent,
+        AdminPageComponent,
     ],
-    imports: [BrowserModule, AppRoutingModule, SweetAlertModule],
-    providers: [],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        SweetAlertModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+    ],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: JwtInterceptorInterceptor,
+            multi: true,
+        },
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}
