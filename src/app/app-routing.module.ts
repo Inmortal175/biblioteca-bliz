@@ -8,11 +8,15 @@ import { UsuariosPageComponent } from './Pages/usuarios-page/usuarios-page.compo
 import { LibrosPageComponent } from './Pages/libros-page/libros-page.component';
 import { ReportePageComponent } from './Pages/reporte-page/reporte-page.component';
 import { LoginPageComponent } from './Pages/login-page/login-page.component';
+import { MainGuard } from './Guards/main/main.guard';
+import { LoginGuard } from './Guards/Login/login.guard';
+import { AdminPageComponent } from './Pages/admin-page/admin-page.component';
 
 const routes: Routes = [
     {
         path: 'biblioteca',
         component: MainPageComponent,
+        canActivate: [MainGuard],
         children: [
             {
                 path: '',
@@ -43,11 +47,16 @@ const routes: Routes = [
                 path: 'reportes',
                 component: ReportePageComponent,
             },
+            {
+                path: 'administracion',
+                component: AdminPageComponent,
+            },
         ],
     },
     {
         path: 'login',
         component: LoginPageComponent,
+        canActivate: [LoginGuard],
     },
     {
         path: '**',

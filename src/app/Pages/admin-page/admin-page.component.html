@@ -1,0 +1,126 @@
+<div class="card bg-gray">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombres</th>
+                <th scope="col">Apellido Paterno</th>
+                <th scope="col">Apellido Materno</th>
+                <th scope="col">email</th>
+                <th scope="col">Bibliotecario</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of items">
+                <th scope="row">{{ items.indexOf(item) + 1 }}</th>
+                <td>{{ item.nombres }}</td>
+                <td>{{ item.apellido_paterno }}</td>
+                <td>{{ item.apellido_materno }}</td>
+                <td>{{ item.email }}</td>
+                <td>{{ item.bibliotecario }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- paginacion -->
+    <div class="pagination">
+        <ul>
+            <li
+                *ngFor="let page of pages"
+                [ngClass]="{ active: page.number === currentPage }">
+                <span
+                    *ngIf="page.type === 'page'"
+                    (click)="changePage(page.number)"
+                    >{{ page.number }}</span
+                >
+                <span *ngIf="page.type === 'dots'">...</span>
+                <span
+                    *ngIf="page.type === 'prev'"
+                    (click)="changePage(page.number)">
+                    <i class="fas fa-angle-left"></i> Prev
+                </span>
+                <span
+                    *ngIf="page.type === 'next'"
+                    (click)="changePage(page.number)">
+                    Next <i class="fas fa-angle-right"></i>
+                </span>
+            </li>
+        </ul>
+        <div [formGroup]="pageSizeForm" class="page_size_cont mx-3">
+            <select formControlName="pageSize" (change)="changePageSize()">
+                <option
+                    *ngFor="let size of [1, 2, 3, 5, 10, 20, 100]"
+                    [value]="size">
+                    {{ size }}
+                </option>
+            </select>
+        </div>
+        <p class="texto">
+            Mostrando
+            {{ pageSize <= totalItems ? pageSize : totalItems }} registros de
+            {{ totalItems }}
+        </p>
+    </div>
+</div>
+
+<div class="wrap">
+    <header>Usuario</header>
+    <div class="form-outer">
+        <form action="">
+            <div class="page">
+                <div class="title">titulo 1</div>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Totam tempora eius ullam, ea placeat exercitationem!
+                    Tempora, repudiandae? Cum modi perspiciatis labore sequi
+                    possimus necessitatibus ipsam alias voluptatibus saepe
+                    voluptatum? Atque! Lorem ipsum dolor sit amet consectetur
+                    adipisicing elit. Tempora fugit repellendus magnam sunt non,
+                    perferendis totam ab harum assumenda unde animi? Voluptate
+                    eius adipisci voluptatum eum nesciunt molestiae, obcaecati
+                    soluta!
+                </p>
+                <div class="field btns">
+                    <button class="next-1 next">next</button>
+                </div>
+            </div>
+
+            <div class="page">
+                <div class="title"></div>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Totam tempora eius ullam, ea placeat exercitationem!
+                    Tempora, repudiandae? Cum modi perspiciatis labore sequi
+                    possimus necessitatibus ipsam alias voluptatibus saepe
+                    voluptatum? Atque! Lorem ipsum dolor sit amet consectetur
+                    adipisicing elit. Tempora fugit repellendus magnam sunt non,
+                    perferendis totam ab harum assumenda unde animi? Voluptate
+                    eius adipisci voluptatum eum nesciunt molestiae, obcaecati
+                    soluta!
+                </p>
+                <div class="field btns">
+                    <button class="prev-1 prev">prev</button
+                    ><button class="next-1 next">next</button>
+                </div>
+            </div>
+
+            <div class="page">
+                <div class="title"></div>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Totam tempora eius ullam, ea placeat exercitationem!
+                    Tempora, repudiandae? Cum modi perspiciatis labore sequi
+                    possimus necessitatibus ipsam alias voluptatibus saepe
+                    voluptatum? Atque! Lorem ipsum dolor sit amet consectetur
+                    adipisicing elit. Tempora fugit repellendus magnam sunt non,
+                    perferendis totam ab harum assumenda unde animi? Voluptate
+                    eius adipisci voluptatum eum nesciunt molestiae, obcaecati
+                    soluta!
+                </p>
+                <div class="field btns">
+                    <button class="prev-1 prev">prev</button
+                    ><button class="next-1 next">next</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
