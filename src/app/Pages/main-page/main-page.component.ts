@@ -6,6 +6,7 @@ import {
     Renderer2,
     ViewChildren,
 } from '@angular/core';
+import { JwtAuthService } from 'src/app/Services/Auth/jwt-auth.service';
 
 // importar los modulos para el uso de pdfMake
 // import * as pdfMake from 'pdfmake/build/pdfmake';
@@ -20,7 +21,10 @@ import {
     styleUrls: ['./main-page.component.css'],
 })
 export class MainPageComponent implements OnInit, AfterViewInit {
-    constructor(private render: Renderer2) {}
+    constructor(
+        private render: Renderer2,
+        private authService: JwtAuthService
+    ) {}
     ngOnInit(): void {
         console.log();
     }
@@ -55,5 +59,9 @@ export class MainPageComponent implements OnInit, AfterViewInit {
                 RENDER.addClass(ITEM, 'active');
             });
         });
+    }
+
+    LogOut() {
+        this.authService.LogOut();
     }
 }
