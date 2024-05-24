@@ -10,11 +10,15 @@ import { ReportePageComponent } from './Pages/reporte-page/reporte-page.componen
 import { LoginPageComponent } from './Pages/login-page/login-page.component';
 import { UsuarioComponent } from './Pages/prestamo-page/vistas/usuario/usuario.component';
 import { LibroComponent } from './Pages/prestamo-page/vistas/libro/libro.component';
+import { MainGuard } from './Guards/main/main.guard';
+import { LoginGuard } from './Guards/Login/login.guard';
+import { AdminPageComponent } from './Pages/admin-page/admin-page.component';
 
 const routes: Routes = [
     {
         path: 'biblioteca',
         component: MainPageComponent,
+        canActivate: [MainGuard],
         children: [
             {
                 path: '',
@@ -60,17 +64,22 @@ const routes: Routes = [
                 path: 'reportes',
                 component: ReportePageComponent,
             },
+            {
+                path: 'administracion',
+                component: AdminPageComponent,
+            },
         ],
     },
-    // {
-    //     path: 'login',
-    //     component: LoginPageComponent,
-    // },
-    // {
-    //     path: '**',
-    //     redirectTo: '/biblioteca/dashboard',
-    //     pathMatch: 'full',
-    // },
+    {
+        path: 'login',
+        component: LoginPageComponent,
+        canActivate: [LoginGuard],
+    },
+    {
+        path: '**',
+        redirectTo: '/biblioteca/dashboard',
+        pathMatch: 'full',
+    },
 ];
 
 @NgModule({

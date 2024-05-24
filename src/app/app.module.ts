@@ -15,8 +15,13 @@ import { LibrosPageComponent } from './Pages/libros-page/libros-page.component';
 import { ReportePageComponent } from './Pages/reporte-page/reporte-page.component';
 import { DashboardPageComponent } from './Pages/dashboard-page/dashboard-page.component';
 
-import { FormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+
+//interceptor
+import { JwtInterceptorInterceptor } from './Inteceptors/jwt-interceptor.interceptor';
+import { AdminPageComponent } from './Pages/admin-page/admin-page.component';
 import { UsuarioComponent } from './Pages/prestamo-page/vistas/usuario/usuario.component';
 import { LibroComponent } from './Pages/prestamo-page/vistas/libro/libro.component';
 
@@ -35,9 +40,23 @@ import { RouterModule } from '@angular/router';
         DashboardPageComponent,
         UsuarioComponent,
         LibroComponent,
+        AdminPageComponent,
     ],
-    imports: [BrowserModule, AppRoutingModule, SweetAlertModule, FormsModule, ReactiveFormsModule, RouterModule],
-    providers: [],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        SweetAlertModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        FormsModule,
+    ],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: JwtInterceptorInterceptor,
+            multi: true,
+        },
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

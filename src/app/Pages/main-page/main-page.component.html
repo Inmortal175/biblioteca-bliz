@@ -57,6 +57,22 @@
                         <div class="menu-text fs-4">Reportes</div>
                     </a>
                 </li>
+                <li #item class="menu-item">
+                    <a [routerLink]="['administracion']" class="nav-link">
+                        <div class="menu-icon">
+                            <i class="fa-solid fa-screwdriver-wrench fs-4"></i>
+                        </div>
+                        <div class="menu-text fs-4">Administracion</div>
+                    </a>
+                </li>
+                <li #item class="menu-item">
+                    <a (click)="LogOut()" class="nav-link">
+                        <div class="menu-icon">
+                            <i class="fa-solid fa-right-from-bracket fs-4"></i>
+                        </div>
+                        <div class="menu-text fs-4">LogOut</div>
+                    </a>
+                </li>
             </ul>
         </div>
         <div class="copyright">© 2024 Los gozu de ER. All rights reserved</div>

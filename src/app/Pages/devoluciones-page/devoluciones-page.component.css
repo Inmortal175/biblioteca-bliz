@@ -1,0 +1,186 @@
+.oculto {
+  display: none;
+}
+
+.checkboxesTabla {
+  border-radius: 50%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.checkboxesTabla + label {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+}
+
+.checkboxesTabla:checked + label {
+  background-color: #59d5d7; /* Cambia el color de fondo del label cuando el checkbox está marcado */
+}
+
+
+
+#ContenedorIndicadores {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 50px;
+}
+
+#indicadorPrestamo {
+  border-radius: 11px;
+  padding: 12px;
+  background-color: #ffd977;
+  font-family: "Roboto Light";
+  font-weight: 600;
+}
+
+
+
+#ContenedorUiDevoluciones {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#uiDevoluciones {
+  border-radius: 5px;
+  width: 90%;
+  height: 100%;
+  background-color: #e6e6e6;
+}
+
+
+
+#ContenedorBuscarUsuario {
+  margin-top: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: right;
+}
+
+#promtUsuario {
+  background-color: aquamarine;
+}
+
+#texto {
+  margin-right: 12px;
+  border-color: #f5f5f5;
+  border-radius: 10px;
+  padding-left: 10px;
+
+  font-family: "Roboto Light";
+}
+
+#texto::placeholder {
+  color: #999999;
+  font-style: italic;
+}
+
+#botonBuscarNombre {
+  margin-right: 3%;
+  background-color: #468efc;
+  border: none;
+  border-radius: 20%;
+}
+
+#ContenedorListaPrestamos {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+#tablaDeudas {
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+#listaPrestamos {
+  min-height: 350px;
+  width: 94%;
+  background-color: #f5f5f5;
+}
+
+
+
+#ContenedorBotonDevolverLibro  {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: right;
+}
+
+#botonDevolverLibro {
+  margin-right: 3%;
+  padding: 11px;
+  background-color: #64e061;
+
+  font-family: "Roboto Light";
+  font-weight: 600;
+  color: white;
+
+  border-style: hidden;
+  border-radius: 10px;
+
+}
+
+
+
+#pruebaListaPrestamos {
+  background-color: #fcbf44;
+}
+
+
+
+
+#ContenedorDevolucionRealizada {
+  border-radius: 15px;
+  width: 80%;
+  min-height: 400px;
+  background-color: #e6e6e6;
+  display: flex;
+  align-items: center;
+}
+
+#devolucionRealizada {
+  width: 100%;
+}
+
+#indicadorDevolucion {
+  width: 100%;
+  font-family: "Roboto Light";
+  text-align: center;
+  font-style: italic;
+  font-size: 28px;
+  font-weight: 600;
+
+}
+
+#ContenedorBotonOk {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#botonOk {
+  padding-top: 11px;
+  padding-bottom: 11px;
+  padding-left: 18px;
+  padding-right: 18px;
+  background-color: #64e061;
+
+  font-family: "Roboto Light";
+  font-weight: 600;
+  color: white;
+
+  border-style: hidden;
+  border-radius: 10px;
+}
