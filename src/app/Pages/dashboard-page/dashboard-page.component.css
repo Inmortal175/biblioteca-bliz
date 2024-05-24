@@ -1,0 +1,158 @@
+/* Estilo para el body, centrando el contenido y eliminando márgenes */
+/* Estilo para el body, centrando el contenido y eliminando márgenes */
+.contenedor_principal {
+    flex-direction: column;
+    height: 100%;
+    padding: 20px;
+    margin: 0; /* Elimina los márgenes predeterminados */
+    font-family: Arial, sans-serif; /* Fuente para todo el documento */
+    width: 100%;
+}
+
+/* Estilo para la imagen principal */
+img {
+    /* max-width: 100%; Asegura que la imagen no exceda el ancho del contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+    margin-bottom: 20px; /* Espacio inferior debajo de la imagen */
+    /* width: 100%; */
+}
+
+/* Estilo para el saludo */
+.Saludo {
+    position: relative;
+    padding-top: 200px;
+    padding-left: 15px;
+    width: 100%;
+    height: 275px;
+    font-size: px; /* Tamaño de fuente más grande */
+    font-weight: bold; /* Texto en negrita */
+    margin-bottom: 20px; /* Espacio inferior debajo del saludo */
+    color: #ffffff; /* Color del texto */
+    display: flex;
+    text-align: right;
+}
+
+/* Pseudo-elemento para la imagen de fondo con opacidad */
+.Saludo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../../../assets/imagenes/dashboard/bg-dashboard.jpg')
+        no-repeat center center/cover;
+    opacity: 68%; /* Ajusta la opacidad de la imagen de fondo */
+    z-index: -1; /* Coloca la imagen detrás del contenido del .Saludo */
+}
+
+/* Estilo para cada contenedor individual */
+.contenedor {
+    width: 230px;
+    height: 80px;
+    display: flex;
+    align-items: center; /* Alinea verticalmente al centro */
+    font-weight: bold;
+    border-radius: 7px; /* Esquinas redondeadas */
+    box-shadow: 0 4px 8px #5f5f5f; /* Sombra para dar profundidad */
+    transition: transform 0.3s; /* Transición para el efecto de hover */
+    gap: 30px; /* Espacio entre los elementos dentro del contenedor */
+    background-color: white;
+}
+
+/* Efecto de hover para los contenedores */
+.contenedor:hover {
+    transform: scale(
+        1.05
+    ); /* Escala ligeramente el contenedor al pasar el mouse */
+}
+
+/* Estilo para los íconos dentro de los contenedores */
+.icono {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px; /* Ancho del contenedor del ícono */
+    height: 100%; /* Altura del contenedor del ícono */
+    border-radius: 7px; /* Esquinas redondeadas */
+    font-size: 24px; /* Tamaño de los íconos */
+    color: #fff; /* Color del ícono */
+}
+
+/* Colores específicos para cada ícono */
+/* Colores específicos para cada ícono con degradado */
+.icono.usuarios {
+    background: linear-gradient(
+        to right,
+        #ca5efd,
+        #eb75e6
+    ); /* Degradado de azul */
+}
+
+.icono.libros {
+    background: linear-gradient(
+        to right,
+        #fcb900,
+        #eba149
+    ); /* Degradado de verde */
+}
+
+.icono.autor {
+    background: linear-gradient(
+        to right,
+        #ff6262,
+        #f78f8f
+    ); /* Degradado de amarillo */
+}
+
+.icono.editorial {
+    background: linear-gradient(
+        to right,
+        #48bfe4,
+        #30a9ce
+    ); /* Degradado de rojo */
+}
+
+.icono.prestamos {
+    background: linear-gradient(
+        to right,
+        #598ff8,
+        #61a8fb
+    ); /* Degradado de turquesa */
+}
+
+.icono.dev-vencido {
+    background: linear-gradient(
+        to right,
+        #29cb6a,
+        #49de4f
+    ); /* Degradado de morado */
+}
+
+/* Estilo para el texto dentro de los contenedores */
+.texto {
+    font-size: 16px; /* Tamaño de la fuente del texto */
+    font-weight: bold; /* Texto en negrita */
+    color: #333; /* Color del texto */
+}
+
+.custom-table {
+    padding-top: 50px;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Espacio entre las filas */
+    font-family: Arial, sans-serif; /* Fuente para todo el documento */
+}
+
+.custom-table th {
+    color: #000000; /* Color del texto del encabezado */
+    padding: 10px; /* Espaciado interno */
+    text-align: left; /* Alineación del texto */
+}
+
+.custom-table td {
+    background-color: #f4f4f4; /* Color de fondo para las celdas del cuerpo de la tabla */
+    padding: 10px; /* Espaciado interno */
+    text-align: left; /* Alineación del texto */
+    border-radius: 10px;
+}

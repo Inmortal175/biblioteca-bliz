@@ -84,6 +84,7 @@ ul {
     height: 120px;
     width: calc(100% - 300px);
     right: 0;
+    background-color: #fff;
 }
 
 .contenedor {

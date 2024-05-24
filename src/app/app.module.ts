@@ -15,6 +15,13 @@ import { LibrosPageComponent } from './Pages/libros-page/libros-page.component';
 import { ReportePageComponent } from './Pages/reporte-page/reporte-page.component';
 import { DashboardPageComponent } from './Pages/dashboard-page/dashboard-page.component';
 
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { UsuarioComponent } from './Pages/prestamo-page/vistas/usuario/usuario.component';
+import { LibroComponent } from './Pages/prestamo-page/vistas/libro/libro.component';
+
+import { RouterModule } from '@angular/router';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -26,8 +33,10 @@ import { DashboardPageComponent } from './Pages/dashboard-page/dashboard-page.co
         LibrosPageComponent,
         ReportePageComponent,
         DashboardPageComponent,
+        UsuarioComponent,
+        LibroComponent,
     ],
-    imports: [BrowserModule, AppRoutingModule, SweetAlertModule],
+    imports: [BrowserModule, AppRoutingModule, SweetAlertModule, FormsModule, ReactiveFormsModule, RouterModule],
     providers: [],
     bootstrap: [AppComponent],
 })

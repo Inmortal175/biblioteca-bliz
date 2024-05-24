@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import Swal from 'sweetalert2';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import { FormGroup, FormBuilder } from '@angular/forms';
 @Component({
-    selector: 'app-prestamo-page',
-    templateUrl: './prestamo-page.component.html',
-    styleUrls: ['./prestamo-page.component.css'],
+  selector: 'app-usuario',
+  templateUrl: './usuario.component.html',
+  styleUrls: ['./usuario.component.css']
 })
-export class PrestamoPageComponent {
-    userSelectForm: FormGroup;
+export class UsuarioComponent {
+  userSelectForm: FormGroup;
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, private route: Router) {
         this.userSelectForm = this.fb.group({
             seleccion: false,
         });
@@ -58,4 +58,9 @@ export class PrestamoPageComponent {
         //     }
         // });
     }
+
+    Ir_Libro(){
+      this.route.navigate(['biblioteca/prestamos/libro'])
+    }
+
 }

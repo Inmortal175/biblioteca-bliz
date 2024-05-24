@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainPageComponent } from './Pages/main-page/main-page.component';
 import { DashboardPageComponent } from './Pages/dashboard-page/dashboard-page.component';
@@ -8,6 +8,8 @@ import { UsuariosPageComponent } from './Pages/usuarios-page/usuarios-page.compo
 import { LibrosPageComponent } from './Pages/libros-page/libros-page.component';
 import { ReportePageComponent } from './Pages/reporte-page/reporte-page.component';
 import { LoginPageComponent } from './Pages/login-page/login-page.component';
+import { UsuarioComponent } from './Pages/prestamo-page/vistas/usuario/usuario.component';
+import { LibroComponent } from './Pages/prestamo-page/vistas/libro/libro.component';
 
 const routes: Routes = [
     {
@@ -26,6 +28,21 @@ const routes: Routes = [
             {
                 path: 'prestamos',
                 component: PrestamoPageComponent,
+                children:[
+                    {
+                    path: '',
+                    redirectTo: 'user',
+                    pathMatch: 'full',
+                    },
+                    {
+                        path: 'user',
+                        component: UsuarioComponent
+                    },
+                    {
+                        path:'libro',
+                        component : LibroComponent
+                    }
+                ]
             },
             {
                 path: 'devoluciones',
@@ -45,15 +62,15 @@ const routes: Routes = [
             },
         ],
     },
-    {
-        path: 'login',
-        component: LoginPageComponent,
-    },
-    {
-        path: '**',
-        redirectTo: '/biblioteca/dashboard',
-        pathMatch: 'full',
-    },
+    // {
+    //     path: 'login',
+    //     component: LoginPageComponent,
+    // },
+    // {
+    //     path: '**',
+    //     redirectTo: '/biblioteca/dashboard',
+    //     pathMatch: 'full',
+    // },
 ];
 
 @NgModule({

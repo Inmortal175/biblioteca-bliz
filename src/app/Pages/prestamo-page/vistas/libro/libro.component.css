@@ -1,9 +1,35 @@
-.oculto {
-    display: none;
+.container {
+    margin-top: 15px;
+    max-width: 100%; /* Asegura que el contenedor no exceda el ancho disponible */
 }
 
-#ContenedorPrueba {
-    background-color: red;
+.row {
+    
+    display: flex; /* Usa flexbox para las filas */
+    justify-content: center; /* Centra las columnas horizontalmente */
+    margin: 0 -15px; /* Añade márgenes negativos para compensar el padding en las columnas */
+}
+
+.col {
+    height: 52px; 
+    flex: 0 0 25%; /* Ajusta el tamaño de las columnas a un 25% del contenedor */
+    max-width: 20%; /* Ajusta el ancho máximo de las columnas a un 20% */
+    box-sizing: border-box; /* Incluye padding y border en el ancho total */
+}
+.usuario {
+    height: 100%;
+    text-align: center; /* Centra el texto dentro del elemento */
+    background-color:#f4f4f4;
+     /* Añade un fondo claro */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.libro {
+    font-weight: bold;
+    height: 100%;
+    text-align: center; /* Centra el texto dentro del elemento */
+    background-color:#ffd977; /* Añade un fondo claro */
+    border-radius: 5px; /* Bordes redondeados */
 }
 
 body {
@@ -13,10 +39,7 @@ body {
     padding: 20px;
     margin: 0; /* Eliminamos cualquier margen predeterminado */
 }
-.botonNEXT.active,
-.botonBACK.active {
-    background-color: yellow;
-}
+
 nav-Usurio {
     display: flex;
     justify-content: center; /* Centra los contenedores horizontalmente */
@@ -36,14 +59,10 @@ nav-Usurio {
     border-radius: 5px;
 }
 
-.libro {
-    background-color: #f0f0f0;
-}
-
 .nuevo-contenedor {
     background-color: #f0f0f0; /* Color para el nuevo contenedor */
     width: 100%; /* Ocupa todo el ancho del contenedor padre */
-    height: 600px;
+    /* height: 600px; */
     padding: 20px;
     justify-content: flex-start;
     text-align: center;
@@ -102,12 +121,22 @@ button {
     text-align: center; /* Alineación del texto */
 }
 
-.nuevo-contenedor3 {
-    width: 100%;
-    height: 90px;
-    padding: 0%;
-}
 .botonNEXT {
+    padding-right: 15px;
+    align-items: center;
+    font-style: normal;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #64e061;
+    width: 180px;
+    color: #ffffff;
+    height: 50px;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    border: none;
+}
+.botonHOME {
     padding-right: 15px;
     align-items: center;
     font-style: normal;
@@ -137,9 +166,7 @@ button {
     border: none;
 }
 .nuevo-contenedor3 {
-    transform: scale(
-        1.05
-    ); /* Escala ligeramente el contenedor al pasar el mouse */
+    justify-content: space-around;
 }
 
 .Agregar {
@@ -150,4 +177,13 @@ button {
     border: 1px solid #0000004e;
     background: linear-gradient(#458efc58, #9170ff43);
     /* filter: opacity(.2); */
+}
+.detalle {
+    /* margin-top: 30px;
+    padding-top: 30px; */
+    font-weight: bold;
+    height: 100%;
+    text-align: center; /* Centra el texto dentro del elemento */
+    background-color:#ffd977; /* Añade un fondo claro */
+    border-radius: 5px; /* Bordes redondeados */
 }
