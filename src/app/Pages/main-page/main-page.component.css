@@ -4,7 +4,7 @@
     width: 300px;
     color: white;
     position: fixed;
-    height: 100vh;
+    height: 100vh;  
 }
 
 .img-app {
@@ -84,6 +84,7 @@ ul {
     height: 120px;
     width: calc(100% - 300px);
     right: 0;
+    background-color: #fff;
 }
 
 .contenedor {
