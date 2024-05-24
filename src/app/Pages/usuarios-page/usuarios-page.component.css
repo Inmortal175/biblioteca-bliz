@@ -1,0 +1,112 @@
+.nav-pills {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.nav-item {
+  margin-right: 50px;
+}
+
+.nav-link {
+  color: black;
+}
+
+.nav-link.active {
+  background-color: #FFD977;
+  color: #000000;
+  border-bottom: 2px solid #FFD977;
+}
+
+.container {
+  width: 900px;
+  background-color: #fafafa;
+  padding: 15px;
+  border-radius: 7px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
+  position: relative;
+  top: auto;
+
+}
+
+.tab-pane  {
+  width: 950px;
+  background-color: #fafafa;
+  padding: auto 10px;
+  border-radius: 7px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
+  position: relative;
+  top: 5% ;
+  margin:10px auto;
+}
+
+
+button {
+  background-color: #f3f3f3;
+  padding: 5px 30px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  display: flex;
+  margin: auto;
+}
+
+
+.btn-tercero {
+  background-color: #64E061;
+}
+.btn-tercero:hover {
+  background-color: #0ce048;
+}
+
+
+
+
+
+#ContenedorBotonCerrarModal {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+}
+
+#botonModalCerrar {
+  margin-right: 0;
+  background-color: #e64545;
+}
+
+#botonActualizarModal {
+  background-color: #93e092;
+}
+
+#botonActualizarModal:hover {
+  background-color: #0ce048;
+}
+
+
+
+
+.ContenedorBodyFilaModal {
+  display: flex;
+  justify-content: center;
+}
+
+.inputDelModal {
+  margin-right: 12px;
+  border-color: #f5f5f5;
+  border-radius: 10px;
+  padding-left: 10px;
+
+  font-family: "Roboto Light";
+}
+
+.inputDelModal::placeholder {
+  color: #999999;
+  font-style: italic;
+}
+
+
+#uiEditarUsuario {
+}

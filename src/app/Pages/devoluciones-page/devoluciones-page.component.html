@@ -1,1 +1,62 @@
-<p>devoluciones-page works!</p>
+<div id="ContenedorIndicadores">
+    <div id="indicadorPrestamo">Préstamos</div>
+</div>
+
+<div id="ContenedorUiDevoluciones">
+    <div id="uiDevoluciones">
+        <div id="ContenedorBuscarUsuario">
+            <label id="promtUsuario" for="texto"></label>
+            <input
+                type="text"
+                id="texto"
+                name="texto"
+                placeholder="Nombre de usuario..."
+                [(ngModel)]="nombreUsuarioPrompt" />
+
+            <button
+                class="btn btn-primary square-circle"
+                id="botonBuscarNombre"
+                (click)="bucarNombreEnDb()">
+                <i
+                    class="fa-solid fa-magnifying-glass"
+                    style="color: #ffffff"></i>
+            </button>
+        </div>
+
+        <div id="ContenedorListaPrestamos">
+            <table class="table" id="tablaDeudas">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">ID de prestamo</th>
+                        <th scope="col">Título del libro</th>
+                        <th scope="col">Fecha de préstamo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let devolucion of devoluciones; index as i">
+                        <th scope="row">
+                            <input
+                                type="checkbox"
+                                [id]="'checkbox-' + i"
+                                [(ngModel)]="devolucion.selected"
+                                class="checkboxesTabla" />
+                            <label for="{{ 'checkbox-' + i }}"></label>
+                        </th>
+                        <td>{{ devolucion.ID_de_prestamo }}</td>
+                        <td>{{ devolucion.Titulo_del_libro }}</td>
+                        <td>{{ devolucion.Fecha_de_prestamo }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="ContenedorBotonDevolverLibro">
+            <button
+                (click)="EnviarListaIdPrestamosDevueltos()"
+                id="botonDevolverLibro">
+                Devolver libro
+            </button>
+        </div>
+    </div>
+</div>
