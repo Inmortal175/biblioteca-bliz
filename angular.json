@@ -30,10 +30,7 @@
                             "node_modules/@popperjs/core/dist/umd/popper.min.js",
                             "node_modules/bootstrap/dist/js/bootstrap.min.js"
                         ],
-                        "allowedCommonJsDependencies": [
-                            "lodash",
-                            "sweetalert2"
-                        ]
+                        "allowedCommonJsDependencies": ["lodash", "sweetalert2"]
                     },
                     "configurations": {
                         "production": {

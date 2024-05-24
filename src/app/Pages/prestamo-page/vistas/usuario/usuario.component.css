@@ -2,9 +2,38 @@
     display: none;
 }
 
-#ContenedorPrueba {
-    background-color: red;
+.container {
+    margin-top: 15px;
+    max-width: 100%; /* Asegura que el contenedor no exceda el ancho disponible */
 }
+
+.row {
+    display: flex; /* Usa flexbox para las filas */
+    justify-content: center; /* Centra las columnas horizontalmente */
+    margin: 0 -15px; /* Añade márgenes negativos para compensar el padding en las columnas */
+}
+
+.col {
+    height: 52px; 
+    flex: 0 0 25%; /* Ajusta el tamaño de las columnas a un 25% del contenedor */
+    max-width: 20%; /* Ajusta el ancho máximo de las columnas a un 20% */
+    box-sizing: border-box; /* Incluye padding y border en el ancho total */
+}
+.usuario {
+    font-weight: bold;
+    height: 100%;
+    text-align: center; /* Centra el texto dentro del elemento */
+    background-color:#ffd977; /* Añade un fondo claro */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.libro {
+    height: 100%;
+    text-align: center; /* Centra el texto dentro del elemento */
+    background-color:#f4f4f4; /* Añade un fondo claro */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
 
 body {
     display: flex;
@@ -36,14 +65,10 @@ nav-Usurio {
     border-radius: 5px;
 }
 
-.libro {
-    background-color: #f0f0f0;
-}
-
 .nuevo-contenedor {
     background-color: #f0f0f0; /* Color para el nuevo contenedor */
     width: 100%; /* Ocupa todo el ancho del contenedor padre */
-    height: 600px;
+    /* height: 600px; */
     padding: 20px;
     justify-content: flex-start;
     text-align: center;
@@ -137,9 +162,7 @@ button {
     border: none;
 }
 .nuevo-contenedor3 {
-    transform: scale(
-        1.05
-    ); /* Escala ligeramente el contenedor al pasar el mouse */
+     justify-content: end;
 }
 
 .Agregar {
