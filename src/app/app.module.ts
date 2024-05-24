@@ -22,6 +22,11 @@ import { FormsModule } from '@angular/forms';
 //interceptor
 import { JwtInterceptorInterceptor } from './Inteceptors/jwt-interceptor.interceptor';
 import { AdminPageComponent } from './Pages/admin-page/admin-page.component';
+import { UsuarioComponent } from './Pages/prestamo-page/vistas/usuario/usuario.component';
+import { LibroComponent } from './Pages/prestamo-page/vistas/libro/libro.component';
+
+import { RouterModule } from '@angular/router';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -33,6 +38,8 @@ import { AdminPageComponent } from './Pages/admin-page/admin-page.component';
         LibrosPageComponent,
         ReportePageComponent,
         DashboardPageComponent,
+        UsuarioComponent,
+        LibroComponent,
         AdminPageComponent,
     ],
     imports: [
