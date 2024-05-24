@@ -17,6 +17,7 @@ import { DashboardPageComponent } from './Pages/dashboard-page/dashboard-page.co
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 //interceptor
 import { JwtInterceptorInterceptor } from './Inteceptors/jwt-interceptor.interceptor';
@@ -40,6 +41,7 @@ import { AdminPageComponent } from './Pages/admin-page/admin-page.component';
         SweetAlertModule,
         HttpClientModule,
         ReactiveFormsModule,
+        FormsModule,
     ],
     providers: [
         {
