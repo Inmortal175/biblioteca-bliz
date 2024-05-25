@@ -2,8 +2,18 @@
   background-color: #FFD977; /* Color de fondo del enlace activo */
   color: #000000; /* Color del texto del enlace activo */
   border-bottom: 2px solid #FFD977; /* Borde inferior del enlace activo */
+  font-weight: bold;
 }
 
+.nav-link{
+  color: #000000;
+}
+
+.containerNav{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
 .pagination ul li span {
     cursor: pointer;
