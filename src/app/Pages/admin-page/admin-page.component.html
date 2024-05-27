@@ -66,72 +66,73 @@
         role="tabpanel"
         aria-labelledby="pills-home-tab"
         tabindex="0">
-        <div class="container text-start">
-            <div class="row align-items-start">
-                <div class="mb-3 col">
-                    <label for="exampleFormControlInput1" class="form-label"
-                        >Nombres</label
-                    >
-                    <input
-                        type="email"
-                        class="form-control"
-                        id="exampleFormControlInput1"
-                        placeholder="Oscar Abel" />
-                </div>
-                <div class="mb-3 col">
-                    <label for="exampleFormControlInput1" class="form-label"
-                        >Apellido Paterno</label
-                    >
-                    <input
-                        type="email"
-                        class="form-control"
-                        id="exampleFormControlInput1"
-                        placeholder="Bautista" />
+        <form action="" [formGroup]="formAutor" (submit)="sendAutor()">
+            <div class="container text-start">
+                <div class="row align-items-start">
+                    <div class="mb-3 col">
+                        <label for="exampleFormControlInput1" class="form-label"
+                            >Nombres</label
+                        >
+                        <input class="form-control" formControlName="nombres" />
+                    </div>
+                    <div class="mb-3 col">
+                        <label for="exampleFormControlInput1" class="form-label"
+                            >Apellido Paterno</label
+                        >
+                        <input
+                            class="form-control"
+                            formControlName="apellido_paterno" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="container text-start">
-            <div class="row align-items-start">
-                <div class="mb-3 col">
-                    <label for="exampleFormControlInput1" class="form-label"
-                        >Apellido Materno</label
-                    >
-                    <input
-                        type="email"
-                        class="form-control"
-                        id="exampleFormControlInput1"
-                        placeholder="Ayala" />
-                </div>
-                <div class="mb-3 col">
-                    <label for="exampleFormControlInput1" class="form-label"
-                        >Nacionalidad</label
-                    >
-                    <select
-                        class="form-select"
-                        aria-label="Default select example">
-                        <option selected>Selecciona una nacionalidad</option>
-                        <option value="1">Peruano</option>
-                        <option value="2">Chileno</option>
-                        <option value="3">Uruguayo</option>
-                    </select>
+            <div class="container text-start">
+                <div class="row align-items-start">
+                    <div class="mb-3 col">
+                        <label for="exampleFormControlInput1" class="form-label"
+                            >Apellido Materno</label
+                        >
+                        <input
+                            class="form-control"
+                            formControlName="apellido_materno" />
+                    </div>
+                    <div class="mb-3 col">
+                        <label for="exampleFormControlInput1" class="form-label"
+                            >Nacionalidad</label
+                        >
+                        <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            formControlName="nacionalidad">
+                            <option
+                                *ngFor="let nacionalidad of nacionalidades"
+                                [value]="nacionalidad.id_nacionalidad">
+                                {{ nacionalidad.gentilicio }}
+                            </option>
+                        </select>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div class="containerButton">
+                <button
+                    type="button"
+                    class="btn btn-warning"
+                    (click)="actualizarAutor()"
+                    [disabled]="formAutor.invalid"
+                    *ngIf="mostrarBotonActualizar">
+                    Actualizar
+                </button>
+                <button
+                    type="submit"
+                    class="btn btn-success"
+                    *ngIf="mostrarBotonAdd"
+                    [disabled]="formAutor.invalid">
+                    Añadir
+                </button>
+            </div>
+            <div>valid: {{ formAutor.valid }}</div>
+        </form>
         <!-- contenido de la pagina -->
         <div class="content_page">
-            <div class="barra_busqueda">
-                <div>
-                    <input
-                        type="search"
-                        name="searchuser"
-                        id=""
-                        placeholder="Buscar" />
-                </div>
-                <div class="search-btn">
-                    <i class="fa-solid fa-search"></i>
-                </div>
-            </div>
-
             <!-- tabla de contenido de usuario -->
             <table class="table">
                 <thead>
@@ -145,21 +146,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr #row *ngFor="let item of items">
+                    <tr #row *ngFor="let item of autores">
                         <th scope="row">
-                            {{ items.indexOf(item) + 1 }}
+                            {{ autores.indexOf(item) + 1 }}
                         </th>
                         <td>{{ item.nombres }}</td>
                         <td>{{ item.apellido_paterno }}</td>
                         <td>{{ item.apellido_materno }}</td>
-                        <td>{{ item.nacionalidad }}</td>
+                        <td>
+                            {{ getGentilicioNacionalidad(item.nacionalidad) }}
+                        </td>
                         <td>
                             <div class="actions">
-                                <input
-                                    type="checkbox"
-                                    name="user-check"
-                                    id="user-check" />
-                                <label for="user-check">Select</label>
+                                <button
+                                    type="button"
+                                    class="btn btn-light"
+                                    (click)="editarAutor(item.id_autor)">
+                                    ✏️
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-light"
+                                    (click)="deleteAutor(item.id_autor)">
+                                    ❌
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -167,51 +178,7 @@
             </table>
 
             <!-- Paginacion -->
-            <div class="pagination">
-                <ul>
-                    <li
-                        *ngFor="let page of pages"
-                        [ngClass]="{
-                            active: page.number === currentPage
-                        }">
-                        <span
-                            *ngIf="page.type === 'page'"
-                            (click)="changePage(page.number)"
-                            >{{ page.number }}</span
-                        >
-                        <span *ngIf="page.type === 'dots'">...</span>
-                        <span
-                            *ngIf="page.type === 'prev'"
-                            (click)="changePage(page.number)">
-                            <i class="fas fa-angle-left"></i>
-                            Prev
-                        </span>
-                        <span
-                            *ngIf="page.type === 'next'"
-                            (click)="changePage(page.number)">
-                            Next
-                            <i class="fas fa-angle-right"></i>
-                        </span>
-                    </li>
-                </ul>
-                <div [formGroup]="pageSizeForm" class="page_size_cont mx-3">
-                    <select
-                        formControlName="pageSize"
-                        (change)="changePageSize()">
-                        <option
-                            *ngFor="let size of [1, 2, 3, 5, 10, 20, 100]"
-                            [value]="size">
-                            {{ size }}
-                        </option>
-                    </select>
-                </div>
-                <p class="texto">
-                    Mostrando
-                    {{ pageSize <= totalItems ? pageSize : totalItems }}
-                    registros de
-                    {{ totalItems }}
-                </p>
-            </div>
+
             <!-- end paginacion -->
         </div>
     </div>
@@ -271,6 +238,9 @@
                 </div>
             </div>
         </div>
+        <div class="containerButton">
+            <button type="button" class="btn btn-success">Añadir</button>
+        </div>
         <!-- contenido de la pagina -->
         <div class="content_page">
             <div class="barra_busqueda">
@@ -299,9 +269,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr #row *ngFor="let item of items">
+                    <tr #row *ngFor="let item of editoriales">
                         <th scope="row">
-                            {{ items.indexOf(item) + 1 }}
+                            {{ editoriales.indexOf(item) + 1 }}
                         </th>
                         <td>{{ item.nombre }}</td>
                         <td>{{ item.direccion }}</td>
@@ -310,11 +280,13 @@
 
                         <td>
                             <div class="actions">
-                                <input
-                                    type="checkbox"
-                                    name="user-check"
-                                    id="user-check" />
-                                <label for="user-check">Select</label>
+                                <button type="button" class="btn btn-light">
+                                    ✏️
+                                </button>
+
+                                <button type="button" class="btn btn-light">
+                                    ❌
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -322,51 +294,7 @@
             </table>
 
             <!-- Paginacion -->
-            <div class="pagination">
-                <ul>
-                    <li
-                        *ngFor="let page of pages"
-                        [ngClass]="{
-                            active: page.number === currentPage
-                        }">
-                        <span
-                            *ngIf="page.type === 'page'"
-                            (click)="changePage(page.number)"
-                            >{{ page.number }}</span
-                        >
-                        <span *ngIf="page.type === 'dots'">...</span>
-                        <span
-                            *ngIf="page.type === 'prev'"
-                            (click)="changePage(page.number)">
-                            <i class="fas fa-angle-left"></i>
-                            Prev
-                        </span>
-                        <span
-                            *ngIf="page.type === 'next'"
-                            (click)="changePage(page.number)">
-                            Next
-                            <i class="fas fa-angle-right"></i>
-                        </span>
-                    </li>
-                </ul>
-                <div [formGroup]="pageSizeForm" class="page_size_cont mx-3">
-                    <select
-                        formControlName="pageSize"
-                        (change)="changePageSize()">
-                        <option
-                            *ngFor="let size of [1, 2, 3, 5, 10, 20, 100]"
-                            [value]="size">
-                            {{ size }}
-                        </option>
-                    </select>
-                </div>
-                <p class="texto">
-                    Mostrando
-                    {{ pageSize <= totalItems ? pageSize : totalItems }}
-                    registros de
-                    {{ totalItems }}
-                </p>
-            </div>
+
             <!-- end paginacion -->
         </div>
     </div>
@@ -403,6 +331,9 @@
             </div>
             <!-- contenido de la pagina -->
         </div>
+        <div class="containerButton">
+            <button type="button" class="btn btn-success">Añadir</button>
+        </div>
         <div class="content_page">
             <div class="barra_busqueda">
                 <div>
@@ -424,25 +355,26 @@
                         <th scope="col">N°</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Descripción</th>
-
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr #row *ngFor="let item of items">
+                    <tr #row *ngFor="let item of generos">
                         <th scope="row">
-                            {{ items.indexOf(item) + 1 }}
+                            {{ generos.indexOf(item) + 1 }}
                         </th>
                         <td>{{ item.nombre }}</td>
                         <td>{{ item.descripcion }}</td>
 
                         <td>
                             <div class="actions">
-                                <input
-                                    type="checkbox"
-                                    name="user-check"
-                                    id="user-check" />
-                                <label for="user-check">Select</label>
+                                <button type="button" class="btn btn-light">
+                                    ✏️
+                                </button>
+
+                                <button type="button" class="btn btn-light">
+                                    ❌
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -450,51 +382,7 @@
             </table>
 
             <!-- Paginacion -->
-            <div class="pagination">
-                <ul>
-                    <li
-                        *ngFor="let page of pages"
-                        [ngClass]="{
-                            active: page.number === currentPage
-                        }">
-                        <span
-                            *ngIf="page.type === 'page'"
-                            (click)="changePage(page.number)"
-                            >{{ page.number }}</span
-                        >
-                        <span *ngIf="page.type === 'dots'">...</span>
-                        <span
-                            *ngIf="page.type === 'prev'"
-                            (click)="changePage(page.number)">
-                            <i class="fas fa-angle-left"></i>
-                            Prev
-                        </span>
-                        <span
-                            *ngIf="page.type === 'next'"
-                            (click)="changePage(page.number)">
-                            Next
-                            <i class="fas fa-angle-right"></i>
-                        </span>
-                    </li>
-                </ul>
-                <div [formGroup]="pageSizeForm" class="page_size_cont mx-3">
-                    <select
-                        formControlName="pageSize"
-                        (change)="changePageSize()">
-                        <option
-                            *ngFor="let size of [1, 2, 3, 5, 10, 20, 100]"
-                            [value]="size">
-                            {{ size }}
-                        </option>
-                    </select>
-                </div>
-                <p class="texto">
-                    Mostrando
-                    {{ pageSize <= totalItems ? pageSize : totalItems }}
-                    registros de
-                    {{ totalItems }}
-                </p>
-            </div>
+
             <!-- end paginacion -->
         </div>
     </div>
@@ -540,6 +428,9 @@
                 </div>
             </div>
         </div>
+        <div class="containerButton">
+            <button type="button" class="btn btn-success">Añadir</button>
+        </div>
         <div class="content_page">
             <div class="barra_busqueda">
                 <div>
@@ -566,9 +457,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr #row *ngFor="let item of items">
+                    <tr #row *ngFor="let item of proveedores">
                         <th scope="row">
-                            {{ items.indexOf(item) + 1 }}
+                            {{ proveedores.indexOf(item) + 1 }}
                         </th>
                         <td>{{ item.nombre }}</td>
                         <td>{{ item.email }}</td>
@@ -576,11 +467,13 @@
 
                         <td>
                             <div class="actions">
-                                <input
-                                    type="checkbox"
-                                    name="user-check"
-                                    id="user-check" />
-                                <label for="user-check">Select</label>
+                                <button type="button" class="btn btn-light">
+                                    ✏️
+                                </button>
+
+                                <button type="button" class="btn btn-light">
+                                    ❌
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -588,51 +481,7 @@
             </table>
 
             <!-- Paginacion -->
-            <div class="pagination">
-                <ul>
-                    <li
-                        *ngFor="let page of pages"
-                        [ngClass]="{
-                            active: page.number === currentPage
-                        }">
-                        <span
-                            *ngIf="page.type === 'page'"
-                            (click)="changePage(page.number)"
-                            >{{ page.number }}</span
-                        >
-                        <span *ngIf="page.type === 'dots'">...</span>
-                        <span
-                            *ngIf="page.type === 'prev'"
-                            (click)="changePage(page.number)">
-                            <i class="fas fa-angle-left"></i>
-                            Prev
-                        </span>
-                        <span
-                            *ngIf="page.type === 'next'"
-                            (click)="changePage(page.number)">
-                            Next
-                            <i class="fas fa-angle-right"></i>
-                        </span>
-                    </li>
-                </ul>
-                <div [formGroup]="pageSizeForm" class="page_size_cont mx-3">
-                    <select
-                        formControlName="pageSize"
-                        (change)="changePageSize()">
-                        <option
-                            *ngFor="let size of [1, 2, 3, 5, 10, 20, 100]"
-                            [value]="size">
-                            {{ size }}
-                        </option>
-                    </select>
-                </div>
-                <p class="texto">
-                    Mostrando
-                    {{ pageSize <= totalItems ? pageSize : totalItems }}
-                    registros de
-                    {{ totalItems }}
-                </p>
-            </div>
+
             <!-- end paginacion -->
         </div>
     </div>

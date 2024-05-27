@@ -1,194 +1,165 @@
-import { HttpClient } from '@angular/common/http';
-import {
-    AfterViewInit,
-    Component,
-    ElementRef,
-    OnInit,
-    QueryList,
-    ViewChild,
-    ViewChildren,
-} from '@angular/core';
-
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { NacionalidadService } from './../../Services/Nacionalidad/nacionalidad.service';
+import { ProveedorService } from './../../Services/Proveedores/proveedores.service';
+import { GeneroService } from './../../Services/Genero/genero.service';
+import { AutorService } from './../../Services/Autor/autor.service';
+import { EditorialService } from '../../Services/Editorial/editorial.service';
+import { Component, OnInit } from '@angular/core';
+import { Autor } from 'src/app/Interfaces/autor';
+import { Editorial } from 'src/app/Interfaces/editorial';
+import { Genero } from 'src/app/Interfaces/genero';
+import { Proveedor } from 'src/app/Interfaces/proveedores';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Nacionalidad } from 'src/app/Interfaces/nacionalidad';
 
 @Component({
     selector: 'app-admin-page',
     templateUrl: './admin-page.component.html',
     styleUrls: ['./admin-page.component.css'],
 })
-export class AdminPageComponent implements OnInit, AfterViewInit {
-    pageSizeForm: FormGroup<any>;
-    currentPage = 1;
-    pageSize = 1;
-    totalItems: number;
-    items: any[];
+export class AdminPageComponent implements OnInit {
+    autores: Autor[] = [];
+    editoriales: Editorial[] = [];
+    generos: Genero[] = [];
+    proveedores: Proveedor[] = [];
+    nacionalidades: Nacionalidad[] = [];
 
-    pages: any[] = []; // para mostrar las paginas
+    autorSeleccionado: Autor | null = null;
+    mostrarBotonActualizar: boolean = false;
+    mostrarBotonAdd: boolean = true;
 
-    totalPages: number;
+    public formAutor: FormGroup;
 
     constructor(
-        private http: HttpClient,
-        private fb: FormBuilder
-    ) {
-        this.pageSizeForm = this.fb.group({
-            pageSize: new FormControl('1'),
-        });
-    }
+        private AutorService: AutorService,
+        private EditorialService: EditorialService,
+        private GeneroService: GeneroService,
+        private ProveedorService: ProveedorService,
+        private NacionalidadService: NacionalidadService,
+        private formBuilder: FormBuilder
+    ) {}
 
-    fetchData(page: number, size: number) {
-        const url = `http://localhost:8000/api/v0/usuario/?page=${page}&page_size=${size}`;
-        this.http.get(url).subscribe(
-            (response: any) => {
-                this.items = response.results;
-                this.totalItems = response.count;
-                this.totalPages = Math.ceil(this.totalItems / this.pageSize);
-                this.createPagination(this.totalPages, this.currentPage);
-            },
-            error => {
-                console.error('Error fetching data:', error);
+    ngOnInit(): void {
+        this.cargarAutores()
+
+        this.EditorialService.getEditorial().subscribe((data: Editorial[]) => {
+            this.editoriales = data;
+            console.log(this.editoriales);
+        });
+
+        this.GeneroService.getGenero().subscribe((data: Genero[]) => {
+            this.generos = data;
+            console.log(this.generos);
+        });
+
+        this.ProveedorService.getProveedor().subscribe((data: Proveedor[]) => {
+            this.proveedores = data;
+            console.log(this.proveedores);
+        });
+
+        this.NacionalidadService.getNacionalidad().subscribe(
+            (data: Nacionalidad[]) => {
+                this.nacionalidades = data;
+                console.log(this.nacionalidades);
             }
         );
-    }
 
-    changePageSize() {
-        this.currentPage = 1;
-        this.pageSize = parseInt(this.pageSizeForm.value.pageSize);
-        this.fetchData(this.currentPage, this.pageSize);
-    }
-    ngOnInit() {
-        this.fetchData(this.currentPage, this.pageSize);
-    }
-
-    createPagination(totalPages: number, page: number) {
-        let pages = [];
-        let beforePage = page - 1;
-        let afterPage = page + 1;
-
-        if (page > 1) {
-            pages.push({ type: 'prev', number: page - 1 });
-        }
-
-        if (page > 2) {
-            pages.push({ type: 'page', number: 1 });
-            if (page > 3) {
-                pages.push({ type: 'dots' });
-            }
-        }
-
-        if (page === totalPages) {
-            beforePage = beforePage - 2;
-        } else if (page === totalPages - 1) {
-            beforePage = beforePage - 1;
-        }
-
-        if (page === 1) {
-            afterPage = afterPage + 2;
-        } else if (page === 2) {
-            afterPage = afterPage + 1;
-        }
-
-        for (let i = beforePage; i <= afterPage; i++) {
-            if (i > 0 && i <= totalPages) {
-                pages.push({ type: 'page', number: i });
-            }
-        }
-
-        if (page < totalPages - 1) {
-            if (page < totalPages - 2) {
-                pages.push({ type: 'dots' });
-            }
-            pages.push({ type: 'page', number: totalPages });
-        }
-
-        if (page < totalPages) {
-            pages.push({ type: 'next', number: page + 1 });
-        }
-
-        this.pages = pages;
-    }
-
-    changePage(page: number) {
-        this.currentPage = page;
-        this.createPagination(this.totalPages, this.currentPage);
-        this.fetchData(this.currentPage, this.pageSize);
-    }
-
-    //para el stteper
-    /* El fragmento de código que proporcionó está relacionado con la gestión de la paginación y la
-   visualización de páginas en un componente Angular. Analicemos la funcionalidad: */
-    @ViewChildren('page') Page: QueryList<ElementRef>;
-
-    currentPageIndex: number = 0;
-
-    ngAfterViewInit(): void {
-        this.showPage(this.currentPageIndex);
-        this.attachButtonListeners();
-    }
-
-    /**
-     * La función `showPage` itera a través de una matriz de elementos y muestra el elemento en el
-     * índice especificado mientras oculta el resto.
-     * @param {number} index - El parámetro `index` en el método `showPage` se utiliza para especificar
-     * qué página mostrar. El método recorre cada elemento de la página en la matriz `Page` y establece
-     * el estilo de visualización en 'bloque' para la página en el índice especificado, mientras
-     * establece el estilo de visualización en 'ninguno'.
-     */
-    showPage(index: number): void {
-        this.Page.forEach((data, idx) => {
-            let page = data.nativeElement as HTMLElement;
-            if (idx === index) {
-                page.style.display = 'block';
-            } else {
-                page.style.display = 'none';
-            }
+        //Formularios
+        this.formAutor = this.formBuilder.group({
+            nombres: ['', [Validators.required]],
+            apellido_paterno: ['', [Validators.required]],
+            apellido_materno: ['', [Validators.required]],
+            nacionalidad: ['', [Validators.required]],
         });
     }
 
-    /**
-     * La función `attachButtonListeners` itera sobre cada elemento de la página y adjunta detectores
-     * de eventos de clic a los botones siguiente y anterior para navegar por las páginas.
-     */
-    attachButtonListeners(): void {
-        this.Page.forEach((data, index) => {
-            let page = data.nativeElement as HTMLElement;
-            let nextButton = page.querySelector('.next');
-            let prevButton = page.querySelector('.prev');
+    //Leer, Agregar, eliminar y actualizar un Autor
+    cargarAutores(): void {
+      this.AutorService.getAutor().subscribe((data: Autor[]) => {
+        this.autores = data;
+        console.log(this.autores);
+    });
+    }
 
-            /* Este fragmento de código verifica si hay un elemento `nextButton` presente en la página
-            actual que se está iterando. Si existe un elemento "nextButton", se le adjunta un
-            detector de eventos para el evento "clic". Cuando se hace clic en el "botón siguiente",
-            se realizan las siguientes acciones:
-            1. El comportamiento predeterminado del evento de clic se evita usando
-            `event.preventDefault()`.
-            2. Comprueba si el "índice" actual es menor que la longitud total de la matriz "Página"
-            menos 1. Esta condición garantiza que el índice no exceda el índice máximo de la matriz
-            de páginas.
-            3. Si se cumple la condición, `currentPageIndex` se incrementa en 1 y se llama a la
-            función `showPage` con el `currentPageIndex` actualizado. Esta acción muestra
-            efectivamente la página siguiente en la secuencia de paginación cambiando el estilo de
-            visualización de las páginas actual y siguiente. */
-            if (nextButton) {
-                nextButton.addEventListener('click', event => {
-                    event.preventDefault();
-                    if (index < this.Page.length - 1) {
-                        this.currentPageIndex++;
-                        this.showPage(this.currentPageIndex);
-                    }
-                });
-            }
+    sendAutor(): void {
+        if (this.formAutor.valid) {
+            const formValue = this.formAutor.value;
+            const nuevoAutor = {
+                ...formValue,
+                nacionalidad: Number(formValue.nacionalidad), // Convertir a número
+            };
+            this.AutorService.addAutor(nuevoAutor).subscribe({
+                next: data => {
+                    console.log('Autor añadido exitosamente:', data);
+                    this.autores.push(data);
+                    this.formAutor.reset(); // Resetear el formulario después de enviarlo
+                },
+                error: error => {
+                    console.error('Error añadiendo autor:', error);
+                },
+            });
+        }
+    }
 
-            /* El fragmento de código que proporcionó maneja la funcionalidad del botón "anterior" en
-            el componente de paginación. Analicemos lo que hace este código: */
-            if (prevButton) {
-                prevButton.addEventListener('click', event => {
-                    event.preventDefault();
-                    if (index > 0) {
-                        this.currentPageIndex--;
-                        this.showPage(this.currentPageIndex);
-                    }
-                });
-            }
-        });
+    deleteAutor(id: number): void {
+      this.AutorService.deleteAutor(id).subscribe(
+        () => {
+          console.log('Autor eliminado exitosamente');
+          this.autores = this.autores.filter(objeto => objeto.id_autor !== id);
+          //this.cargarAutores(); // Recargar la lista de autores después de eliminar uno
+        },
+        error => console.error('Error al eliminar autor:', error)
+      );
+    }
+
+    cargarDetallesAutor(id: number): void {
+      this.AutorService.getAutorById(id).subscribe(
+        (autor: Autor) => {
+          this.autorSeleccionado = autor;
+          // Asignar detalles del autor al formulario
+          this.formAutor.patchValue({
+            nombres: autor.nombres,
+            apellido_paterno: autor.apellido_paterno,
+            apellido_materno: autor.apellido_materno,
+            nacionalidad: autor.nacionalidad
+          });
+        },
+        error => console.error('Error al cargar detalles del autor:', error)
+      );
+    }
+
+    editarAutor(id: number): void {
+      this.cargarDetallesAutor(id);
+      this.mostrarBotonActualizar = true;
+      this.mostrarBotonAdd = false;
+      // Aquí podrías mostrar un modal o cambiar a una página de edición
+    }
+
+    actualizarAutor(): void {
+      if (this.formAutor.valid && this.autorSeleccionado) {
+        const formValue = this.formAutor.value;
+        const autorActualizado: Autor = {
+          ...this.autorSeleccionado,
+          nombres: formValue.nombres,
+          apellido_paterno: formValue.apellido_paterno,
+          apellido_materno: formValue.apellido_materno,
+          nacionalidad: formValue.nacionalidad
+        };
+        this.AutorService.actualizarAutor(autorActualizado).subscribe(
+          () => {
+            console.log('Autor actualizado exitosamente');
+            this.mostrarBotonActualizar = false;
+            this.mostrarBotonAdd = true;
+            this.cargarAutores();
+            this.formAutor.reset();
+          },
+          error => console.error('Error al actualizar autor:', error)
+        );
+
+      }
+    }
+
+    getGentilicioNacionalidad(idNacionalidad: any): string {
+      const nacionalidad = this.nacionalidades.find(n => n.id_nacionalidad === Number(idNacionalidad));
+      return nacionalidad ? nacionalidad.gentilicio : '';
     }
 }

@@ -15,6 +15,12 @@
   justify-content: center;
 }
 
+.containerButton{
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
 .pagination ul li span {
     cursor: pointer;
     padding: 10px 15px;
