@@ -39,12 +39,9 @@ export class AdminPageComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.cargarAutores()
+        this.cargarAutores();
 
-        this.EditorialService.getEditorial().subscribe((data: Editorial[]) => {
-            this.editoriales = data;
-            console.log(this.editoriales);
-        });
+        this.cargarEditorial();
 
         this.GeneroService.getGenero().subscribe((data: Genero[]) => {
             this.generos = data;
@@ -72,12 +69,21 @@ export class AdminPageComponent implements OnInit {
         });
     }
 
+    cargarEditorial(): void {
+        this.EditorialService.getEditorial().subscribe((data: Editorial[]) => {
+            this.editoriales = data;
+            console.log(this.editoriales);
+        });
+    }
+
+    
+
     //Leer, Agregar, eliminar y actualizar un Autor
     cargarAutores(): void {
-      this.AutorService.getAutor().subscribe((data: Autor[]) => {
-        this.autores = data;
-        console.log(this.autores);
-    });
+        this.AutorService.getAutor().subscribe((data: Autor[]) => {
+            this.autores = data;
+            console.log(this.autores);
+        });
     }
 
     sendAutor(): void {
@@ -101,65 +107,68 @@ export class AdminPageComponent implements OnInit {
     }
 
     deleteAutor(id: number): void {
-      this.AutorService.deleteAutor(id).subscribe(
-        () => {
-          console.log('Autor eliminado exitosamente');
-          this.autores = this.autores.filter(objeto => objeto.id_autor !== id);
-          //this.cargarAutores(); // Recargar la lista de autores después de eliminar uno
-        },
-        error => console.error('Error al eliminar autor:', error)
-      );
+        this.AutorService.deleteAutor(id).subscribe(
+            () => {
+                console.log('Autor eliminado exitosamente');
+                this.autores = this.autores.filter(
+                    objeto => objeto.id_autor !== id
+                );
+                //this.cargarAutores(); // Recargar la lista de autores después de eliminar uno
+            },
+            error => console.error('Error al eliminar autor:', error)
+        );
     }
 
     cargarDetallesAutor(id: number): void {
-      this.AutorService.getAutorById(id).subscribe(
-        (autor: Autor) => {
-          this.autorSeleccionado = autor;
-          // Asignar detalles del autor al formulario
-          this.formAutor.patchValue({
-            nombres: autor.nombres,
-            apellido_paterno: autor.apellido_paterno,
-            apellido_materno: autor.apellido_materno,
-            nacionalidad: autor.nacionalidad
-          });
-        },
-        error => console.error('Error al cargar detalles del autor:', error)
-      );
+        this.AutorService.getAutorById(id).subscribe(
+            (autor: Autor) => {
+                this.autorSeleccionado = autor;
+                // Asignar detalles del autor al formulario
+                this.formAutor.patchValue({
+                    nombres: autor.nombres,
+                    apellido_paterno: autor.apellido_paterno,
+                    apellido_materno: autor.apellido_materno,
+                    nacionalidad: autor.nacionalidad,
+                });
+            },
+            error => console.error('Error al cargar detalles del autor:', error)
+        );
     }
 
     editarAutor(id: number): void {
-      this.cargarDetallesAutor(id);
-      this.mostrarBotonActualizar = true;
-      this.mostrarBotonAdd = false;
-      // Aquí podrías mostrar un modal o cambiar a una página de edición
+        this.cargarDetallesAutor(id);
+        this.mostrarBotonActualizar = true;
+        this.mostrarBotonAdd = false;
+        // Aquí podrías mostrar un modal o cambiar a una página de edición
     }
 
     actualizarAutor(): void {
-      if (this.formAutor.valid && this.autorSeleccionado) {
-        const formValue = this.formAutor.value;
-        const autorActualizado: Autor = {
-          ...this.autorSeleccionado,
-          nombres: formValue.nombres,
-          apellido_paterno: formValue.apellido_paterno,
-          apellido_materno: formValue.apellido_materno,
-          nacionalidad: formValue.nacionalidad
-        };
-        this.AutorService.actualizarAutor(autorActualizado).subscribe(
-          () => {
-            console.log('Autor actualizado exitosamente');
-            this.mostrarBotonActualizar = false;
-            this.mostrarBotonAdd = true;
-            this.cargarAutores();
-            this.formAutor.reset();
-          },
-          error => console.error('Error al actualizar autor:', error)
-        );
-
-      }
+        if (this.formAutor.valid && this.autorSeleccionado) {
+            const formValue = this.formAutor.value;
+            const autorActualizado: Autor = {
+                ...this.autorSeleccionado,
+                nombres: formValue.nombres,
+                apellido_paterno: formValue.apellido_paterno,
+                apellido_materno: formValue.apellido_materno,
+                nacionalidad: formValue.nacionalidad,
+            };
+            this.AutorService.actualizarAutor(autorActualizado).subscribe(
+                () => {
+                    console.log('Autor actualizado exitosamente');
+                    this.mostrarBotonActualizar = false;
+                    this.mostrarBotonAdd = true;
+                    this.cargarAutores();
+                    this.formAutor.reset();
+                },
+                error => console.error('Error al actualizar autor:', error)
+            );
+        }
     }
 
     getGentilicioNacionalidad(idNacionalidad: any): string {
-      const nacionalidad = this.nacionalidades.find(n => n.id_nacionalidad === Number(idNacionalidad));
-      return nacionalidad ? nacionalidad.gentilicio : '';
+        const nacionalidad = this.nacionalidades.find(
+            n => n.id_nacionalidad === Number(idNacionalidad)
+        );
+        return nacionalidad ? nacionalidad.gentilicio : '';
     }
 }
