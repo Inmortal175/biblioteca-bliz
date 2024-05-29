@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainPageComponent } from './Pages/main-page/main-page.component';
 import { DashboardPageComponent } from './Pages/dashboard-page/dashboard-page.component';
@@ -8,8 +8,6 @@ import { UsuariosPageComponent } from './Pages/usuarios-page/usuarios-page.compo
 import { LibrosPageComponent } from './Pages/libros-page/libros-page.component';
 import { ReportePageComponent } from './Pages/reporte-page/reporte-page.component';
 import { LoginPageComponent } from './Pages/login-page/login-page.component';
-import { UsuarioComponent } from './Pages/prestamo-page/vistas/usuario/usuario.component';
-import { LibroComponent } from './Pages/prestamo-page/vistas/libro/libro.component';
 import { MainGuard } from './Guards/main/main.guard';
 import { LoginGuard } from './Guards/Login/login.guard';
 import { AdminPageComponent } from './Pages/admin-page/admin-page.component';
@@ -32,21 +30,6 @@ const routes: Routes = [
             {
                 path: 'prestamos',
                 component: PrestamoPageComponent,
-                children:[
-                    {
-                    path: '',
-                    redirectTo: 'user',
-                    pathMatch: 'full',
-                    },
-                    {
-                        path: 'user',
-                        component: UsuarioComponent
-                    },
-                    {
-                        path:'libro',
-                        component : LibroComponent
-                    }
-                ]
             },
             {
                 path: 'devoluciones',

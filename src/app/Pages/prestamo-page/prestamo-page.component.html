@@ -1,1 +1,415 @@
+<div class="wrap">
+    <header>Prestamo Libro</header>
+    <div class="form-outer">
+        <form>
+            <!-- pagina 1 -->
+            <div #page class="page">
+                <div class="title">SELECCIONAR USUARIO</div>
+
+                <!-- contenido de la pagina -->
+                <div class="content_page">
+                    <div class="barra_busqueda">
+                        <div>
+                            <input
+                                type="search"
+                                name="searchuser"
+                                (input)="BuscarUsuario($event)"
+                                [disabled]="Selected"
+                                placeholder="Buscar usuario" />
+                        </div>
+                        <div class="search-btn">
+                            <i class="fa-solid fa-search"></i>
+                        </div>
+                    </div>
+
+                    <!-- tabla de contenido de usuario -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">N°</th>
+                                <th scope="col">Nombres</th>
+                                <th scope="col">Apellido Paterno</th>
+                                <th scope="col">Apellido Materno</th>
+                                <th scope="col">email</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                #row
+                                *ngFor="let usuario of usuarios; let i = index">
+                                <th scope="row">
+                                    {{ i + 1 }}
+                                </th>
+                                <td>{{ usuario.nombres }}</td>
+                                <td>{{ usuario.apellido_paterno }}</td>
+                                <td>{{ usuario.apellido_materno }}</td>
+                                <td>{{ usuario.email }}</td>
+                                <td>
+                                    <span
+                                        [class.text-bg-success]="
+                                            usuario.es_activo
+                                        "
+                                        [class.text-bg-danger]="
+                                            usuario.es_activo === false
+                                        "
+                                        class="badge rounded-pill"
+                                        >{{
+                                            usuario.es_activo
+                                                ? 'activo'
+                                                : 'inactivo'
+                                        }}</span
+                                    >
+                                </td>
+                                <td>
+                                    <div class="actions">
+                                        <input
+                                            type="checkbox"
+                                            name="user-check"
+                                            id="user-check"
+                                            (click)="toogleChecked(usuario)" />
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Paginacion -->
+                    <div class="pagination">
+                        <ul>
+                            <li
+                                *ngFor="let page of UsuarioPages"
+                                [ngClass]="{
+                                    active: page.number === UsuarioCurrentPage
+                                }">
+                                <!-- botones -->
+                                <button
+                                    [disabled]="Selected"
+                                    *ngIf="page.type === 'page'"
+                                    (click)="changePageUsuario(page.number)">
+                                    {{ page.number }}
+                                </button>
+                                <span *ngIf="page.type === 'dots'">...</span>
+
+                                <button
+                                    [disabled]="Selected"
+                                    *ngIf="page.type === 'prev'"
+                                    (click)="changePageUsuario(page.number)">
+                                    <i class="fas fa-angle-left"></i> Prev
+                                </button>
+
+                                <button
+                                    [disabled]="Selected"
+                                    role="button"
+                                    [disabled]="Selected"
+                                    *ngIf="page.type === 'next'"
+                                    (click)="changePageUsuario(page.number)">
+                                    Next <i class="fas fa-angle-right"></i>
+                                </button>
+                            </li>
+                        </ul>
+                        <div
+                            [formGroup]="UsuariopageSizeForm"
+                            class="page_size_cont mx-3">
+                            <select
+                                formControlName="pageSize"
+                                (change)="changePageSizeUsuario()">
+                                <option
+                                    [disabled]="Selected"
+                                    *ngFor="let size of [5, 10, 20, 100]"
+                                    [value]="size">
+                                    {{ size }}
+                                </option>
+                            </select>
+                        </div>
+                        <p class="texto">
+                            Mostrando
+                            {{
+                                UsuarioPageSize <= UsuarioTotalItems
+                                    ? UsuarioPageSize
+                                    : UsuarioTotalItems
+                            }}
+                            registros de
+                            {{ UsuarioTotalItems }}
+                        </p>
+                    </div>
+                    <!-- end paginacion -->
+                </div>
+
+                <!-- campo de botones -->
+                <div class="field btns">
+                    <button [disabled]="!Selected" class="next-1 next">
+                        next <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- pagina 2 -->
+            <div #page class="page">
+                <div class="title">AÑADIR LIBROS AL PRESTAMO</div>
+                <div class="content_page">
+                    <!-- barra de busqueda -->
+                    <div class="barra_busqueda">
+                        <div>
+                            <input
+                                type="search"
+                                name="searchuser"
+                                id=""
+                                (input)="BuscarLibro($event)"
+                                placeholder="Buscar libro" />
+                        </div>
+                        <div class="search-btn">
+                            <i class="fa-solid fa-search"></i>
+                        </div>
+                        <div class="prestamo_inputs">
+                            <form [formGroup]="FechaCadForm">
+                                <label for="fecha_caducidad"
+                                    ><span>fecha de caducidad del prestamo</span
+                                    ><input
+                                        required
+                                        type="date"
+                                        name="fecha_caducidad"
+                                        id="fecha_caducidad"
+                                        formControlName="fecha_caducidad"
+                                /></label>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- tabla -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">N°</th>
+                                <th scope="col">Título</th>
+                                <th scope="col">Genero</th>
+                                <th scope="col">Año de Pub.</th>
+                                <th scope="col">Autor</th>
+                                <th scope="col">Editorial</th>
+                                <th scope="col">Disponible</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="
+                                    let libro of libros.results;
+                                    let i = index
+                                "
+                                [class.sinStrock]="
+                                    libro.cantidad -
+                                        (libro.prestados - libro.devuelto) ===
+                                    0
+                                ">
+                                <th scope="row">
+                                    {{ i + 1 }}
+                                </th>
+                                <td>{{ libro.titulo }}</td>
+                                <td>{{ libro.genero }}</td>
+                                <td>{{ libro.anio_publicacion }}</td>
+                                <td>{{ libro.autor }}</td>
+                                <td>{{ libro.editorial }}</td>
+                                <td>
+                                    {{
+                                        libro.cantidad -
+                                            (libro.prestados -
+                                                libro.devuelto) ===
+                                        0
+                                            ? 'sin Stock'
+                                            : libro.cantidad -
+                                              (libro.prestados - libro.devuelto)
+                                    }}
+                                </td>
+                                <td>
+                                    <div class="actions">
+                                        <button
+                                            [disabled]="
+                                                libro.cantidad -
+                                                    (libro.prestados -
+                                                        libro.devuelto) ===
+                                                0
+                                            "
+                                            class="btn btn-outline-primary"
+                                            (click)="AgregarLibro(libro)">
+                                            <i class="fa-solid fa-plus"></i>
+                                            Agregar
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Paginacion -->
+                    <div class="pagination">
+                        <ul>
+                            <li
+                                *ngFor="let page of LibrosPages"
+                                [ngClass]="{
+                                    active: page.number === LibroCurrentPage
+                                }">
+                                <!-- botones -->
+                                <button
+                                    *ngIf="page.type === 'page'"
+                                    (click)="changePageLibro(page.number)">
+                                    {{ page.number }}
+                                </button>
+                                <span *ngIf="page.type === 'dots'">...</span>
+
+                                <button
+                                    *ngIf="page.type === 'prev'"
+                                    (click)="changePageLibro(page.number)">
+                                    <i class="fas fa-angle-left"></i> Prev
+                                </button>
+
+                                <button
+                                    role="button"
+                                    *ngIf="page.type === 'next'"
+                                    (click)="changePageLibro(page.number)">
+                                    Next <i class="fas fa-angle-right"></i>
+                                </button>
+                            </li>
+                        </ul>
+                        <div
+                            [formGroup]="LibropageSizeForm"
+                            class="page_size_cont mx-3">
+                            <select
+                                formControlName="pageSize"
+                                (change)="changePageSizeLibro()">
+                                <option
+                                    *ngFor="let size of [5, 10, 20, 100]"
+                                    [value]="size">
+                                    {{ size }}
+                                </option>
+                            </select>
+                        </div>
+                        <p class="texto">
+                            Mostrando
+                            {{
+                                LibropageSize <= LibroTotalItems
+                                    ? LibropageSize
+                                    : LibroTotalItems
+                            }}
+                            registros de
+                            {{ LibroTotalItems }}
+                        </p>
+                    </div>
+                    <!-- end paginacion -->
+
+                    <!-- lista de libros añadidos -->
+                    <div class="detalle_libro_cont">
+                        <div class="title">libros a prestar</div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">N°</th>
+                                    <th scope="col">Título</th>
+                                    <th scope="col">Genero</th>
+                                    <th scope="col">Año de Pub.</th>
+                                    <th scope="col">Autor</th>
+                                    <th scope="col">Editorial</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="
+                                        let libro of ListaLibros;
+                                        let indice = index
+                                    ">
+                                    <th scope="row">
+                                        {{ indice + 1 }}
+                                    </th>
+                                    <td>{{ libro.titulo }}</td>
+                                    <td>{{ libro.genero }}</td>
+                                    <td>{{ libro.anio_publicacion }}</td>
+                                    <td>{{ libro.autor }}</td>
+                                    <td>{{ libro.editorial }}</td>
+                                    <td>
+                                        <div class="actions">
+                                            <button
+                                                class="btn btn-outline-danger"
+                                                (click)="EliminarLibro(libro)">
+                                                <i
+                                                    class="fa-solid fa-trash-alt"></i>
+                                                Eliminar
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="field btns">
+                    <button class="prev-1 prev">
+                        <i class="fa-solid fa-arrow-left"></i> prev</button
+                    ><button class="next-1 next" (click)="RealizarPrestamo()">
+                        Finalizar <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- pagina 3 -->
+            <!-- <div #page class="page">
+                <div class="title">titulo 3</div>
+                <div>
+                    3 Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Totam tempora eius ullam, ea placeat exercitationem!
+                    Tempora, repudiandae? Cum modi perspiciatis labore sequi
+                    possimus necessitatibus ipsam alias voluptatibus saepe
+                    voluptatum? Atque! Lorem ipsum dolor sit amet consectetur
+                    adipisicing elit. Tempora fugit repellendus magnam sunt non,
+                    perferendis totam ab harum assumenda unde animi? Voluptate
+                    eius adipisci voluptatum eum nesciunt molestiae, obcaecati
+                    soluta!
+                </div>
+                <div class="field btns">
+                    <button class="prev-1 prev">
+                        <i class="fa-solid fa-arrow-left"></i> prev</button
+                    ><button class="next-1 next">
+                        next <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div> -->
+        </form>
+    </div>
+</div>
+
+<!-- Modal -->
+<div
+    #staticBackdrop
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                    Ticket de Préstamo
+                </h1>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-dismiss="modal"
+                    (click)="Cierre_boletaPrestamo()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <router-outlet></router-outlet>
