@@ -11,13 +11,29 @@ import { LibroModel } from 'src/app/Models/libro/libro.model';
 import { Autor } from 'src/app/Models/autor/autor.interfaz';
 import { PrestamoModel } from 'src/app/Models/Prestamo/prestamo.model';
 
+//PDF MAKER
+// importar los modulos para el uso de pdfMake
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+// PdfMake end
 @Component({
     selector: 'app-dashboard-page',
     templateUrl: './dashboard-page.component.html',
     styleUrls: ['./dashboard-page.component.css'],
 })
+export class DashboardPageComponent {
+    constructor(
+        private reportePrestamoService: ReportePrestamoService,
+        private route: Router
+    ) {
+        const return_page = localStorage.getItem('prev_page');
+        if (return_page) {
+            this.route.navigate([return_page]);
+        }
+    }
 export class DashboardPageComponent implements OnInit {
-    libros: LibroModel[] = [];
     Autores: Autor[] = [];
 
     protected cantidadUsuarios: number;
