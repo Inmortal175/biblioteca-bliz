@@ -1,153 +1,303 @@
-.oculto {
-    display: none;
-}
-
-#ContenedorPrueba {
-    background-color: red;
-}
-
-body {
+.pagination ul {
+    list-style: none;
     display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra los elementos horizontalmente */
-    padding: 20px;
-    margin: 0; /* Eliminamos cualquier margen predeterminado */
-}
-.botonNEXT.active,
-.botonBACK.active {
-    background-color: yellow;
-}
-nav-Usurio {
-    display: flex;
-    justify-content: center; /* Centra los contenedores horizontalmente */
-    flex-wrap: wrap; /* Permite que los contenedores se envuelvan si es necesario */
-    gap: 10px; /* Espacio entre los contenedores */
-    margin-bottom: 20px; /* Espacio debajo de los contenedores */
-    margin-top: 20px;
-    background-color: #ffd977;
-    font-weight: bold;
+    justify-content: center;
+    padding: 0;
 }
 
-.contenedor {
-    width: 278px;
-    text-align: center;
-    padding: 10px;
-    font-style: normal;
+.pagination ul li {
+    margin: 0 5px;
+}
+
+.pagination ul li span {
+    cursor: pointer;
+    padding: 10px 15px;
+    background: #f1f1f1;
     border-radius: 5px;
 }
 
-.libro {
-    background-color: #f0f0f0;
+.pagination ul li button {
+    cursor: pointer;
+    padding: 10px 15px;
+    background: #f1f1f1;
+    border-radius: 5px;
+    outline: none;
+    border: none;
 }
 
-.nuevo-contenedor {
-    background-color: #f0f0f0; /* Color para el nuevo contenedor */
-    width: 100%; /* Ocupa todo el ancho del contenedor padre */
-    height: 600px;
-    padding: 20px;
-    justify-content: flex-start;
-    text-align: center;
-    margin-top: 20px; /* Añadir margen superior para separar de los elementos anteriores */
-    flex-direction: column;
+.pagination ul li.active button {
+    background: #007bff;
+    color: #fff;
 }
-.nuevo-contenedor2 {
-    padding: 0%;
+
+.pagination ul li button:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+/* page size */
+.page_size_cont {
     display: flex;
-    justify-content: flex-start;
-    width: 100%;
-}
-input {
-    font-size: 15px;
-    background-color: #ffffff;
-    padding: 15px;
-    margin: 10px 0;
-    width: 270px;
-    margin-right: 10px;
-    text-align: justify;
-    font-style: italic;
-    border: none;
-}
-
-button {
-    color: #ffffff; /* Color del texto blanco */
-    background-color: #458efc; /* Color de fondo azul */
-    padding: 15px; /* Espaciado interno de 15px */
-    margin: 10px 0; /* Margen superior e inferior de 10px, sin margen lateral */
-    width: 83px; /* Ancho fijo del botón */
-    border: none; /* Sin borde */
-    display: flex; /* Uso de flexbox para centrar */
-    justify-content: center; /* Centrado horizontal */
-    align-items: center; /* Centrado vertical */
-    box-sizing: border-box; /* Incluye padding y borde en el tamaño total del elemento */
-}
-
-.custom-table {
-    padding-top: 20px;
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 10px; /* Espacio entre las filas */
-    font-family: Arial, sans-serif; /* Fuente para todo el documento */
-}
-
-.custom-table th {
-    color: #000000; /* Color del texto del encabezado */
-    padding: 10px; /* Espaciado interno */
-    text-align: center; /* Alineación del texto */
-    background-color: #f4f4f4;
-}
-
-.custom-table td {
-    background-color: #ffffff; /* Color de fondo para las celdas del cuerpo de la tabla */
-    padding: 10px; /* Espaciado interno */
-    text-align: center; /* Alineación del texto */
-}
-
-.nuevo-contenedor3 {
-    width: 100%;
-    height: 90px;
-    padding: 0%;
-}
-.botonNEXT {
-    padding-right: 15px;
-    align-items: center;
-    font-style: normal;
-    font-size: 15px;
-    font-weight: bold;
-    background-color: #64e061;
-    width: 180px;
-    color: #ffffff;
-    height: 50px;
-    padding: 15px;
-    border-radius: 10px;
-    margin: 15px 0;
-    border: none;
-}
-.botonBACK {
-    align-items: center;
-    font-style: normal;
-    font-size: 15px;
-    font-weight: bold;
-    background-color: #64e061;
-    width: 180px;
-    color: #ffffff;
-    height: 50px;
-    padding: 15px;
-    border-radius: 10px;
-    margin: 15px 0;
-    border: none;
-}
-.nuevo-contenedor3 {
-    transform: scale(
-        1.05
-    ); /* Escala ligeramente el contenedor al pasar el mouse */
-}
-
-.Agregar {
+    background-color: transparent;
     justify-content: center;
 }
 
-.btn:hover {
-    border: 1px solid #0000004e;
-    background: linear-gradient(#458efc58, #9170ff43);
-    /* filter: opacity(.2); */
+.page_size_cont select {
+    margin-bottom: 1rem;
+    outline: none;
+    width: 70px;
+    padding: 3px 10px;
+    font-size: 18px;
+    font-weight: 500;
+    border: 1px solid #3f3f3f2f;
+    border-radius: 7px;
+}
+
+.page_size_cont select:hover {
+    border: 1px solid #3f3f3f70;
+}
+
+.page_size_cont select > option {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+/* sttepper */
+.wrap {
+    /* width: 500px; */
+    background: #ececec;
+    border: 5px;
+    /* text-align: center; */
+}
+
+.wrap header {
+    font-size: 35px;
+    font-weight: 600;
+    margin: 0 0 30px 0;
+    text-align: center;
+}
+
+.wrap .form-outer {
+    width: 100%;
+    overflow: hidden;
+}
+
+.form-outer form {
+    display: flex;
+    width: 400%;
+}
+
+.form-outer form .page {
+    transition: 0.3s ease;
+    width: 25%;
+    padding: 0px 35px;
+    display: none;
+}
+
+/* .form-outer form .page:nth-of-type(3) { */
+/* display: block; Show only the second page */
+/* } */
+
+.form-outer form .page .title {
+    text-align: left;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.form-outer form .page .field {
+    height: 45px;
+    width: 100%;
+    margin: 45px 0;
+    display: flex;
+    position: relative;
+    justify-content: space-around;
+    margin-bottom: 25px;
+}
+
+/* si se usa selecteform .page .field select {
+
+} */
+
+.form-outer form .page .field button {
+    width: 25%;
+    height: calc(100% + 5px);
+    margin-top: -20px;
+    border: none;
+    background: #2689fc;
+    color: #fff;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.form-outer form .page .field button:hover {
+    background: #000;
+}
+
+.form-outer form .page .btns button {
+    margin-top: -20px !important;
+}
+form .page .btns button .prev {
+    margin-right: 3px;
+    font-size: 17px;
+}
+form .page .btns button .next {
+    margin-left: 3px;
+}
+
+/* formulario usuarios */
+.content_page > .barra_busqueda {
+    display: flex;
+    align-items: center;
+    margin: 1em 0;
+}
+
+.barra_busqueda > div > input {
+    height: 45px;
+    width: 20rem;
+    font-style: italic;
+    padding: 0 1em;
+    outline: none;
+}
+
+.barra_busqueda .search-btn {
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    background-color: #2689fc;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 15px;
+}
+
+tr:has(td > .actions input[type='checkbox']:checked) {
+    background-color: #007bff !important;
+}
+
+/* checkbok style */
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+.actions > label {
+    font-weight: lighter;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    user-select: none;
+}
+
+tr:has(td > .actions input[type='checkbox']:checked) {
+    --bs-table-bg: #7a7a7a !important;
+    --bs-table-color: white;
+    font-weight: bold;
+}
+
+.actions input[type='checkbox'] {
+    appearance: none;
+    width: 1.5em;
+    height: 1.5em;
+    background: #e3e3e3;
+    border-radius: 0.4em;
+    margin: 0 1em;
+}
+
+.actions input[type='checkbox']::after {
+    display: flex;
+    font-family: 'Font Awesome 6 Free';
+    content: '\f00c';
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 800;
+    display: none;
+}
+
+.actions input[type='checkbox']:hover {
+    background: #c3c3c3;
+}
+
+.actions input[type='checkbox']:checked {
+    background-color: #007bff;
+}
+
+.actions input[type='checkbox']:checked::after {
+    display: flex;
+}
+
+/* refactoring table */
+.table {
+    border-spacing: 0 10px;
+    border-collapse: separate;
+}
+
+/* detalle libro view */
+/* label:has(input:required)::after{
+    content: "*";
+    color: red;
+} */
+.prestamo_inputs {
+    display: flex;
+    /* flex-direction: column; */
+}
+
+.prestamo_inputs label:has(input:required) > span::after {
+    content: '*';
+    padding: 0 12px;
+    color: red;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.prestamo_inputs label {
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+}
+
+.prestamo_inputs label > input[type='date'] {
+    height: 2.5em;
+    outline: none;
+    margin-bottom: 10px;
+    padding: 0 16px;
+    background-image: url('../../../assets/imagenes/app-icon/calendar-icon.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: right center;
+    background-size: 1.8em;
+    background-position-x: calc(100% - 15px);
+    font-size: 18px;
+    padding-right: 7px;
+    border: 1px solid #00000040;
+    border-radius: 7px;
+    font-weight: 500;
+}
+
+.prestamo_inputs label > input[type='date']::-webkit-calendar-picker-indicator {
+    filter: opacity(0);
+    height: 2.5em;
+    width: 2.5em;
+    /* background-color: #007bff6e; */
+}
+
+.detalle_libro_cont {
+    background-color: #fff;
+    padding: 0 15px;
+}
+
+.detalle_libro_cont .title {
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.sinStrock{
+    --bs-table-bg: #85848159
 }

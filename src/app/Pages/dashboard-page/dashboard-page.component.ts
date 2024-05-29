@@ -6,8 +6,18 @@ import { ReportePrestamoService } from 'src/app/Services/Reportes/reporte-presta
 // importar los modulos para el uso de pdfMake
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { Router } from '@angular/router';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
+console.log(Object.keys(pdfMake.vfs));
+pdfMake.fonts = {
+    Roboto: {
+        normal: 'Roboto-Regular.ttf',
+        bold: 'Roboto-Medium.ttf',
+        italics: 'Roboto-Italic.ttf',
+        bolditalics: 'Roboto-MediumItalic.ttf',
+    },
+};
 // PdfMake end
 @Component({
     selector: 'app-dashboard-page',
@@ -15,7 +25,15 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
     styleUrls: ['./dashboard-page.component.css'],
 })
 export class DashboardPageComponent {
-    constructor(private reportePrestamoService: ReportePrestamoService) {}
+    constructor(
+        private reportePrestamoService: ReportePrestamoService,
+        private route: Router
+    ) {
+        const return_page = localStorage.getItem('prev_page');
+        if (return_page) {
+            this.route.navigate([return_page]);
+        }
+    }
 
     // funcion que crea el pdf
     // createPdf() {
@@ -185,11 +203,16 @@ export class DashboardPageComponent {
                             bold: true,
                             marginBottom: 10,
                             alignment: 'center',
+                            font: 'Roboto',
                         },
                         tableHeader: {
                             bold: true,
                             alignment: 'center',
+                            font: 'Roboto',
                         },
+                    },
+                    defaultStyle: {
+                        font: 'Roboto', // Usar la fuente personalizada
                     },
                 };
                 PDFMAKE.createPdf(docDefinition).open();
