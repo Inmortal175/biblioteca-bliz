@@ -33,7 +33,7 @@ img {
 }
 
 /* Pseudo-elemento para la imagen de fondo con opacidad */
-.Saludo::before {
+.Saludo:before {
     content: '';
     position: absolute;
     top: 0;
@@ -146,13 +146,13 @@ img {
 
 .custom-table th {
     color: #000000; /* Color del texto del encabezado */
-    padding: 10px; /* Espaciado interno */
+    /* padding: 10px; Espaciado interno */
     text-align: left; /* Alineación del texto */
 }
 
 .custom-table td {
     background-color: #f4f4f4; /* Color de fondo para las celdas del cuerpo de la tabla */
-    padding: 10px; /* Espaciado interno */
+    /* padding: 10px; Espaciado interno */
     text-align: left; /* Alineación del texto */
     border-radius: 10px;
 }

@@ -1,7 +1,7 @@
 .nav-pills {
     /* Existing styles from the image */
     text-align: center; /* Center the tabs horizontally */
-     /* Distribute tabs with spacing */
+    /* Distribute tabs with spacing */
     display: flex; /* Enable flexbox layout */
     justify-content: center; /* Center items horizontally */
     align-items: center; /* Center items vertically */
@@ -19,22 +19,20 @@
 }
 
 .nav-link.active {
-    background-color: #FFD977; /* Color de fondo del enlace activo */
+    background-color: #ffd977; /* Color de fondo del enlace activo */
     color: #000000; /* Color del texto del enlace activo */
-    border-bottom: 2px solid #FFD977; /* Borde inferior del enlace activo */
+    border-bottom: 2px solid #ffd977; /* Borde inferior del enlace activo */
 }
 
 .container {
     width: 900px;
-    background-color: #F4F4F4;
+    background-color: #f4f4f4;
     padding: 10px;
     border-radius: 7px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
     position: relative;
     top: 50%; /* 50% of viewport height */
-    
 }
-
 
 button {
     background-color: #f3f3f3;
@@ -47,7 +45,7 @@ button {
 }
 
 .btn-generar {
-    background-color: #64E061;
+    background-color: #64e061;
 }
 .btn-generar:hover {
     background-color: #0ce048;
@@ -55,7 +53,7 @@ button {
 
 h2 {
     font: 1em sans-serif;
-    color:#270473;
+    color: #270473;
     text-align: center;
     padding: 20px;
 }
@@ -64,13 +62,13 @@ th {
     width: 10px;
 }
 
-.tab-pane  {
+.tab-pane {
     width: 950px;
     background-color: #fafafa;
     padding: auto 10px;
     border-radius: 7px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
     position: relative;
-    top: 5% ;
-    margin:10px auto;
+    top: 5%;
+    margin: 10px auto;
 }

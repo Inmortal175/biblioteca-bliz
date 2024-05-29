@@ -14,7 +14,7 @@
 }
 
 .col {
-    height: 52px; 
+    height: 52px;
     flex: 0 0 25%; /* Ajusta el tamaño de las columnas a un 25% del contenedor */
     max-width: 20%; /* Ajusta el ancho máximo de las columnas a un 20% */
     box-sizing: border-box; /* Incluye padding y border en el ancho total */
@@ -23,17 +23,16 @@
     font-weight: bold;
     height: 100%;
     text-align: center; /* Centra el texto dentro del elemento */
-    background-color:#ffd977; /* Añade un fondo claro */
+    background-color: #ffd977; /* Añade un fondo claro */
     border-radius: 5px; /* Bordes redondeados */
 }
 
 .libro {
     height: 100%;
     text-align: center; /* Centra el texto dentro del elemento */
-    background-color:#f4f4f4; /* Añade un fondo claro */
+    background-color: #f4f4f4; /* Añade un fondo claro */
     border-radius: 5px; /* Bordes redondeados */
 }
-
 
 body {
     display: flex;
@@ -162,7 +161,7 @@ button {
     border: none;
 }
 .nuevo-contenedor3 {
-     justify-content: end;
+    justify-content: end;
 }
 
 .Agregar {

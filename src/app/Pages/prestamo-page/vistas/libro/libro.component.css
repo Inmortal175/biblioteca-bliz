@@ -4,14 +4,13 @@
 }
 
 .row {
-    
     display: flex; /* Usa flexbox para las filas */
     justify-content: center; /* Centra las columnas horizontalmente */
     margin: 0 -15px; /* Añade márgenes negativos para compensar el padding en las columnas */
 }
 
 .col {
-    height: 52px; 
+    height: 52px;
     flex: 0 0 25%; /* Ajusta el tamaño de las columnas a un 25% del contenedor */
     max-width: 20%; /* Ajusta el ancho máximo de las columnas a un 20% */
     box-sizing: border-box; /* Incluye padding y border en el ancho total */
@@ -19,8 +18,8 @@
 .usuario {
     height: 100%;
     text-align: center; /* Centra el texto dentro del elemento */
-    background-color:#f4f4f4;
-     /* Añade un fondo claro */
+    background-color: #f4f4f4;
+    /* Añade un fondo claro */
     border-radius: 5px; /* Bordes redondeados */
 }
 
@@ -28,7 +27,7 @@
     font-weight: bold;
     height: 100%;
     text-align: center; /* Centra el texto dentro del elemento */
-    background-color:#ffd977; /* Añade un fondo claro */
+    background-color: #ffd977; /* Añade un fondo claro */
     border-radius: 5px; /* Bordes redondeados */
 }
 
@@ -184,6 +183,6 @@ button {
     font-weight: bold;
     height: 100%;
     text-align: center; /* Centra el texto dentro del elemento */
-    background-color:#ffd977; /* Añade un fondo claro */
+    background-color: #ffd977; /* Añade un fondo claro */
     border-radius: 5px; /* Bordes redondeados */
 }

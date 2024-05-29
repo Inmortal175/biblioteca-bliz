@@ -30,7 +30,6 @@ export class PrestamoPageComponent {
         //     },
         //     buttonsStyling: false,
         // });
-
         // SelectUserSwal.fire({
         //     title: 'estas seguro?',
         //     text: 'esta accion no es ireversiblbe!',
