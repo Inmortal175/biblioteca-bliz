@@ -1,14 +1,12 @@
 import { Genero } from './../../Interfaces/genero';
 import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-
 
 @Injectable({
     providedIn: 'root',
 })
-export class GeneroService{
+export class GeneroService {
     private apiUrl = 'http://127.0.0.1:8000/api/v0/genero/';
 
     constructor(private http: HttpClient) {}
@@ -17,21 +15,22 @@ export class GeneroService{
         return this.http.get<Genero[]>(this.apiUrl);
     }
 
-    /*
-    getUser(id: number): Observable<User> {
-        return this.http.get<User>(`${this.apiUrl}${id}/`);
+    getGeneroById(id: number): Observable<Genero> {
+        const url = `${this.apiUrl}${id}/`;
+        return this.http.get<Genero>(url);
     }
 
-    createUser(user: User): Observable<User> {
-        return this.http.post<User>(this.apiUrl, user);
+    addGenero(genero: Genero): Observable<Genero> {
+        return this.http.post<Genero>(this.apiUrl, genero);
     }
 
-    updateUser(id: number, user: User): Observable<User> {
-        return this.http.put<User>(`${this.apiUrl}${id}/`, user);
+    deleteGenero(id: number): Observable<any> {
+        const url = `${this.apiUrl}${id}/`;
+        return this.http.delete(url);
     }
 
-    deleteUser(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}${id}/`);
+    actualizarGenero(genero: Genero): Observable<Genero> {
+        const url = `${this.apiUrl}${genero.id_genero}/`;
+        return this.http.put<Genero>(url, genero);
     }
-    */
 }
