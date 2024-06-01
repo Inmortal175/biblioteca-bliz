@@ -1,4 +1,4 @@
-import { Nacionalidad } from './../../Interfaces/nacionalidad';
+import { Nacionalidad } from '../../Models/nacionalidad/nacionalidad';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';

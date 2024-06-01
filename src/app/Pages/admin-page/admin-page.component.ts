@@ -4,12 +4,12 @@ import { GeneroService } from './../../Services/Genero/genero.service';
 import { AutorService } from './../../Services/Autor/autor.service';
 import { EditorialService } from '../../Services/Editorial/editorial.service';
 import { Component, OnInit } from '@angular/core';
-import { Autor} from 'src/app/Interfaces/autor';
-import { Editorial } from 'src/app/Interfaces/editorial';
-import { Genero } from 'src/app/Interfaces/genero';
-import { Proveedor } from 'src/app/Interfaces/proveedores';
+import { Autor} from 'src/app/Models/autor/autor';
+import { Editorial } from 'src/app/Models/editorial/editorial';
+import { Genero } from 'src/app/Models/genero/genero';
+import { Proveedor } from 'src/app/Models/proveedores/proveedores';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Nacionalidad } from 'src/app/Interfaces/nacionalidad';
+import { Nacionalidad } from 'src/app/Models/nacionalidad/nacionalidad';
 
 @Component({
     selector: 'app-admin-page',

@@ -1,4 +1,4 @@
-import { Genero } from './../../Interfaces/genero';
+import { Genero } from '../../Models/genero/genero';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
