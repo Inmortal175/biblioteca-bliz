@@ -5,3 +5,8 @@ export interface AutorModel {
     apellido_materno: string;
     nacionalidad: string;
 }
+
+export interface AutorFilter {
+    page_size?: number;
+    page?: number;
+}

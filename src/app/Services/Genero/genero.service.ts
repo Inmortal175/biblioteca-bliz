@@ -11,6 +11,23 @@ export class GeneroService {
 
     constructor(private http: HttpClient) {}
 
+    obtenerGenero(params: PrestamosFilter): Observable<ReportePrestamosModel> {
+        const HttpOptions = {
+            params: new HttpParams()
+                .set('usuario', params.usuario)
+                .set('bibliotecario', params.bibliotecario)
+                .set('title', params.titulo)
+                .set('fecha_inicio', params.fecha_inicio)
+                .set('fecha_limite', params.fecha_limite)
+                .set('page', params.page)
+                .set('page_size', params.page_size),
+        };
+        return this.EndPoints.get<ReportePrestamosModel>(
+            `${base_url}reporte_prestamos/`,
+            HttpOptions
+        );
+    }
+
     getGenero(): Observable<GeneroModel> {
         return this.http.get<GeneroModel>(this.apiUrl);
     }
