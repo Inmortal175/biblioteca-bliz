@@ -298,6 +298,6 @@ tr:has(td > .actions input[type='checkbox']:checked) {
     text-transform: uppercase;
 }
 
-.sinStrock{
-    --bs-table-bg: #85848159
+.sinStrock {
+    --bs-table-bg: #85848159;
 }

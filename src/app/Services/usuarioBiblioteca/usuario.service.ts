@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { UsuarioParam } from 'src/app/Models/UsuarioBiblioteca/params.model';
+import { Observable } from 'rxjs';
+import { CreateLibroModel } from 'src/app/Models/Libros/libro_create.model';
 @Injectable({
     providedIn: 'root',
 })
@@ -18,5 +20,12 @@ export class UsuarioService {
         };
 
         return this.http.get(`${this.base_url}usuario/`, httpOptions);
+    }
+
+    CreateLibro(libro: CreateLibroModel): Observable<CreateLibroModel> {
+        return this.http.post<CreateLibroModel>(
+            `${this.base_url}create/libro/`,
+            libro
+        );
     }
 }

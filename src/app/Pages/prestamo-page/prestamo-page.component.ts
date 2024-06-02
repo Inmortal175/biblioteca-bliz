@@ -48,16 +48,16 @@ import { UserService } from 'src/app/Services/Bibliotecario/user.service';
 
 pdfMake.vfs = { ...pdfFonts.pdfMake.vfs, ...CustomPdfFonts.pdfMake.vfs };
 
-pdfMake.fonts = {
-    Ticket: {
-        normal: 'Ticketing.ttf',
-        bold: 'Ticketing.ttf',
-    },
-    IBM: {
-        normal: 'IBMPlexMono-SemiBold.ttf',
-        bold: 'IBMPlexMono-SemiBold.ttf',
-    },
-};
+// pdfMake.fonts = {
+//     Ticket: {
+//         normal: 'Ticketing.ttf',
+//         bold: 'Ticketing.ttf',
+//     },
+//     IBM: {
+//         normal: 'IBMPlexMono-SemiBold.ttf',
+//         bold: 'IBMPlexMono-SemiBold.ttf',
+//     },
+// };
 
 // PdfMake end
 @Component({
@@ -150,8 +150,7 @@ export class PrestamoPageComponent implements OnInit, AfterViewInit {
                 );
                 this.UsuarioPages = this.createPagination(
                     this.UsuarioTotalPages,
-                    this.UsuarioCurrentPage,
-                    this.UsuarioPages
+                    this.UsuarioCurrentPage
                 );
             });
     }
@@ -169,11 +168,7 @@ export class PrestamoPageComponent implements OnInit, AfterViewInit {
     changePageUsuario(page: number) {
         this.UsuarioCurrentPage = page;
         this.usuarioParams.page = this.UsuarioCurrentPage;
-        this.createPagination(
-            this.UsuarioTotalPages,
-            this.UsuarioCurrentPage,
-            this.UsuarioPages
-        );
+        this.createPagination(this.UsuarioTotalPages, this.UsuarioCurrentPage);
         this.getUsuarios();
     }
 
@@ -292,8 +287,7 @@ export class PrestamoPageComponent implements OnInit, AfterViewInit {
             );
             this.LibrosPages = this.createPagination(
                 this.LibroTotalPages,
-                this.LibroCurrentPage,
-                this.LibrosPages
+                this.LibroCurrentPage
             );
         });
     }
@@ -339,21 +333,20 @@ export class PrestamoPageComponent implements OnInit, AfterViewInit {
                             llamando el método `CreateDetallePrestamo` de `prestamoService`. `id_libro` se establece
                             en la identificación del libro actual y `id_prestamo` se establece en la identificación
                             del préstamo recién creado (data.id_prestamo). */
-                            // this.prestamoService
-                            //     .CreatePrestamo(this.Prestamos)
-                            //     .subscribe((data: CreatePrestamoModel) => {
-                            //         this.ListaLibros.forEach(libro => {
-                            //             this.DetallePrestamo = {
-                            //                 id_libro: libro.id,
-                            //                 id_prestamo: data.id_prestamo,
-                            //             };
+                            this.prestamoService
+                                .CreatePrestamo(this.Prestamos)
+                                .subscribe((data: CreatePrestamoModel) => {
+                                    this.ListaLibros.forEach(libro => {
+                                        this.DetallePrestamo = {
+                                            id_libro: libro.id,
+                                            id_prestamo: data.id_prestamo,
+                                        };
 
-                            //             this.prestamoService.CreateDetallePrestamo(
-                            //                 this.DetallePrestamo
-                            //             );
-                            //         });
-                            //     });
-
+                                        this.prestamoService.CreateDetallePrestamo(
+                                            this.DetallePrestamo
+                                        );
+                                    });
+                                });
                             // esto lanza un toast de confimacion
                             Swal.fire({
                                 timer: 3000,
@@ -435,6 +428,33 @@ export class PrestamoPageComponent implements OnInit, AfterViewInit {
         pdfIframe.style.border = 'none';
 
         RENDER.appendChild(modalBody, pdfIframe);
+
+        PDFMAKE.fonts = {
+            Roboto: {
+                normal: 'Roboto-Regular.ttf',
+                bold: 'Roboto-Medium.ttf',
+                italics: 'Roboto-Italic.ttf',
+                bolditalics: 'Roboto-MediumItalic.ttf',
+            },
+            Arial: {
+                normal: 'Arial-Regular.ttf',
+                bold: 'Arial-Bold.ttf',
+                italics: 'Arial-Italic.ttf',
+            },
+            Ticket: {
+                normal: 'Ticketing.ttf',
+                bold: 'Ticketing.ttf',
+            },
+            IBM: {
+                normal: 'IBMPlexMono-SemiBold.ttf',
+                bold: 'IBMPlexMono-SemiBold.ttf',
+            },
+            Montserrat: {
+                normal: 'Montserrat-Regular.ttf',
+                bold: 'Montserrat-Bold.ttf',
+                italics: 'Montserrat-Italic.ttf',
+            },
+        };
 
         //obtener el nombre del bibliotecario
         this.bibliotecarioService
@@ -653,11 +673,7 @@ export class PrestamoPageComponent implements OnInit, AfterViewInit {
     changePageLibro(page: number) {
         this.LibroCurrentPage = page;
         this.params.page = this.LibroCurrentPage;
-        this.createPagination(
-            this.LibroTotalPages,
-            this.LibroCurrentPage,
-            this.LibrosPages
-        );
+        this.createPagination(this.LibroTotalPages, this.LibroCurrentPage);
         this.GetLibros();
     }
 
@@ -741,7 +757,7 @@ export class PrestamoPageComponent implements OnInit, AfterViewInit {
         });
     }
 
-    createPagination(totalPages: number, page: number, paginas: any[]) {
+    createPagination(totalPages: number, page: number) {
         let pages: any = [];
         let beforePage = page - 1;
         let afterPage = page + 1;

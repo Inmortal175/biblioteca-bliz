@@ -3,7 +3,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 //modelos
-import { BibliotecarioModel } from 'src/app/Models/bibliotecario/bibliotecario.model';
+import {
+    BibliotecarioModel,
+    BibliotecarioParams,
+    BibliotecariosModelList,
+} from 'src/app/Models/bibliotecario/bibliotecario.model';
 
 import { base_url } from 'src/app/Models/Url/urls.model';
 import { Observable, map } from 'rxjs';
@@ -19,6 +23,14 @@ export class UserService {
             map((data: BibliotecarioModel) => {
                 return data.full_name;
             })
+        );
+    }
+
+    getBibliotarios(
+        queryParam: BibliotecarioParams
+    ): Observable<BibliotecariosModelList> {
+        return this.http.get<BibliotecariosModelList>(
+            `${base_url}bibliotecario/view/`
         );
     }
 }
