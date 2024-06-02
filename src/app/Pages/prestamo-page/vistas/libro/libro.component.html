@@ -1,12 +1,11 @@
-
 <div class="container overflow-hidden text-center">
     <div class="row gx-5">
-    <div class="col">
-    <div class="p-3 usuario">Usuario</div>
-    </div>
-    <div class="col">
-        <div class="p-3 libro">Libro</div>
-    </div>
+        <div class="col">
+            <div class="p-3 usuario">Usuario</div>
+        </div>
+        <div class="col">
+            <div class="p-3 libro">Libro</div>
+        </div>
     </div>
 </div>
 <div class="nuevo-contenedor">
@@ -26,7 +25,7 @@
                 <th scope="col">Acciones</th>
             </tr>
         </thead>
-        
+
         <tbody>
             <tr *ngFor="let libro of libros">
                 <td scope="row">{{ libro.id }}</td>
@@ -36,7 +35,12 @@
                 <td scope>
                     <form [formGroup]="userSelectForm">
                         <label class="btn btn-sm" for="select-user">
-                            <input type="checkbox" name="select-book" id="select-book" formControlName="seleccion" (change)="gestionarSeleccion(libro)"/>
+                            <input
+                                type="checkbox"
+                                name="select-book"
+                                id="select-book"
+                                formControlName="seleccion"
+                                (change)="gestionarSeleccion(libro)" />
                         </label>
                     </form>
                 </td>
@@ -49,7 +53,7 @@
     </div>
 </div>
 
-<div id="Detalle Prestamo" style="display: none;">
+<div id="Detalle Prestamo" style="display: none">
     <div class="container overflow-hidden text-center">
         <div class="row gx-5">
             <div class="col">
@@ -66,20 +70,19 @@
                         <th scope="col">Nombre</th>
                         <th scope="col">Titulo del libro</th>
                         <th scope="col">Fecha de préstamo</th>
-                        
                     </tr>
                 </thead>
-                
+
                 <tbody>
                     <tr *ngFor="let prestamo of prestamosSeleccionados">
                         <td scope="row">{{ prestamo.id }}</td>
                         <td scope="row">{{ prestamo.nombre }}</td>
                         <td scope="row">{{ prestamo.titulo }}</td>
                         <td scope="row">{{ prestamo.fecha }}</td>
-                        
                     </tr>
                 </tbody>
             </table>
-        </div>      
-    <button (click)="Volver_casa()" class="botonHOME">Inicio</button>
+        </div>
+        <button (click)="Volver_casa()" class="botonHOME">Inicio</button>
     </div>
+</div>

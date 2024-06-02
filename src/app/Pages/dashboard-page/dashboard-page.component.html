@@ -1,26 +1,39 @@
-<button (click)="ViewReportes()">view data</button>
 <div class="contenedor_principal">
     <div class="main_img">
-        <div class="Saludo">¡Bienvenido a la Biblioteca!</div>
+        <div class="Saludo">
+            ¡Bienvenido a la Biblioteca! <br />
+            {{ nombreBibliotecario }}
+        </div>
     </div>
 
-    <div class="row">
+    <div class="row mt-3 row-gap-3">
         <div class="col-md-4">
             <div class="contenedor">
                 <div class="icono usuarios"><i class="fas fa-users"></i></div>
-                <div class="texto">USUARIOS</div>
+                <div class="texto">
+                    USUARIOS<br />
+                    {{ cantidadUsuarios }}
+                </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="contenedor">
                 <div class="icono libros"><i class="fas fa-book"></i></div>
-                <div class="texto">LIBROS</div>
+                <div class="texto">
+                    LIBROS <br />
+                    {{ cantidadLibros }}
+                </div>
+
+                <div class="numero"></div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="contenedor">
                 <div class="icono autor"><i class="fas fa-pen-nib"></i></div>
-                <div class="texto">AUTOR</div>
+                <div class="texto">
+                    AUTORES <br />
+                    {{ cantidadAutores }}
+                </div>
             </div>
         </div>
     </div>
@@ -30,7 +43,10 @@
                 <div class="icono editorial">
                     <i class="fas fa-building"></i>
                 </div>
-                <div class="texto">EDITORIAL</div>
+                <div class="texto">
+                    EDITORIAL <br />
+                    {{ cantidadEditoriales }}
+                </div>
             </div>
         </div>
         <div class="col-md-4">
@@ -38,7 +54,10 @@
                 <div class="icono prestamos">
                     <i class="fas fa-handshake"></i>
                 </div>
-                <div class="texto">PRESTAMOS</div>
+                <div class="texto">
+                    PRESTAMOS <br />
+                    {{ cantidadPrestamos }}
+                </div>
             </div>
         </div>
         <div class="col-md-4">
@@ -46,7 +65,10 @@
                 <div class="icono dev-vencido">
                     <i class="fas fa-calendar-times"></i>
                 </div>
-                <div class="texto">DEV. VENCIDO</div>
+                <div class="texto">
+                    DEV. VENCIDO <br />
+                    {{ cantidadDevolucionesVenc }}
+                </div>
             </div>
         </div>
     </div>
@@ -58,15 +80,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td scope="row">Mi planta de naranja Lima</td>
+            <tr *ngFor="let libro of Libros.slice(0, 5)">
+            <td > {{ libro.titulo }} </td>
             </tr>
-            <tr>
-                <td scope="row">Amelia</td>
-            </tr>
-            <tr>
-                <td scope="row">El señor de los anillos</td>
-            </tr>
+            
         </tbody>
     </table>
 </div>

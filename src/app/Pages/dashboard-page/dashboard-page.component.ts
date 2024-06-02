@@ -1,11 +1,24 @@
-import { Component, HostListener } from '@angular/core';
-import Swal from 'sweetalert2';
-import { ReportePrestamoService } from 'src/app/Services/Reportes/reporte-prestamo.service';
+import { LibroService } from 'src/app/Services/libroService/libro.service';
+import { Component, OnInit } from '@angular/core';
+import { AutorService } from 'src/app/Services/AutorService/autor.service';
+import { UsuarioService } from 'src/app/Services/Usuarios/usuario.service';
+import { PrestamoService } from 'src/app/Services/Prestamo/prestamo.service';
+import { EditorialService } from 'src/app/Services/EditorialService/editorial.service';
+import { UserService } from 'src/app/Services/Bibliotecario/user.service';
+import { JwtAuthService } from 'src/app/Services/Auth/jwt-auth.service';
+//importar modelos
+import { UsuarioModel } from 'src/app/Models/Usuario/usuario.model';
+import { EditorialModel } from 'src/app/Models/Editorial/editorial.model';
+import { LibroModel } from 'src/app/Models/libro/libro.model';
+import { LibroResult } from 'src/app/Models/libro/libro.model';
+import { Autor } from 'src/app/Models/autor/autor.interfaz';
+import { PrestamoModel } from 'src/app/Models/Prestamo/prestamo.model';
 
 //PDF MAKER
 // importar los modulos para el uso de pdfMake
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { Router } from '@angular/router';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 // PdfMake end
@@ -14,185 +27,99 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
     templateUrl: './dashboard-page.component.html',
     styleUrls: ['./dashboard-page.component.css'],
 })
-export class DashboardPageComponent {
-    constructor(private reportePrestamoService: ReportePrestamoService) {}
+export class DashboardPageComponent implements OnInit {
+    Autores: Autor[] = [];
+    Libros: LibroResult[] = [];
 
-    // funcion que crea el pdf
-    // createPdf() {
-    // }
-    //end pdfMake
+    protected cantidadUsuarios: number;
+    protected cantidadDevolucionesVenc: number;
+    protected cantidadEditoriales: number;
+    protected cantidadLibros: number;
+    // protected nombresLibros: number;
+    protected cantidadPrestamos: number;
+    protected nombreBibliotecario: string;
 
-    ViewReportes() {
-        // let docDefinition = {
-        //     content: 'This is an sample PDF printed with pdfMake',
-        // };
-        const PDFMAKE = pdfMake;
-        // pdfMake.createPdf(docDefinition).open();
-        this.reportePrestamoService
-            .GetReportePrestamos()
-            .subscribe((data: any[]) => {
-                // Define the table headers
-                const tableHeaders = [
-                    {
-                        text: 'Usuario',
-                        bold: true,
-                        alignment: 'center',
-                        fillColor: '#dedede',
-                    },
-                    {
-                        text: 'Libro',
-                        bold: true,
-                        alignment: 'center',
-                        fillColor: '#dedede',
-                    },
-                    {
-                        text: 'Gén. del Libro',
-                        bold: true,
-                        alignment: 'center',
-                        fillColor: '#dedede',
-                    },
-                    {
-                        text: 'Atendido por',
-                        bold: true,
-                        alignment: 'center',
-                        fillColor: '#dedede',
-                    },
-                    {
-                        text: 'Fecha de Préstamo',
-                        bold: true,
-                        alignment: 'center',
-                        fillColor: '#dedede',
-                    },
-                    {
-                        text: 'Est. de Devolución',
-                        bold: true,
-                        alignment: 'center',
-                        fillColor: '#dedede',
-                    },
-                    {
-                        text: 'Est. de Vencimiento',
-                        bold: true,
-                        alignment: 'center',
-                        fillColor: '#dedede',
-                    },
-                    {
-                        text: 'caduca',
-                        bold: true,
-                        alignment: 'center',
-                        fillColor: '#dedede',
-                    },
-                ];
+    constructor(
+        private libroService: LibroService,
+        private AutorService: AutorService,
+        private usuarioService: UsuarioService,
+        private prestamoService: PrestamoService,
+        private editorialService: EditorialService,
+        private route: Router,
+        private bibliotecarioService: UserService,
+        private authService: JwtAuthService
+    ) {
+        const return_page = localStorage.getItem('prev_page');
+        if (return_page) {
+            this.route.navigate([return_page]);
+        }
+        const bibliotecarioID: number = this.authService.getUserId();
+        this.bibliotecarioService
+            .getBibliotecario_name(bibliotecarioID)
+            .subscribe((data: string) => {
+                this.nombreBibliotecario = data;
+            });
+    }
 
-                // Map the data to the table rows
-                const tableBody = data.map(item => [
-                    {
-                        text: item.usuario,
-                    },
-                    {
-                        text: item.libro,
-                    },
-                    {
-                        text: item.genero_libro,
-                    },
-                    {
-                        text: item.bibliotecario,
-                    },
-                    {
-                        text: item.fecha_prestamo,
-                    },
-                    {
-                        text: item.estado_devolucion,
-                    },
-                    {
-                        text: item.estado_devolucion.includes('Devuelto')
-                            ? 'satisfecho'
-                            : item.retraso,
-                        fillColor: item.estado_devolucion.includes('Devuelto')
-                            ? '#a1c3ff'
-                            : item.retraso.includes('retraso')
-                              ? '#f25555'
-                              : '#27e858',
-                    },
-                    {
-                        text: item.fecha_caducidad,
-                    },
-                ]);
+    cantidadAutores: number;
+    Totalprestados: number;
+    nombresLibros: string;
 
-                // Insert the headers at the beginning of the table body
-                tableBody.unshift(tableHeaders);
-                let docDefinition = {
-                    pageOrientation: 'landscape',
-                    pageSize: 'A4',
-                    info: {
-                        title: 'Reporte de Libros prestados',
-                    },
-                    content: [
-                        {
-                            text: 'BIBLIOTECA BLIZ',
-                            fontSize: 20,
-                            bold: true,
-                            alignment: 'center',
-                        },
-                        {
-                            text: 'Tus Libros son nuestra pasión\n',
-                            fontSize: 14,
-                            alignment: 'center',
-                        },
-                        {
-                            text: '\n',
-                        },
-                        { text: 'Reporte de Préstamos', style: 'header' },
-                        {
-                            table: {
-                                layout: 'lightHorizontalLines',
-                                alignment: 'center',
-                                headerRows: 1,
-                                widths: [
-                                    'auto',
-                                    'auto',
-                                    'auto',
-                                    'auto',
-                                    'auto',
-                                    'auto',
-                                    'auto',
-                                    'auto',
-                                ],
-                                body: tableBody,
-                            },
-                            fontSize: 10,
-                        },
-                        {
-                            text: '\n',
-                        },
-                        {
-                            text: 'Nota:\n',
-                            bold: true,
-                        },
-                        {
-                            text: 'Este documento es emitido con el propósito de servir a los fines pertinentes de la Biblioteca Bliz, garantizando la correcta gestión de sus recursos y servicios. Asimismo, es importante destacar que, si bien este documento no posee validez legal, su contenido es fundamental para el adecuado funcionamiento y registro de las actividades bibliotecarias.\n \n',
-                            fontSize: 10,
-                            alignment: 'justify',
-                        },
-                        {
-                            qr: 'Documento oficial, generdo el: ' + new Date(),
-                            alignment: 'center',
-                            fit: 130,
-                        }, // para generar QR automaticamente
-                    ],
-                    styles: {
-                        header: {
-                            fontSize: 18,
-                            bold: true,
-                            marginBottom: 10,
-                            alignment: 'center',
-                        },
-                        tableHeader: {
-                            bold: true,
-                            alignment: 'center',
-                        },
-                    },
-                };
-                PDFMAKE.createPdf(docDefinition).open();
+    // Editorial: number;
+
+    ngOnInit(): void {
+        this.libroService.getCantidadLibro().subscribe((data: LibroModel) => {
+            this.cantidadLibros = data.count as number;
+        });
+
+        this.libroService.getTOP5Libros(5).subscribe((data: LibroModel) => {
+            const data_size: number = data.count 
+            this.libroService.getTOP5Libros(data_size).subscribe((data: LibroModel) =>{
+                this.Libros = data.results as LibroResult[]
+                this.Libros.sort((a, b) => b.prestados - a.prestados);
+                this.Libros = this.Libros.filter((dato: LibroResult) =>{
+                    return dato.prestados > 0
+                })
+            })
+            // this.nombresLibros = data.titulo as string;
+            console.log(this.nombresLibros)
+        });
+        // this.libroService.getCantidadLibro().subscribe((data: LibroModel) => {
+        //     
+        // });
+
+        // this.libroService.getTOP5Libros().subscribe((data: LibroModel) => {
+        //     this.nombresLibros = data.results.prestados as number;
+        // });
+        // this.Libros.sort((a,b) => b.prestados - a.prestados)
+        // this.Libros.sort((a,b) => b.prestados - a.prestados)
+
+        // this.Libros.sort((a, b) => b.prestados - a.prestados);
+        // console.log(this.Libros)
+
+        this.AutorService.getAutor().subscribe((data: Autor[]) => {
+            this.Autores = data;
+            this.cantidadAutores = this.Autores.length;
+        });
+
+        this.usuarioService.getUsuarios().subscribe((data: UsuarioModel) => {
+            this.cantidadUsuarios = data.count as number;
+        });
+
+        this.prestamoService.getCantDevVencido().subscribe(count => {
+            this.cantidadDevolucionesVenc = count;
+        });
+
+        this.prestamoService
+            .getCantidadPrestamos()
+            .subscribe((data: PrestamoModel) => {
+                this.cantidadPrestamos = data.count as number;
+            });
+
+        this.editorialService
+            .getCantidadEditorial()
+            .subscribe((data: EditorialModel) => {
+                this.cantidadEditoriales = data.count as number;
             });
     }
 }
