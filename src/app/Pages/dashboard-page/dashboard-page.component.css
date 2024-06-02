@@ -22,6 +22,10 @@ img {
     /* width: 100%; */
 }
 
+.main_img{
+    background-color: #5c5c5c9e;
+}
+
 /* Estilo para el saludo */
 .Saludo {
     position: relative;
@@ -55,7 +59,9 @@ img {
     width: 100%;
     background: url('../../../assets/imagenes/dashboard/bg-dashboard.jpg');
     height: 100%;
-    opacity: 70%; /* Ajusta la opacidad de la imagen de fondo */
+    background: url('../../../assets/imagenes/dashboard/bg-dashboard.jpg')
+        no-repeat center center/cover;
+    /* opacity: 8%; Ajusta la opacidad de la imagen de fondo */
     z-index: -1; /* Coloca la imagen detrás del contenido del .Saludo */
 }
 

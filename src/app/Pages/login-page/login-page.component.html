@@ -1,7 +1,7 @@
 <div class="contenedor">
     <div class="background">
         <img
-            src="../../../assets/imagenes/otros/bg-login.jpg"
+            src="../../../assets/imagenes/dashboard/bg-dashboard.jpg"
             alt="Fondo de biblioteca" />
     </div>
     <div class="name_biblioteca">
@@ -14,7 +14,11 @@
             <label for="username">USUARIO</label>
             <input type="text" id="username" formControlName="usuario" />
             <label for="password">CONTRASEÑA</label>
-            <input type="password" id="password" formControlName="password" />
+            <input
+                type="password"
+                id="password"
+                formControlName="password"
+                (keyup)="KeyUpEvent($event)" />
             <hr />
             <a role="button" (click)="Login()">Iniciar Sesión</a>
         </form>

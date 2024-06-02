@@ -49,21 +49,43 @@
         aria-labelledby="pills-home-tab"
         tabindex="0">
         <div class="container mt-5">
-            <form action="" method="post">
+            <form [formGroup]="ReportePrestamoForm">
+                <!-- fila 1 -->
                 <div class="row mb-3">
                     <div class="col-sm-3">
-                        <label for="nombre" class="form-label">Nombre:</label>
+                        <label for="nombre" class="form-label">Libro</label>
                         <select
                             class="form-select"
                             id="user"
                             name="genero"
+                            (change)="FiltroReportePrestamos()"
+                            formControlName="libro"
                             required>
-                            <option value="">Seleccionar</option>
-                            <option value="Narrativa">Oscar</option>
-                            <option value="Poesía">Miguel</option>
-                            <option value="Ensayo">Franklin</option>
-                            <option value="Drama">Gabriela</option>
-                            <option value="Otro">Tedy</option>
+                            <option value="">Todos</option>
+                            <option
+                                *ngFor="let libro of Libros"
+                                [value]="libro.titulo">
+                                {{ libro.titulo }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="nombre" class="form-label"
+                            >Bibliotecario</label
+                        >
+                        <select
+                            class="form-select"
+                            id="user"
+                            name="genero"
+                            (change)="FiltroReportePrestamos()"
+                            formControlName="bibliotecario"
+                            required>
+                            <option value="">Todos</option>
+                            <option
+                                *ngFor="let bibliotecario of Bibliotecarios"
+                                [value]="bibliotecario.nombres">
+                                {{ bibliotecario.full_name }}
+                            </option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -75,51 +97,182 @@
                             class="form-control"
                             id="autor"
                             name="autor"
+                            formControlName="fecha_inicio"
+                            (input)="FiltroReportePrestamos()"
                             required />
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3 col_btn_gen">
+                        <button
+                            type="submit"
+                            class="btn btn-generar"
+                            (click)="generarReporte('prestamo')">
+                            Generar
+                        </button>
+                    </div>
+                </div>
+                <!-- fila 2 -->
+                <div class="row mb-3">
+                    <div class="col-sm-4">
+                        <label for="nombre" class="form-label">Usuario</label>
+                        <select
+                            class="form-select"
+                            id="user"
+                            name="genero"
+                            formControlName="usuario"
+                            (change)="FiltroReportePrestamos()"
+                            required>
+                            <option value="">Todos</option>
+                            <option
+                                *ngFor="let usuario of Usuarios"
+                                [value]="usuario.nombres">
+                                {{ usuario.nombres }},
+                                {{ usuario.apellido_paterno }}
+                                {{ usuario.apellido_materno }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
                         <label for="autor" class="form-label">Fecha Fin:</label>
                         <input
                             type="date"
                             class="form-control"
                             id="autor"
                             name="autor"
+                            formControlName="fecha_limite"
+                            (input)="FiltroReportePrestamos()"
                             required />
                     </div>
-                    <div class="col-sm-3">
-                        <button type="submit" class="btn btn-generar">
-                            Generar
-                        </button>
-                    </div>
                 </div>
+                <!-- en filas de opciones -->
                 <h2><strong>Reporte de Libros Préstados</strong></h2>
                 <div container_reporte>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Libro</th>
+                                <th scope="col">N°</th>
                                 <th scope="col">Usuario</th>
-                                <th scope="col">Fecha Préstamo</th>
+                                <th scope="col">Libro</th>
+                                <th scope="col">Genero del Libro</th>
+                                <th scope="col">Fecha préstamo</th>
+                                <th scope="col">Fecha Caducidad</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Retraso</th>
+                                <th scope="col">Bibliotecario</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Ñacatita</td>
-                                <td>Jacob</td>
-                                <td>10/02/24</td>
-                            </tr>
-                            <tr>
-                                <td>Amelia</td>
-                                <td>Oscar</td>
-                                <td>23/12/24</td>
-                            </tr>
-                            <tr>
-                                <td>Kamasutra</td>
-                                <td>Oscar</td>
-                                <td>19/04/24</td>
+                            <tr
+                                *ngFor="
+                                    let prestamo of ListaPrestamos;
+                                    let i = index
+                                ">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ prestamo.usuario }}</td>
+                                <td>{{ prestamo.libro }}</td>
+                                <td>{{ prestamo.genero_libro }}</td>
+                                <td>{{ prestamo.fecha_prestamo }}</td>
+                                <td>{{ prestamo.fecha_caducidad }}</td>
+                                <td>
+                                    <span
+                                        class="badge rounded-pill"
+                                        [class.text-bg-success]="
+                                            prestamo.estado_devolucion ===
+                                            'Devuelto'
+                                        "
+                                        [class.text-bg-warning]="
+                                            prestamo.estado_devolucion ===
+                                                'por devolver' &&
+                                            prestamo.retraso.includes(
+                                                'retraso'
+                                            ) === false
+                                        "
+                                        [class.text-bg-danger]="
+                                            prestamo.estado_devolucion ===
+                                                'por devolver' &&
+                                            prestamo.retraso.includes(
+                                                'retraso'
+                                            ) === true
+                                        "
+                                        >{{ prestamo.estado_devolucion }}</span
+                                    >
+                                </td>
+                                <td>
+                                    {{
+                                        prestamo.estado_devolucion ===
+                                        'Devuelto'
+                                            ? 'Satisfecho'
+                                            : prestamo.retraso
+                                    }}
+                                </td>
+                                <td>{{ prestamo.bibliotecario }}</td>
                             </tr>
                         </tbody>
                     </table>
+
+                    <!-- Paginacion -->
+                    <div class="pagination">
+                        <ul>
+                            <li
+                                *ngFor="let page of ReportePrestamoPages"
+                                [ngClass]="{
+                                    active:
+                                        page.number ===
+                                        ReportePrestamoCurrentPage
+                                }">
+                                <!-- botones -->
+                                <button
+                                    *ngIf="page.type === 'page'"
+                                    (click)="
+                                        changePageReportePrestamo(page.number)
+                                    ">
+                                    {{ page.number }}
+                                </button>
+                                <span *ngIf="page.type === 'dots'">...</span>
+
+                                <button
+                                    *ngIf="page.type === 'prev'"
+                                    (click)="
+                                        changePageReportePrestamo(page.number)
+                                    ">
+                                    <i class="fas fa-angle-left"></i> Prev
+                                </button>
+
+                                <button
+                                    role="button"
+                                    *ngIf="page.type === 'next'"
+                                    (click)="
+                                        changePageReportePrestamo(page.number)
+                                    ">
+                                    Next <i class="fas fa-angle-right"></i>
+                                </button>
+                            </li>
+                        </ul>
+                        <div
+                            [formGroup]="reportePrestamoPageSizeForm"
+                            class="page_size_cont mx-3">
+                            <select
+                                formControlName="pageSize"
+                                (change)="changePageSizeReportePrestamo()">
+                                <option
+                                    *ngFor="let size of [5, 10, 20, 100]"
+                                    [value]="size">
+                                    {{ size }}
+                                </option>
+                            </select>
+                        </div>
+                        <p class="texto">
+                            Mostrando
+                            {{
+                                reportePrestamoPageSize <=
+                                reportePrestamoTotalItems
+                                    ? reportePrestamoPageSize
+                                    : reportePrestamoTotalItems
+                            }}
+                            registros de
+                            {{ reportePrestamoTotalItems }}
+                        </p>
+                    </div>
+                    <!-- end paginacion -->
                 </div>
             </form>
         </div>
@@ -131,62 +284,50 @@
         aria-labelledby="pills-profile-tab"
         tabindex="0">
         <div class="container mt-5">
-            <form action="" method="post">
+            <form [formGroup]="ReporteUsuarioForm">
                 <div class="row mb-3">
                     <div class="col-sm-3">
-                        <label for="usuario" class="form-label"
-                            >Usuario :</label
+                        <label for="nombre" class="form-label"
+                            >Bibliotecario</label
                         >
                         <select
                             class="form-select"
                             id="user"
                             name="genero"
+                            (change)="FiltroReportePrestamos()"
+                            formControlName="bibliotecario"
                             required>
-                            <option value="">Seleccionar</option>
-                            <option value="Narrativa">Todos</option>
-                            <option value="Poesía">Pendientes</option>
-                            <option value="Ensayo">Recurrentes</option>
+                            <option value="">Todos</option>
+                            <option
+                                *ngFor="let bibliotecario of Bibliotecarios"
+                                [value]="bibliotecario.nombres">
+                                {{ bibliotecario.full_name }}
+                            </option>
                         </select>
                     </div>
                     <div class="col-sm-3">
-                        <label for="bibliotecario" class="form-label"
-                            >Bibliotecario:</label
-                        >
-                        <select
-                            class="form-select"
-                            id="user"
-                            name="genero"
-                            required>
-                            <option value="">Seleccionar</option>
-                            <option value="Narrativa">Oscar</option>
-                            <option value="Poesía">Miguel</option>
-                            <option value="Ensayo">Franklin</option>
-                            <option value="Drama">Gabriela</option>
-                            <option value="Otro">Tedy</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-2">
-                        <label for="autor" class="form-label"
-                            >Fecha Inicio:</label
-                        >
+                        <label class="form-label">Fecha Inicio:</label>
                         <input
                             type="date"
                             class="form-control"
-                            id="autor"
+                            formControlName="fecha_inicio"
                             name="autor"
                             required />
                     </div>
-                    <div class="col-sm-2">
-                        <label for="autor" class="form-label">Fecha Fin:</label>
+                    <div class="col-sm-3">
+                        <label class="form-label">Fecha Fin:</label>
                         <input
                             type="date"
                             class="form-control"
-                            id="autor"
+                            formControlName="fecha_limite"
                             name="autor"
                             required />
                     </div>
-                    <div class="col-sm-2">
-                        <button type="submit" class="btn btn-generar">
+                    <div class="col-sm-3 col_btn_gen">
+                        <button
+                            type="submit"
+                            class="btn btn-generar"
+                            (click)="openModal()">
                             Generar
                         </button>
                     </div>
@@ -196,29 +337,97 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th scope="col">N°</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Apellido</th>
-                                <th scope="col">ID</th>
+                                <th scope="col">Apellido Paterno</th>
+                                <th scope="col">Apellido Materno</th>
+                                <th scope="col">Fecha de Creación</th>
+                                <th scope="col">Cantidad de prestamos</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Agregado por</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Oscar</td>
-                                <td>Bautista</td>
-                                <td>100224</td>
-                            </tr>
-                            <tr>
-                                <td>Abel</td>
-                                <td>Ayala</td>
-                                <td>150224</td>
-                            </tr>
-                            <tr>
-                                <td>Lucho</td>
-                                <td>Amoncio</td>
-                                <td>100224</td>
+                            <tr
+                                *ngFor="
+                                    let usuario of ListaUsuarios;
+                                    let i = index
+                                ">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ usuario.nombres }}</td>
+                                <td>{{ usuario.apellido_paterno }}</td>
+                                <td>{{ usuario.apellido_materno }}</td>
+                                <td>{{ usuario.fecha_creacion }}</td>
+                                <td>{{ usuario.cant_prestamos }}</td>
+                                <td>{{ usuario.es_activo }}</td>
+                                <td>{{ usuario.agregado_por }}</td>
                             </tr>
                         </tbody>
                     </table>
+                    <!-- Paginacion  reporte usuario-->
+                    <div class="pagination">
+                        <ul>
+                            <li
+                                *ngFor="let page of ReporteUsuarioPages"
+                                [ngClass]="{
+                                    active:
+                                        page.number ===
+                                        ReporteUsuarioCurrentPage
+                                }">
+                                <!-- botones -->
+                                <button
+                                    *ngIf="page.type === 'page'"
+                                    (click)="
+                                        changePageReporteUsuario(page.number)
+                                    ">
+                                    {{ page.number }}
+                                </button>
+                                <span *ngIf="page.type === 'dots'">...</span>
+
+                                <button
+                                    *ngIf="page.type === 'prev'"
+                                    (click)="
+                                        changePageReporteUsuario(page.number)
+                                    ">
+                                    <i class="fas fa-angle-left"></i> Prev
+                                </button>
+
+                                <button
+                                    role="button"
+                                    *ngIf="page.type === 'next'"
+                                    (click)="
+                                        changePageReporteUsuario(page.number)
+                                    ">
+                                    Next <i class="fas fa-angle-right"></i>
+                                </button>
+                            </li>
+                        </ul>
+                        <div
+                            [formGroup]="reporteUsuarioPageSizeForm"
+                            class="page_size_cont mx-3">
+                            <select
+                                formControlName="pageSize"
+                                (change)="changePageSizeReporteUsuario()">
+                                <option
+                                    *ngFor="let size of [5, 10, 20, 100]"
+                                    [value]="size">
+                                    {{ size }}
+                                </option>
+                            </select>
+                        </div>
+                        <p class="texto">
+                            Mostrando
+                            {{
+                                reporteUsuarioPageSize <=
+                                reporteUsuarioTotalItems
+                                    ? reporteUsuarioPageSize
+                                    : reporteUsuarioTotalItems
+                            }}
+                            registros de
+                            {{ reporteUsuarioTotalItems }}
+                        </p>
+                    </div>
+                    <!-- end paginacion reporte usuario-->
                 </div>
             </form>
         </div>
@@ -230,7 +439,7 @@
         aria-labelledby="pills-contact-tab"
         tabindex="0">
         <div class="container mt-5">
-            <form action="" method="post">
+            <form [formGroup]="ReporteDevolucionForm">
                 <div class="row mb-3">
                     <div class="col-sm-3">
                         <label for="usuario" class="form-label"
@@ -238,13 +447,17 @@
                         >
                         <select
                             class="form-select"
-                            id="user"
+                            formControlName="usuario"
                             name="genero"
                             required>
-                            <option value="">Seleccionar</option>
-                            <option value="Narrativa">Todos</option>
-                            <option value="Poesía">Pendientes</option>
-                            <option value="Ensayo">Recurrentes</option>
+                            <option value="">Todos</option>
+                            <option
+                                *ngFor="let usuario of Usuarios"
+                                [value]="usuario.nombres">
+                                {{ usuario.nombres }},
+                                {{ usuario.apellido_paterno }}
+                                {{ usuario.apellido_materno }}
+                            </option>
                         </select>
                     </div>
                     <div class="col-sm-3">
@@ -253,15 +466,15 @@
                         >
                         <select
                             class="form-select"
-                            id="user"
+                            formControlName="bibliotecario"
                             name="genero"
                             required>
-                            <option value="">Seleccionar</option>
-                            <option value="Narrativa">Oscar</option>
-                            <option value="Poesía">Miguel</option>
-                            <option value="Ensayo">Franklin</option>
-                            <option value="Drama">Gabriela</option>
-                            <option value="Otro">Tedy</option>
+                            <option value="">Todos</option>
+                            <option
+                                *ngFor="let bibliotecario of Bibliotecarios"
+                                [value]="bibliotecario.nombres">
+                                {{ bibliotecario.full_name }}
+                            </option>
                         </select>
                     </div>
                     <div class="col-sm-2">
@@ -271,21 +484,26 @@
                         <input
                             type="date"
                             class="form-control"
-                            id="autor"
+                            formControlName="fecha_inicio"
                             name="autor"
                             required />
                     </div>
                     <div class="col-sm-2">
-                        <label for="autor" class="form-label">Fecha Fin:</label>
+                        <label for="autor" class="form-label"
+                            >Fecha Limite:</label
+                        >
                         <input
                             type="date"
                             class="form-control"
-                            id="autor"
+                            formControlName="fecha_limite"
                             name="autor"
                             required />
                     </div>
-                    <div class="col-sm-2">
-                        <button type="submit" class="btn btn-generar">
+                    <div class="col-sm-2 col_btn_gen">
+                        <button
+                            type="submit"
+                            class="btn btn-generar"
+                            (click)="openModal()">
                             Generar
                         </button>
                     </div>
@@ -295,31 +513,71 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Libro</th>
-                                <th scope="col">Usuario</th>
+                                <th scope="col" colspan="3">PRESTAMO</th>
+                                <th scope="col" colspan="3">USUARIO</th>
+                                <th scope="col">RESPONSABLE</th>
+                            </tr>
+                            <tr>
+                                <th scope="col">N°</th>
+                                <th scope="col">titulo del libro</th>
                                 <th scope="col">Fecha Devolución</th>
+                                <th scope="col">nombres</th>
+                                <th scope="col">Apellido paterno</th>
+                                <th scope="col">Apellido materno</th>
+                                <th scope="col">Bibliotecario</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
+                                <td>1</td>
+                                <td>Otto</td>
+                                <td>10/02/24</td>
                                 <td>Ñacatita</td>
                                 <td>Otto</td>
                                 <td>10/02/24</td>
-                            </tr>
-                            <tr>
-                                <td>Amelia</td>
-                                <td>Oscar</td>
-                                <td>15/02/24</td>
-                            </tr>
-                            <tr>
-                                <td>Kamasutra</td>
-                                <td>Oscar</td>
-                                <td>10/02/24</td>
+                                <td>Ñacatita</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal reporte prestamos-->
+<div
+    #staticBackdrop
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1
+                    class="modal-title fs-5 text-center"
+                    id="staticBackdropLabel">
+                    Reporte
+                </h1>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
         </div>
     </div>
 </div>

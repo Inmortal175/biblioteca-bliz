@@ -14,13 +14,22 @@ import { LibroResult } from 'src/app/Models/libro/libro.model';
 import { Autor } from 'src/app/Models/autor/autor.interfaz';
 import { PrestamoModel } from 'src/app/Models/Prestamo/prestamo.model';
 
-//PDF MAKER
-// importar los modulos para el uso de pdfMake
-import * as pdfMake from 'pdfmake/build/pdfmake';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+// //PDF MAKER
+// // importar los modulos para el uso de pdfMake
+// import * as pdfMake from 'pdfmake/build/pdfmake';
+// import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Router } from '@angular/router';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
+console.log(Object.keys(pdfMake.vfs));
+pdfMake.fonts = {
+    Roboto: {
+        normal: 'Roboto-Regular.ttf',
+        bold: 'Roboto-Medium.ttf',
+        italics: 'Roboto-Italic.ttf',
+        bolditalics: 'Roboto-MediumItalic.ttf',
+    },
+};
 // PdfMake end
 @Component({
     selector: 'app-dashboard-page',
