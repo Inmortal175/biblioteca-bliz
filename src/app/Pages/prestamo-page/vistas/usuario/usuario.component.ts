@@ -3,14 +3,17 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-usuario',
-  templateUrl: './usuario.component.html',
-  styleUrls: ['./usuario.component.css']
+    selector: 'app-usuario',
+    templateUrl: './usuario.component.html',
+    styleUrls: ['./usuario.component.css'],
 })
 export class UsuarioComponent {
-  userSelectForm: FormGroup;
+    userSelectForm: FormGroup;
 
-    constructor(private fb: FormBuilder, private route: Router) {
+    constructor(
+        private fb: FormBuilder,
+        private route: Router
+    ) {
         this.userSelectForm = this.fb.group({
             seleccion: false,
         });
@@ -30,7 +33,6 @@ export class UsuarioComponent {
         //     },
         //     buttonsStyling: false,
         // });
-
         // SelectUserSwal.fire({
         //     title: 'estas seguro?',
         //     text: 'esta accion no es ireversiblbe!',
@@ -59,8 +61,7 @@ export class UsuarioComponent {
         // });
     }
 
-    Ir_Libro(){
-      this.route.navigate(['biblioteca/prestamos/libro'])
+    Ir_Libro() {
+        this.route.navigate(['biblioteca/prestamos/libro']);
     }
-
 }

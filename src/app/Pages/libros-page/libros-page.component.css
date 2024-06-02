@@ -1,8 +1,8 @@
 .nav-pills {
-    text-align: center; 
-    display: flex; 
+    text-align: center;
+    display: flex;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
     width: 100%;
     margin: 0 auto;
 }
@@ -16,46 +16,42 @@
 }
 
 .nav-link.active {
-    background-color: #FFD977;
-    color: #000000; 
-    border-bottom: 2px solid #FFD977; 
+    background-color: #ffd977;
+    color: #000000;
+    border-bottom: 2px solid #ffd977;
 }
 
 .container {
     width: 900px;
-    background-color: #F4F4F4;
+    background-color: #f4f4f4;
     padding: 15px;
     border-radius: 7px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
     position: relative;
     top: auto;
-    
 }
 .container_modal {
     width: auto;
-    background-color: #F4F4F4;
+    background-color: #f4f4f4;
     padding: 15px;
     border-radius: 7px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
     position: relative;
     top: auto;
-    
 }
 
-.tab-pane  {
+.tab-pane {
     width: 950px;
-    background-color: #F4F4F4;
+    background-color: #f4f4f4;
     padding: auto 10px;
     border-radius: 7px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
     position: relative;
-    top: 5% ;
-    margin:10px auto;
+    top: 5%;
+    margin: 10px auto;
 }
 
-
 button {
-
     padding: 5px 30px;
     border: none;
     border-radius: 7px;
@@ -65,7 +61,7 @@ button {
 }
 
 .btn-segundo {
-    background-color: #64E061;
+    background-color: #64e061;
 }
 .btn-segundo:hover {
     background-color: #0ce048;
@@ -73,9 +69,77 @@ button {
 
 .fa-pencil {
     color: blue;
-    
 }
 .fa-trash-alt {
     color: blue;
 }
 
+
+
+
+/* paginacion start */
+.pagination ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .pagination ul li {
+    margin: 0 5px;
+  }
+  
+  .pagination ul li span {
+    cursor: pointer;
+    padding: 10px 15px;
+    background: #f1f1f1;
+    border-radius: 5px;
+  }
+  
+  .pagination ul li button {
+    cursor: pointer;
+    padding: 10px 15px;
+    background: #f1f1f1;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+  }
+  
+  .pagination ul li.active button {
+    background: #007bff;
+    color: #fff;
+  }
+  
+  .pagination ul li button:hover {
+    background: #007bff;
+    color: #fff;
+  }
+  
+  /* page size */
+  .page_size_cont {
+    display: flex;
+    background-color: transparent;
+    justify-content: center;
+  }
+  
+  .page_size_cont select {
+    margin-bottom: 1rem;
+    outline: none;
+    width: 70px;
+    padding: 3px 10px;
+    font-size: 18px;
+    font-weight: 500;
+    border: 1px solid #3f3f3f2f;
+    border-radius: 7px;
+  }
+  
+  .page_size_cont select:hover {
+    border: 1px solid #3f3f3f70;
+  }
+  
+  .page_size_cont select > option {
+    font-size: 20px;
+    font-weight: 500;
+  }
+  
+  /* paginacion end */

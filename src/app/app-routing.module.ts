@@ -32,21 +32,21 @@ const routes: Routes = [
             {
                 path: 'prestamos',
                 component: PrestamoPageComponent,
-                children:[
+                children: [
                     {
-                    path: '',
-                    redirectTo: 'user',
-                    pathMatch: 'full',
+                        path: '',
+                        redirectTo: 'user',
+                        pathMatch: 'full',
                     },
                     {
                         path: 'user',
-                        component: UsuarioComponent
+                        component: UsuarioComponent,
                     },
                     {
-                        path:'libro',
-                        component : LibroComponent
-                    }
-                ]
+                        path: 'libro',
+                        component: LibroComponent,
+                    },
+                ],
             },
             {
                 path: 'devoluciones',
