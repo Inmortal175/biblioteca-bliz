@@ -16,8 +16,8 @@ export class LibroService {
 
     getTOP5Libros(page_size: number): Observable<LibroModel> {
         const httpOptions = {
-            params: new HttpParams().set('page_size', page_size)
-        }
+            params: new HttpParams().set('page_size', page_size),
+        };
         return this.http.get<LibroModel>(this.baseUrl, httpOptions);
     }
 }

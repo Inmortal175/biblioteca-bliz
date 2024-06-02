@@ -16,10 +16,9 @@ export class AutorService {
     constructor(private http: HttpClient) {}
 
     getAutor(dato_buscado): Observable<Autor[]> {
-      const httpOptions = {
-        params : new HttpParams()
-        .set('search', dato_buscado)
-      }
+        const httpOptions = {
+            params: new HttpParams().set('search', dato_buscado),
+        };
         return this.http
             .get<{
                 count: number;

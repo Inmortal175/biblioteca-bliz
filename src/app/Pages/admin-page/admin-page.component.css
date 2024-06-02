@@ -1,24 +1,24 @@
 .nav-link.active {
-  background-color: #FFD977; /* Color de fondo del enlace activo */
-  color: #000000; /* Color del texto del enlace activo */
-  border-bottom: 2px solid #FFD977; /* Borde inferior del enlace activo */
-  font-weight: bold;
+    background-color: #ffd977; /* Color de fondo del enlace activo */
+    color: #000000; /* Color del texto del enlace activo */
+    border-bottom: 2px solid #ffd977; /* Borde inferior del enlace activo */
+    font-weight: bold;
 }
 
-.nav-link{
-  color: #000000;
+.nav-link {
+    color: #000000;
 }
 
-.containerNav{
-  width: 100%;
-  display: flex;
-  justify-content: center;
+.containerNav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
-.containerButton{
-  width: 100%;
-  display: flex;
-  justify-content: end;
+.containerButton {
+    width: 100%;
+    display: flex;
+    justify-content: end;
 }
 
 .pagination ul li span {
@@ -66,31 +66,31 @@
 }
 
 /* sttepper */
-.wrap{
+.wrap {
     /* width: 500px; */
     background: #f8f8f8;
     border: 5px;
     /* text-align: center; */
 }
 
-.wrap header{
+.wrap header {
     font-size: 35px;
     font-weight: 600;
     margin: 0 0 30px 0;
     text-align: center;
 }
 
-.wrap .form-outer{
+.wrap .form-outer {
     width: 100%;
     overflow: hidden;
 }
 
-.form-outer form{
+.form-outer form {
     display: flex;
     width: 400%;
 }
 
-.form-outer form .page{
+.form-outer form .page {
     transition: 0.3s ease;
     width: 25%;
     padding: 0px 35px;
@@ -98,16 +98,16 @@
 }
 
 /* .form-outer form .page:nth-of-type(3) { */
-    /* display: block; Show only the second page */
+/* display: block; Show only the second page */
 /* } */
 
-.form-outer form .page .title{
+.form-outer form .page .title {
     text-align: left;
     font-size: 25px;
     font-weight: 500;
 }
 
-.form-outer form .page .field{
+.form-outer form .page .field {
     height: 45px;
     width: 100%;
     margin: 45px 0;
@@ -120,7 +120,7 @@
 
 } */
 
-.form-outer form .page .field button{
+.form-outer form .page .field button {
     width: 25%;
     height: calc(100% + 5px);
     margin-top: -20px;
@@ -132,32 +132,32 @@
     letter-spacing: 1px;
     cursor: pointer;
     border-radius: 5px;
-    transition: .3s ease;
+    transition: 0.3s ease;
 }
 
-.form-outer form .page .field button:hover{
+.form-outer form .page .field button:hover {
     background: #000;
 }
 
-.form-outer form .page .btns button{
+.form-outer form .page .btns button {
     margin-top: -20px !important;
 }
-form .page .btns button .prev{
+form .page .btns button .prev {
     margin-right: 3px;
     font-size: 17px;
 }
-form .page .btns button .next{
+form .page .btns button .next {
     margin-left: 3px;
 }
 
 /* formulario usuarios */
-.content_page > .barra_busqueda{
+.content_page > .barra_busqueda {
     display: flex;
     align-items: center;
     margin: 1em 0;
 }
 
-.barra_busqueda > div >input{
+.barra_busqueda > div > input {
     height: 45px;
     width: 20rem;
     font-style: italic;
@@ -165,7 +165,7 @@ form .page .btns button .next{
     outline: none;
 }
 
-.barra_busqueda .search-btn{
+.barra_busqueda .search-btn {
     text-align: center;
     width: 50px;
     height: 50px;
@@ -174,46 +174,45 @@ form .page .btns button .next{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 15px ;
+    margin: 0 15px;
 }
 
-tr:has(td >.actions input[type="checkbox"]:checked){
+tr:has(td > .actions input[type='checkbox']:checked) {
     background-color: #007bff !important;
 }
 
 /* checkbok style */
-.actions{
+.actions {
     display: flex;
     align-items: center;
 }
 
-.actions > label{
+.actions > label {
     font-weight: lighter;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
     user-select: none;
 }
 
-
-tr:has(td >.actions input[type="checkbox"]:checked){
+tr:has(td > .actions input[type='checkbox']:checked) {
     --bs-table-bg: #7a7a7a !important;
     --bs-table-color: white;
     font-weight: bold;
 }
 
-.actions input[type="checkbox"]{
+.actions input[type='checkbox'] {
     appearance: none;
     width: 1.5em;
     height: 1.5em;
     background: #e3e3e3;
-    border-radius: .4em;
+    border-radius: 0.4em;
     margin: 0 1em;
 }
 
-.actions input[type="checkbox"]::after{
-    display: flex   ;
+.actions input[type='checkbox']::after {
+    display: flex;
     font-family: 'Font Awesome 6 Free';
-    content: "\f00c";
+    content: '\f00c';
     color: #fff;
     justify-content: center;
     align-items: center;
@@ -222,14 +221,14 @@ tr:has(td >.actions input[type="checkbox"]:checked){
     display: none;
 }
 
-.actions input[type="checkbox"]:hover{
+.actions input[type='checkbox']:hover {
     background: #c3c3c3;
 }
 
-.actions input[type="checkbox"]:checked{
+.actions input[type='checkbox']:checked {
     background-color: #007bff;
 }
 
-.actions input[type="checkbox"]:checked::after{
+.actions input[type='checkbox']:checked::after {
     display: flex;
 }

@@ -4,7 +4,7 @@ import { GeneroService } from './../../Services/Genero/genero.service';
 import { AutorService } from './../../Services/Autor/autor.service';
 import { EditorialService } from '../../Services/Editorial/editorial.service';
 import { Component, OnInit } from '@angular/core';
-import { Autor} from 'src/app/Models/autor/autor';
+import { Autor } from 'src/app/Models/autor/autor';
 import { Editorial } from 'src/app/Models/editorial/editorial';
 import { Genero } from 'src/app/Models/genero/genero';
 import { Proveedor } from 'src/app/Models/proveedores/proveedores';
@@ -197,8 +197,6 @@ export class AdminPageComponent implements OnInit {
         return nacionalidad.id_nacionalidad;
     }
 
-
-
     //Leer, Agregar, eliminar y actualizar Editoriales
     cargarEditorial(): void {
         this.EditorialService.getEditorial().subscribe((data: Editorial[]) => {
@@ -281,8 +279,6 @@ export class AdminPageComponent implements OnInit {
         }
     }
 
-
-
     //Leer, Agregar, eliminar y actualizar Genero
     cargarGenero(): void {
         this.GeneroService.getGenero().subscribe((data: Genero[]) => {
@@ -359,8 +355,6 @@ export class AdminPageComponent implements OnInit {
         }
     }
 
-
-
     //Leer, Agregar, eliminar y actualizar Proveedor
     cargarProveedor(): void {
         this.ProveedorService.getProveedor().subscribe((data: Proveedor[]) => {
@@ -424,9 +418,11 @@ export class AdminPageComponent implements OnInit {
                 ...this.proveedorSeleccionado,
                 nombre: formValue.nombre,
                 email: formValue.email,
-                telefono: formValue.telefono
+                telefono: formValue.telefono,
             };
-            this.ProveedorService.actualizarProveedor(proveedorActualizado).subscribe(
+            this.ProveedorService.actualizarProveedor(
+                proveedorActualizado
+            ).subscribe(
                 () => {
                     console.log('Proveedor actualizado exitosamente');
                     this.mostrarBotonActualizar = false;

@@ -20,17 +20,6 @@ import { PrestamoModel } from 'src/app/Models/Prestamo/prestamo.model';
 // import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Router } from '@angular/router';
 
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
-console.log(Object.keys(pdfMake.vfs));
-pdfMake.fonts = {
-    Roboto: {
-        normal: 'Roboto-Regular.ttf',
-        bold: 'Roboto-Medium.ttf',
-        italics: 'Roboto-Italic.ttf',
-        bolditalics: 'Roboto-MediumItalic.ttf',
-    },
-};
-// PdfMake end
 @Component({
     selector: 'app-dashboard-page',
     templateUrl: './dashboard-page.component.html',
@@ -82,19 +71,21 @@ export class DashboardPageComponent implements OnInit {
         });
 
         this.libroService.getTOP5Libros(5).subscribe((data: LibroModel) => {
-            const data_size: number = data.count 
-            this.libroService.getTOP5Libros(data_size).subscribe((data: LibroModel) =>{
-                this.Libros = data.results as LibroResult[]
-                this.Libros.sort((a, b) => b.prestados - a.prestados);
-                this.Libros = this.Libros.filter((dato: LibroResult) =>{
-                    return dato.prestados > 0
-                })
-            })
+            const data_size: number = data.count;
+            this.libroService
+                .getTOP5Libros(data_size)
+                .subscribe((data: LibroModel) => {
+                    this.Libros = data.results as LibroResult[];
+                    this.Libros.sort((a, b) => b.prestados - a.prestados);
+                    this.Libros = this.Libros.filter((dato: LibroResult) => {
+                        return dato.prestados > 0;
+                    });
+                });
             // this.nombresLibros = data.titulo as string;
-            console.log(this.nombresLibros)
+            console.log(this.nombresLibros);
         });
         // this.libroService.getCantidadLibro().subscribe((data: LibroModel) => {
-        //     
+        //
         // });
 
         // this.libroService.getTOP5Libros().subscribe((data: LibroModel) => {

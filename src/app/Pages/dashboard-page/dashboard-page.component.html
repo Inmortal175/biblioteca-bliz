@@ -1,7 +1,7 @@
 <div class="contenedor_principal">
     <div class="main_img">
         <div class="Saludo">
-            ¡Bienvenido a la Biblioteca! <br />
+            ¡Bienvenido de nuevo! <br />
             {{ nombreBibliotecario }}
         </div>
     </div>
@@ -81,9 +81,8 @@
         </thead>
         <tbody>
             <tr *ngFor="let libro of Libros.slice(0, 5)">
-            <td > {{ libro.titulo }} </td>
+                <td>{{ libro.titulo }}</td>
             </tr>
-            
         </tbody>
     </table>
 </div>

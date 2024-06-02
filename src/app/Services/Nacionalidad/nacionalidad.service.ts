@@ -29,7 +29,9 @@ export class NacionalidadService {
         return this.http.delete(url);
     }
 
-    actualizarNacionalidad(nacionalidad: Nacionalidad): Observable<Nacionalidad> {
+    actualizarNacionalidad(
+        nacionalidad: Nacionalidad
+    ): Observable<Nacionalidad> {
         const url = `${this.apiUrl}${nacionalidad.id_nacionalidad}/`;
         return this.http.put<Nacionalidad>(url, nacionalidad);
     }

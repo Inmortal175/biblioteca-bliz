@@ -2,6 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PrestamosModel } from '../../Models/Prestamos/prestamo.model';
+import { base_url } from 'src/app/Models/Url/urls.model';
+import {
+    // modelos
+    CreatePrestamoModel,
+    CreateDetallePrestamoModel,
+} from 'src/app/Models/Prestamos/CreatePrestamo.model';
 import * as ts from 'typescript';
 
 @Injectable({
@@ -31,8 +37,6 @@ export class PrestamoService {
 
         return this.http.patch<any>(url, body, { headers: headers });
     }
-}
-
     CreatePrestamo(data: CreatePrestamoModel): Observable<CreatePrestamoModel> {
         return this.http.post<CreatePrestamoModel>(
             `${base_url}create/prestamo/`,
@@ -47,9 +51,4 @@ export class PrestamoService {
             data
         );
     }
-import { base_url } from 'src/app/Models/Url/urls.model';
-import {
-// modelos
-    CreatePrestamoModel,
-    CreateDetallePrestamoModel,
-} from 'src/app/Models/Prestamos/CreatePrestamo.model';
+}

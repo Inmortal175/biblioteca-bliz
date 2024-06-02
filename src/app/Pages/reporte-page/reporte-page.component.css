@@ -124,8 +124,7 @@ th {
     text-align: left;
 }
 
-
-.modal-footer button[data-bs-dismiss="modal"]{
+.modal-footer button[data-bs-dismiss='modal'] {
     background-color: #ef3c4e !important;
 }
 
