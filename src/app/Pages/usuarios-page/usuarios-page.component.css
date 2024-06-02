@@ -99,3 +99,121 @@ button {
 
 #uiEditarUsuario {
 }
+
+
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 100px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: red;
+  transition: 0.4s;
+  border-radius: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+}
+
+input:checked + .slider {
+  background-color: green;
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+input:checked + .slider::after {
+  content: "Activo";
+}
+
+input:not(:checked) + .slider::after {
+  content: "Inactivo";
+}
+
+
+
+/* paginacion start */
+.pagination ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
+.pagination ul li {
+  margin: 0 5px;
+}
+
+.pagination ul li span {
+  cursor: pointer;
+  padding: 10px 15px;
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+.pagination ul li button {
+  cursor: pointer;
+  padding: 10px 15px;
+  background: #f1f1f1;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+}
+
+.pagination ul li.active button {
+  background: #007bff;
+  color: #fff;
+}
+
+.pagination ul li button:hover {
+  background: #007bff;
+  color: #fff;
+}
+
+/* page size */
+.page_size_cont {
+  display: flex;
+  background-color: transparent;
+  justify-content: center;
+}
+
+.page_size_cont select {
+  margin-bottom: 1rem;
+  outline: none;
+  width: 70px;
+  padding: 3px 10px;
+  font-size: 18px;
+  font-weight: 500;
+  border: 1px solid #3f3f3f2f;
+  border-radius: 7px;
+}
+
+.page_size_cont select:hover {
+  border: 1px solid #3f3f3f70;
+}
+
+.page_size_cont select > option {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+/* paginacion end */

@@ -19,10 +19,17 @@ export class PrestamoService {
 
     constructor(private http: HttpClient) {}
 
-    ObtenerPrestamos(datoBuscado: string): Observable<any> {
+    ObtenerPrestamos(
+        datoBuscado: string,
+        pagina: number,
+        page_size: number
+    ): Observable<any> {
         const httpOptions = {
             headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-            params: new HttpParams().set('search', datoBuscado),
+            params: new HttpParams()
+                .set('search', datoBuscado)
+                .set('page', pagina)
+                .set('page_size', page_size),
         };
 
         return this.http.get(`${this.url_base}prestamo`, httpOptions);

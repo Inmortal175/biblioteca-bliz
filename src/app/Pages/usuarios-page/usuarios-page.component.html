@@ -37,7 +37,7 @@
         aria-labelledby="pills-home-tab"
         tabindex="0">
         <div class="container mt-5">
-            <form action="" method="post">
+            <form (ngSubmit)="crearUsuario()" method="post">
                 <div class="row mb-3">
                     <div class="col-sm-4">
                         <label for="titulo" class="form-label">Nombres:</label>
@@ -45,8 +45,8 @@
                             type="text"
                             class="form-control"
                             id="titulo"
-                            name="titulo"
-                            [(ngModel)]="nombresAregistrar"
+                            [(ngModel)]="usuarioNuevo.nombres"
+                            name="nombres"
                             required />
                     </div>
                     <div class="col-sm-4">
@@ -57,8 +57,8 @@
                             type="text"
                             class="form-control"
                             id="autor"
-                            name="autor"
-                            [(ngModel)]="apellidoPatAregistrar"
+                            [(ngModel)]="usuarioNuevo.apellido_paterno"
+                            name="apellido_paterno"
                             required />
                     </div>
                     <div class="col-sm-4">
@@ -69,10 +69,10 @@
                             type="text"
                             class="form-control"
                             id="año"
-                            name="año"
                             min="1900"
                             max="2099"
-                            [(ngModel)]="apellidoMatAregistrar"
+                            [(ngModel)]="usuarioNuevo.apellido_materno"
+                            name="apellido_materno"
                             required />
                     </div>
                 </div>
@@ -85,9 +85,9 @@
                             type="text"
                             class="form-control"
                             id="cantidad"
-                            name="cantidad"
                             min="1"
-                            [(ngModel)]="telefonoAregistrar"
+                            [(ngModel)]="usuarioNuevo.telefono"
+                            name="telefono"
                             required />
                     </div>
                     <div class="col-sm-4">
@@ -96,18 +96,13 @@
                             type="email"
                             class="form-control"
                             id="isbn"
-                            name="isbn"
                             placeholder="ejemplo@gmail.com"
-                            [(ngModel)]="emailAregistrar"
+                            [(ngModel)]="usuarioNuevo.email"
+                            name="email"
                             required />
                     </div>
                 </div>
-                <button
-                    type="submit"
-                    class="btn btn-tercero"
-                    (click)="registrarUsuario()">
-                    Registrar
-                </button>
+                <button type="submit" class="btn btn-tercero">Registrar</button>
             </form>
         </div>
     </div>
@@ -121,25 +116,43 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>N°</th>
                         <th>Nombres</th>
                         <th>Apellidos</th>
                         <th>Bibliotecario</th>
+                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let usuario of usuarios; index as i">
-                        <td>{{ usuario.id_usuario }}</td>
+                    <tr *ngFor="let usuario of usuariosEnDb; index as i">
+                        <td>{{ i + 1 }}</td>
                         <td>{{ usuario.nombres }}</td>
-                        <td>{{ usuario.apellidos }}</td>
+                        <td>
+                            {{ usuario.apellido_paterno }}
+                            {{ usuario.apellido_materno }}
+                        </td>
                         <td>{{ usuario.bibliotecario }}</td>
+                        <td>
+                            <span
+                                [class.text-bg-success]="usuario.es_activo"
+                                [class.text-bg-danger]="!usuario.es_activo"
+                                class="badge rounded-pill"
+                                >{{
+                                    usuario.es_activo === true
+                                        ? 'activo'
+                                        : 'inactivo'
+                                }}</span
+                            >
+                        </td>
                         <td>
                             <a
                                 class="edit-icon"
                                 data-bs-toggle="modal"
                                 data-bs-target="#uiEditarUsuario"
-                                (click)="editarUsuario(usuario.id_usuario)">
+                                (click)="
+                                    editarUsuario(usuario.id_usuario, usuario)
+                                ">
                                 <i class="fas fa-pencil"></i>
                             </a>
                             |
@@ -153,6 +166,62 @@
                     </tr>
                 </tbody>
             </table>
+
+            <!-- Paginacion -->
+            <div class="pagination">
+                <ul>
+                    <li
+                        *ngFor="let page of UsuarioPage"
+                        [ngClass]="{
+                            active: page.number === UsuarioCurrentPage
+                        }">
+                        <!-- botones -->
+                        <button
+                            *ngIf="page.type === 'page'"
+                            (click)="changePageUsuario(page.number)">
+                            {{ page.number }}
+                        </button>
+                        <span *ngIf="page.type === 'dots'">...</span>
+
+                        <button
+                            *ngIf="page.type === 'prev'"
+                            (click)="changePageUsuario(page.number)">
+                            <i class="fas fa-angle-left"></i> Prev
+                        </button>
+
+                        <button
+                            role="button"
+                            *ngIf="page.type === 'next'"
+                            (click)="changePageUsuario(page.number)">
+                            Next <i class="fas fa-angle-right"></i>
+                        </button>
+                    </li>
+                </ul>
+                <div
+                    [formGroup]="UsuarioPageSizeForm"
+                    class="page_size_cont mx-3">
+                    <select
+                        formControlName="pageSize"
+                        (change)="changePageSizeUsuario()">
+                        <option
+                            *ngFor="let size of [5, 10, 20, 100]"
+                            [value]="size">
+                            {{ size }}
+                        </option>
+                    </select>
+                </div>
+                <p class="texto">
+                    Mostrando
+                    {{
+                        UsuarioPageSize <= UsuarioTotalItems
+                            ? UsuarioPageSize
+                            : UsuarioTotalItems
+                    }}
+                    registros de
+                    {{ UsuarioTotalItems }}
+                </p>
+            </div>
+            <!-- end paginacion -->
         </section>
     </div>
 </div>
@@ -178,80 +247,115 @@
                     </button>
                 </div>
             </div>
-            <div class="modal-body" id="ContenedorBodyModal">
-                <div class="ContenedorBodyFilaModal">
-                    <div>
-                        <div>Nombres:</div>
-                        <label class="promtUsuario" for="textoNombres"></label>
-                        <input
-                            type="text"
-                            id="textoNombres"
-                            class="inputDelModal"
-                            name="texto"
-                            placeholder="Nombres"
-                            [(ngModel)]="promptNombres" />
+
+            <form
+                [formGroup]="actualizarDatosUsuarioForm"
+                (ngSubmit)="modificarUsuario()">
+                <div class="modal-body" id="ContenedorBodyModal">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="textoNombres">Nombres:</label>
+                                <input
+                                    type="text"
+                                    id="textoNombres"
+                                    class="form-control"
+                                    name="texto"
+                                    placeholder="Nombres"
+                                    formControlName="nombres"
+                                    required />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="textoApellidoPat"
+                                    >Apellido Paterno:</label
+                                >
+                                <input
+                                    type="text"
+                                    id="textoApellidoPat"
+                                    class="form-control"
+                                    name="texto"
+                                    placeholder="Apellido Paterno"
+                                    formControlName="apellido_paterno"
+                                    required />
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <div>Apellido Paterno:</div>
-                        <label
-                            class="promtUsuario"
-                            for="textoApellidoPat"></label>
-                        <input
-                            type="text"
-                            id="textoApellidoPat"
-                            class="inputDelModal"
-                            name="texto"
-                            placeholder="Apellido Paterno"
-                            [(ngModel)]="promptPaterno" />
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="textoApellidoMat"
+                                    >Apellido Materno:</label
+                                >
+                                <input
+                                    type="text"
+                                    id="textoApellidoMat"
+                                    class="form-control"
+                                    name="texto"
+                                    placeholder="Apellido Materno"
+                                    formControlName="apellido_materno"
+                                    required />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="textoTelefono">Teléfono:</label>
+                                <input
+                                    type="text"
+                                    id="textoTelefono"
+                                    class="form-control"
+                                    name="texto"
+                                    placeholder="Teléfono"
+                                    formControlName="telefono"
+                                    required />
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <div>Apellido Materno:</div>
-                        <label
-                            class="promtUsuario"
-                            for="textoApellidoMat"></label>
-                        <input
-                            type="text"
-                            id="textoApellidoMat"
-                            class="inputDelModal"
-                            name="texto"
-                            placeholder="Apellido Materno"
-                            [(ngModel)]="promptMaterno" />
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="textoEmail">Email:</label>
+                                <input
+                                    type="text"
+                                    id="textoEmail"
+                                    class="form-control"
+                                    name="texto"
+                                    placeholder="Email"
+                                    formControlName="email"
+                                    required />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Estado:</label>
+                                <div>
+                                    <label class="switch">
+                                        <input
+                                            type="checkbox"
+                                            [checked]="
+                                                usuarioSeleccionado.es_activo
+                                            "
+                                            (change)="
+                                                toggleUsuarioActivo($event)
+                                            " />
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="ContenedorBodyFilaModal">
-                    <div>
-                        <div>Teléfono:</div>
-                        <label class="promtUsuario" for="textoTelefono"></label>
-                        <input
-                            type="text"
-                            id="textoTelefono"
-                            class="inputDelModal"
-                            name="texto"
-                            placeholder="Telefono"
-                            [(ngModel)]="promptTelefono" />
-                    </div>
-                    <div>
-                        <div>Email:</div>
-                        <label class="promtUsuario" for="textoEmail"></label>
-                        <input
-                            type="text"
-                            id="textoEmail"
-                            class="inputDelModal"
-                            name="texto"
-                            placeholder="Email"
-                            [(ngModel)]="promptEmail" />
-                    </div>
+
+                <div class="modal-footer">
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        id="botonActualizarModal">
+                        Actualizar
+                    </button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    id="botonActualizarModal"
-                    (click)="actualizarDatosUsuario()">
-                    Actualizar
-                </button>
-            </div>
+            </form>
         </div>
     </div>
 </div>
