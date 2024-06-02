@@ -2,7 +2,7 @@ export interface LibroModel {
     count: number;
     next: string;
     previous: string;
-    results: LibroResult;
+    results: LibroResult[];
 }
 
 export interface LibroResult {

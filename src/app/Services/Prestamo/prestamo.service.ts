@@ -53,7 +53,7 @@ export class PrestamoService {
     constructor(private http: HttpClient) {}
 
     getCantidadPrestamos(): Observable<PrestamoModel> {
-        return this.http.get<PrestamoModel>(`${this.urlbase}prestamo/`)
+        return this.http.get<PrestamoModel>(`${this.urlbase}prestamo/`);
     }
 
     getCantDevVencido(): Observable<number> {

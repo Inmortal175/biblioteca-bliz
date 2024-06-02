@@ -1,9 +1,12 @@
 <div class="contenedor_principal">
     <div class="main_img">
-        <div class="Saludo">¡Bienvenido a la Biblioteca!</div>
+        <div class="Saludo">
+            ¡Bienvenido a la Biblioteca! <br />
+            {{ nombreBibliotecario }}
+        </div>
     </div>
 
-    <div class="row">
+    <div class="row mt-3 row-gap-3">
         <div class="col-md-4">
             <div class="contenedor">
                 <div class="icono usuarios"><i class="fas fa-users"></i></div>
@@ -72,14 +75,15 @@
     <table class="table table-bordered custom-table">
         <thead>
             <tr>
-                <th scope="col">Popular: </th>
+                <th scope="col">Popular:</th>
                 <!-- th negrita y td normal-->
             </tr>
         </thead>
         <tbody>
-            <!-- <tr *ngFor="let libro of libros | slice: 0 : 5">
-                <td>{{ libro.titulo }}</td>
-            </tr> -->
+            <tr *ngFor="let libro of Libros.slice(0, 5)">
+            <td > {{ libro.titulo }} </td>
+            </tr>
+            
         </tbody>
     </table>
 </div>

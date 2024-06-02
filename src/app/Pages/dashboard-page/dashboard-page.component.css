@@ -9,6 +9,11 @@
     width: 100%;
 }
 
+.row {
+    margin: 0 auto;
+    
+}
+
 /* Estilo para la imagen principal */
 img {
     /* max-width: 100%; Asegura que la imagen no exceda el ancho del contenedor */
@@ -20,29 +25,37 @@ img {
 /* Estilo para el saludo */
 .Saludo {
     position: relative;
-    padding-top: 200px;
+    justify-items: left;
+    padding-top: 110px;
     padding-left: 15px;
     width: 100%;
     height: 275px;
-    font-size: px; /* Tamaño de fuente más grande */
+    font-size: 25px; /* Tamaño de fuente más grande */
     font-weight: bold; /* Texto en negrita */
+    font-family: 'Times New Roman', Times, serif;
     margin-bottom: 20px; /* Espacio inferior debajo del saludo */
-    color: #ffffff; /* Color del texto */
+    color: #ffffff; /*Color del texto */
     display: flex;
-    text-align: right;
+    /* -webkit-text-fill-color: white;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #000000; */
 }
-
+/* .main-img{
+    
+    background: url('../../../assets/imagenes/dashboard/bg-dashboard.jpg')
+        no-repeat center center/cover;
+} */
 /* Pseudo-elemento para la imagen de fondo con opacidad */
 .Saludo:before {
+    background: #0000001c;
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
+    background: url('../../../assets/imagenes/dashboard/bg-dashboard.jpg');
     height: 100%;
-    background: url('../../../assets/imagenes/dashboard/bg-dashboard.jpg')
-        no-repeat center center/cover;
-    opacity: 68%; /* Ajusta la opacidad de la imagen de fondo */
+    opacity: 70%; /* Ajusta la opacidad de la imagen de fondo */
     z-index: -1; /* Coloca la imagen detrás del contenido del .Saludo */
 }
 
