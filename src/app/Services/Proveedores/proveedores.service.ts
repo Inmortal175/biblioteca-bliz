@@ -1,4 +1,7 @@
-import { Proveedor } from '../../Models/proveedores/proveedores';
+import {
+    Proveedor,
+    ProveedorModel,
+} from '../../Models/proveedores/proveedores';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -7,12 +10,12 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class ProveedorService {
-    private apiUrl = 'http://127.0.0.1:8000/api/v0/proveedor/';
+    private apiUrl = 'http://localhost:8000/api/v0/proveedor/';
 
     constructor(private http: HttpClient) {}
 
-    getProveedor(): Observable<Proveedor[]> {
-        return this.http.get<Proveedor[]>(this.apiUrl);
+    getProveedor(): Observable<ProveedorModel> {
+        return this.http.get<ProveedorModel>(this.apiUrl);
     }
 
     getProveedorById(id: number): Observable<Proveedor> {

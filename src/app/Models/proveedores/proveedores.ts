@@ -4,3 +4,10 @@ export interface Proveedor {
     email: string;
     telefono: string;
 }
+
+export interface ProveedorModel {
+    count: number;
+    next: string;
+    previous: string;
+    results: Proveedor[];
+}

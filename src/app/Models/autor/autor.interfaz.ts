@@ -5,3 +5,10 @@ export interface Autor {
     apellido_materno: string;
     nacionalidad: string;
 }
+
+export interface AutorModel {
+    count: number;
+    next: string;
+    previous: string;
+    results: Autor[];
+}

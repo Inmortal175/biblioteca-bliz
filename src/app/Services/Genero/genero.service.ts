@@ -1,4 +1,4 @@
-import { Genero } from '../../Models/genero/genero';
+import { Genero, GeneroModel } from '../../Models/genero/genero';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -11,8 +11,8 @@ export class GeneroService {
 
     constructor(private http: HttpClient) {}
 
-    getGenero(): Observable<Genero[]> {
-        return this.http.get<Genero[]>(this.apiUrl);
+    getGenero(): Observable<GeneroModel> {
+        return this.http.get<GeneroModel>(this.apiUrl);
     }
 
     getGeneroById(id: number): Observable<Genero> {

@@ -11,7 +11,7 @@ import { UsuarioModel } from 'src/app/Models/Usuario/usuario.model';
 import { EditorialModel } from 'src/app/Models/Editorial/editorial.model';
 import { LibroModel } from 'src/app/Models/libro/libro.model';
 import { LibroResult } from 'src/app/Models/libro/libro.model';
-import { Autor } from 'src/app/Models/autor/autor.interfaz';
+import { Autor, AutorModel } from 'src/app/Models/autor/autor.interfaz';
 import { PrestamoModel } from 'src/app/Models/Prestamo/prestamo.model';
 
 // //PDF MAKER
@@ -26,7 +26,6 @@ import { Router } from '@angular/router';
     styleUrls: ['./dashboard-page.component.css'],
 })
 export class DashboardPageComponent implements OnInit {
-    Autores: Autor[] = [];
     Libros: LibroResult[] = [];
 
     protected cantidadUsuarios: number;
@@ -97,9 +96,8 @@ export class DashboardPageComponent implements OnInit {
         // this.Libros.sort((a, b) => b.prestados - a.prestados);
         // console.log(this.Libros)
 
-        this.AutorService.getAutor().subscribe((data: Autor[]) => {
-            this.Autores = data;
-            this.cantidadAutores = this.Autores.length;
+        this.AutorService.getAutor().subscribe((data: AutorModel) => {
+            this.cantidadAutores = data.count;
         });
 
         this.usuarioService.getUsuarios().subscribe((data: UsuarioModel) => {

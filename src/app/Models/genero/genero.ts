@@ -3,3 +3,9 @@ export interface Genero {
     nombre: string;
     descripcion: string;
 }
+export interface GeneroModel {
+    count: number;
+    next: string;
+    previous: string;
+    results: Genero[];
+}

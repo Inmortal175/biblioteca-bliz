@@ -5,9 +5,16 @@ import { AutorService } from './../../Services/Autor/autor.service';
 import { EditorialService } from '../../Services/Editorial/editorial.service';
 import { Component, OnInit } from '@angular/core';
 import { Autor } from 'src/app/Models/autor/autor';
-import { Editorial } from 'src/app/Models/editorial/editorial';
-import { Genero } from 'src/app/Models/genero/genero';
-import { Proveedor } from 'src/app/Models/proveedores/proveedores';
+import {
+    Editorial,
+    EditorialModelResult,
+    EditorialModel,
+} from 'src/app/Models/editorial/editorial';
+import { Genero, GeneroModel } from 'src/app/Models/genero/genero';
+import {
+    Proveedor,
+    ProveedorModel,
+} from 'src/app/Models/proveedores/proveedores';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Nacionalidad } from 'src/app/Models/nacionalidad/nacionalidad';
 
@@ -18,7 +25,7 @@ import { Nacionalidad } from 'src/app/Models/nacionalidad/nacionalidad';
 })
 export class AdminPageComponent implements OnInit {
     autores: Autor[] = [];
-    editoriales: Editorial[] = [];
+    editoriales: EditorialModelResult[] = [];
     generos: Genero[] = [];
     proveedores: Proveedor[] = [];
     nacionalidades: Nacionalidad[] = [];
@@ -199,10 +206,12 @@ export class AdminPageComponent implements OnInit {
 
     //Leer, Agregar, eliminar y actualizar Editoriales
     cargarEditorial(): void {
-        this.EditorialService.getEditorial().subscribe((data: Editorial[]) => {
-            this.editoriales = data;
-            console.log(this.editoriales);
-        });
+        this.EditorialService.getEditorial().subscribe(
+            (data: EditorialModel) => {
+                this.editoriales = data.results;
+                console.log(this.editoriales);
+            }
+        );
     }
     sendEditorial(): void {
         if (this.formEditorial.valid) {
@@ -281,8 +290,8 @@ export class AdminPageComponent implements OnInit {
 
     //Leer, Agregar, eliminar y actualizar Genero
     cargarGenero(): void {
-        this.GeneroService.getGenero().subscribe((data: Genero[]) => {
-            this.generos = data;
+        this.GeneroService.getGenero().subscribe((data: GeneroModel) => {
+            this.generos = data.results;
             console.log(this.generos);
         });
     }
@@ -357,10 +366,12 @@ export class AdminPageComponent implements OnInit {
 
     //Leer, Agregar, eliminar y actualizar Proveedor
     cargarProveedor(): void {
-        this.ProveedorService.getProveedor().subscribe((data: Proveedor[]) => {
-            this.proveedores = data;
-            console.log(this.proveedores);
-        });
+        this.ProveedorService.getProveedor().subscribe(
+            (data: ProveedorModel) => {
+                this.proveedores = data.results;
+                console.log(this.proveedores);
+            }
+        );
     }
     sendProveedor(): void {
         if (this.formProveedor.valid) {

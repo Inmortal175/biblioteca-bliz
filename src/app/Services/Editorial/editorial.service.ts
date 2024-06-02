@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Editorial } from '../../Models/editorial/editorial';
+import { EditorialModel, Editorial } from '../../Models/editorial/editorial';
 
 @Injectable({
     providedIn: 'root',
@@ -11,8 +11,8 @@ export class EditorialService {
 
     constructor(private http: HttpClient) {}
 
-    getEditorial(): Observable<Editorial[]> {
-        return this.http.get<Editorial[]>(this.apiUrl);
+    getEditorial(): Observable<EditorialModel> {
+        return this.http.get<EditorialModel>(this.apiUrl);
     }
 
     getEditorialById(id: number): Observable<Editorial> {
