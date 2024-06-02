@@ -10,13 +10,19 @@ import {
     EditorialModelResult,
     EditorialModel,
 } from 'src/app/Models/editorial/editorial';
-import { Genero, GeneroModel } from 'src/app/Models/genero/genero';
+import { Genero, GeneroFilter, GeneroModel } from 'src/app/Models/genero/genero';
 import {
     Proveedor,
+    ProveedorFilter,
     ProveedorModel,
 } from 'src/app/Models/proveedores/proveedores';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Nacionalidad } from 'src/app/Models/nacionalidad/nacionalidad';
+import { AutorFilter } from 'src/app/Models/autor/autor.model';
+import { UsuarioModel } from 'src/app/Models/Usuario/usuario.model';
+import { AutorModel } from 'src/app/Models/autor/autor.interfaz';
+import { createPagination } from 'src/app/Models/Paginacion/pagination.model';
+import { EditorialFilter } from 'src/app/Models/Editorial/editorial.model';
 
 @Component({
     selector: 'app-admin-page',
@@ -53,7 +59,50 @@ export class AdminPageComponent implements OnInit {
         private ProveedorService: ProveedorService,
         private NacionalidadService: NacionalidadService,
         private formBuilder: FormBuilder
-    ) {}
+    ) {
+        this.autorPageSizeForm = this.formBuilder.group({
+            pageSize: ['5', Validators.required],
+        });
+
+        this.editorialPageSizeForm = this.formBuilder.group({
+            pageSize: ['5', Validators.required],
+        });
+
+        this.generoPageSizeForm = this.formBuilder.group({
+            pageSize: ['5', Validators.required],
+        });
+
+        this.proveedorPageSizeForm = this.formBuilder.group({
+            pageSize: ['5', Validators.required],
+        });
+    }
+
+    //Lista y parametros para paginación
+    ListaAutores: Autor[];
+    AutorParams: AutorFilter = {
+        page: 1,
+        page_size: 5,
+    };
+
+    ListaEditoriales: Editorial[];
+    EditorialParams: EditorialFilter = {
+        page: 1,
+        page_size: 5,
+    };
+
+    ListaGeneros: Genero[];
+    GeneroParams: GeneroFilter = {
+        page: 1,
+        page_size: 5,
+    };
+
+    ListaProveedores: Proveedor[];
+    ProveedorParams: ProveedorFilter = {
+        page: 1,
+        page_size: 5,
+    };
+
+
 
     ngOnInit(): void {
         this.cargarAutores();
@@ -444,5 +493,183 @@ export class AdminPageComponent implements OnInit {
                 error => console.error('Error al actualizar proveedor:', error)
             );
         }
+    }
+
+    // formGrupo para paginacion de autor
+    autorPageSizeForm: FormGroup;
+    // formGrupo para paginacion de editorial
+    editorialPageSizeForm: FormGroup;
+    // formGrupo para paginacion de genero
+    generoPageSizeForm: FormGroup;
+    // formGrupo para paginacion de proveedor
+    proveedorPageSizeForm: FormGroup;
+
+    //####### PAGINACIONES #######
+    //PAG AUTOR------------------------------
+    AutorPages: any[] = [];
+    AutorCurrentPage: number = 1;
+    autorPageSize: number = 5;
+    autorTotalPages: number;
+    autorTotalItems: number;
+    //-----END AUTOR PAG----------------------
+
+    //PAG EDITORIAL------------------------------
+    EditorialPages: any[] = [];
+    EditorialCurrentPage: number = 1;
+    editorialPageSize: number = 5;
+    editorialTotalPages: number;
+    editorialTotalItems: number;
+    //-----END EDITORIAL PAG----------------------
+
+    //PAG GENERO------------------------------
+    GeneroPages: any[] = [];
+    GeneroCurrentPage: number = 1;
+    generoPageSize: number = 5;
+    generoTotalPages: number;
+    generoTotalItems: number;
+    //-----END GENERO PAG----------------------
+
+    //PAG PROVEEDOR------------------------------
+    ProveedorPages: any[] = [];
+    ProveedorCurrentPage: number = 1;
+    proveedorPageSize: number = 5;
+    proveedorTotalPages: number;
+    proveedorTotalItems: number;
+    //-----END PROVEEDOR PAG----------------------
+
+    //####### METODOS PAGINACIONES #######
+    //PAG. AUTOR --------------------------
+    getAutor() {
+        this.AutorService.obtenerAutores(this.AutorParams).subscribe(
+            (data: AutorModel) => {
+                this.autorTotalItems = data.count;
+                this.ListaAutores = data.results;
+                this.autorTotalPages = Math.ceil(
+                    this.autorTotalItems / this.autorPageSize
+                );
+                //creamos la paginacion
+                this.AutorPages = createPagination(
+                    this.autorTotalPages,
+                    this.AutorCurrentPage
+                );
+            }
+        );
+    }
+    changePageAutor(page: number) {
+        this.AutorCurrentPage = page;
+        this.AutorParams.page = this.AutorCurrentPage;
+        this.getAutor();
+    }
+    changePageSizeAutor() {
+        this.AutorCurrentPage = 1;
+        this.autorPageSize = parseInt(
+            this.autorPageSizeForm.value.pageSize
+        );
+
+        this.AutorParams.page_size = this.autorPageSize;
+        this.AutorParams.page = this.AutorCurrentPage;
+        this.getAutor();
+    }
+
+    //PAG. EDITORIAL --------------------------
+    getEditorial() {
+        this.EditorialService
+            .obtenerEditorial(this.EditorialParams)
+            .subscribe((data: EditorialModel) => {
+                this.editorialTotalItems = data.count;
+                this.ListaEditoriales = data.results;
+                this.editorialTotalPages = Math.ceil(
+                    this.editorialTotalItems /
+                        this.editorialPageSize
+                );
+                //creamos la paginacion
+                this.EditorialPages = createPagination(
+                    this.editorialTotalPages,
+                    this.EditorialCurrentPage
+                );
+            });
+    }
+    changePageEditorial(page: number) {
+        this.EditorialCurrentPage = page;
+        this.EditorialParams.page = this.EditorialCurrentPage;
+        this.getEditorial();
+    }
+    changePageSizeEditorial() {
+        this.EditorialCurrentPage = 1;
+        this.editorialPageSize = parseInt(
+            this.editorialPageSizeForm.value.pageSize
+        );
+
+        this.EditorialParams.page_size = this.editorialPageSize;
+        this.EditorialParams.page = this.EditorialCurrentPage;
+        this.getEditorial();
+    }
+
+    //PAG. GENERO --------------------------
+    getGenero() {
+        this.GeneroService
+            .obtenerGenero(this.GeneroParams)
+            .subscribe((data: GeneroModel) => {
+                this.generoTotalItems = data.count;
+                this.ListaGeneros = data.results;
+                this.generoTotalPages = Math.ceil(
+                    this.generoTotalItems /
+                        this.generoPageSize
+                );
+                //creamos la paginacion
+                this.GeneroPages = createPagination(
+                    this.generoTotalPages,
+                    this.GeneroCurrentPage
+                );
+            });
+    }
+    changePageGenero(page: number) {
+        this.GeneroCurrentPage = page;
+        this.GeneroParams.page = this.GeneroCurrentPage;
+        this.getGenero();
+    }
+    changePageSizeGenero() {
+        this.GeneroCurrentPage = 1;
+        this.generoPageSize = parseInt(
+            this.generoPageSizeForm.value.pageSize
+        );
+
+        this.GeneroParams.page_size = this.generoPageSize;
+        this.GeneroParams.page = this.GeneroCurrentPage;
+        this.getGenero();
+    }
+
+    //PAG. PROVEEDOR --------------------------
+    getProveedor() {
+        this.ProveedorService
+            .obtenerProveedor(this.ProveedorParams)
+            .subscribe((data: ProveedorModel) => {
+                this.proveedorTotalItems = data.count;
+                this.ListaProveedores = data.results;
+                this.proveedorTotalPages = Math.ceil(
+                    this.proveedorTotalItems /
+                        this.proveedorPageSize
+                );
+                //creamos la paginacion
+                this.ProveedorPages = createPagination(
+                    this.proveedorTotalPages,
+                    this.ProveedorCurrentPage
+                );
+            });
+    }
+    changePageProveedor(page: number) {
+        this.ProveedorCurrentPage = page;
+        this.ProveedorParams.page = this.ProveedorCurrentPage;
+        this.getProveedor();
+    }
+    changePageSizeProveedor() {
+        this.ProveedorCurrentPage = 1;
+        this.proveedorPageSize = parseInt(
+            this.proveedorPageSizeForm.value.pageSize
+        );
+
+        this.ProveedorParams.page_size = this.proveedorPageSize;
+        this.ProveedorParams.page = this.ProveedorCurrentPage;
+        this.getProveedor();
     }
 }

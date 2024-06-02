@@ -9,3 +9,8 @@ export interface GeneroModel {
     previous: string;
     results: Genero[];
 }
+
+export interface GeneroFilter {
+  page_size?: number;
+  page?: number;
+}

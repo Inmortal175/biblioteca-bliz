@@ -14,6 +14,23 @@ export class ProveedorService {
 
     constructor(private http: HttpClient) {}
 
+    obtenerProveedor(params: PrestamosFilter): Observable<ReportePrestamosModel> {
+      const HttpOptions = {
+          params: new HttpParams()
+              .set('usuario', params.usuario)
+              .set('bibliotecario', params.bibliotecario)
+              .set('title', params.titulo)
+              .set('fecha_inicio', params.fecha_inicio)
+              .set('fecha_limite', params.fecha_limite)
+              .set('page', params.page)
+              .set('page_size', params.page_size),
+      };
+      return this.EndPoints.get<ReportePrestamosModel>(
+          `${base_url}reporte_prestamos/`,
+          HttpOptions
+      );
+  }
+
     getProveedor(): Observable<ProveedorModel> {
         return this.http.get<ProveedorModel>(this.apiUrl);
     }

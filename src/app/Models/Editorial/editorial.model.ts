@@ -12,3 +12,8 @@ export interface EditorialResult {
     email: string;
     telefono: string;
 }
+
+export interface EditorialFilter {
+    page_size?: number;
+    page?: number;
+}

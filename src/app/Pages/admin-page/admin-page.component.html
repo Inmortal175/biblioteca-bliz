@@ -190,7 +190,59 @@
             </table>
 
             <!-- Paginacion -->
+            <div class="pagination">
+                <ul>
+                    <li
+                        *ngFor="let page of AutorPages"
+                        [ngClass]="{
+                            active: page.number === AutorCurrentPage
+                        }">
+                        <!-- botones -->
+                        <button
+                            *ngIf="page.type === 'page'"
+                            (click)="changePageAutor(page.number)">
+                            {{ page.number }}
+                        </button>
+                        <span *ngIf="page.type === 'dots'">...</span>
 
+                        <button
+                            *ngIf="page.type === 'prev'"
+                            (click)="changePageAutor(page.number)">
+                            <i class="fas fa-angle-left"></i> Prev
+                        </button>
+
+                        <button
+                            role="button"
+                            *ngIf="page.type === 'next'"
+                            (click)="changePageAutor(page.number)">
+                            Next <i class="fas fa-angle-right"></i>
+                        </button>
+                    </li>
+                </ul>
+                <div
+                    [formGroup]="autorPageSizeForm"
+                    class="page_size_cont mx-3">
+                    <select
+                        formControlName="pageSize"
+                        (change)="changePageSizeAutor()">
+                        <option
+                            *ngFor="let size of [5, 10, 20, 100]"
+                            [value]="size">
+                            {{ size }}
+                        </option>
+                    </select>
+                </div>
+                <p class="texto">
+                    Mostrando
+                    {{
+                        autorPageSize <= autorTotalItems
+                            ? autorPageSize
+                            : autorTotalItems
+                    }}
+                    registros de
+                    {{ autorTotalItems }}
+                </p>
+            </div>
             <!-- end paginacion -->
         </div>
     </div>
@@ -329,7 +381,59 @@
             </table>
 
             <!-- Paginacion -->
+            <div class="pagination">
+                <ul>
+                    <li
+                        *ngFor="let page of EditorialPages"
+                        [ngClass]="{
+                            active: page.number === EditorialCurrentPage
+                        }">
+                        <!-- botones -->
+                        <button
+                            *ngIf="page.type === 'page'"
+                            (click)="changePageEditorial(page.number)">
+                            {{ page.number }}
+                        </button>
+                        <span *ngIf="page.type === 'dots'">...</span>
 
+                        <button
+                            *ngIf="page.type === 'prev'"
+                            (click)="changePageEditorial(page.number)">
+                            <i class="fas fa-angle-left"></i> Prev
+                        </button>
+
+                        <button
+                            role="button"
+                            *ngIf="page.type === 'next'"
+                            (click)="changePageEditorial(page.number)">
+                            Next <i class="fas fa-angle-right"></i>
+                        </button>
+                    </li>
+                </ul>
+                <div
+                    [formGroup]="editorialPageSizeForm"
+                    class="page_size_cont mx-3">
+                    <select
+                        formControlName="pageSize"
+                        (change)="changePageSizeEditorial()">
+                        <option
+                            *ngFor="let size of [5, 10, 20, 100]"
+                            [value]="size">
+                            {{ size }}
+                        </option>
+                    </select>
+                </div>
+                <p class="texto">
+                    Mostrando
+                    {{
+                        editorialPageSize <= editorialTotalItems
+                            ? editorialPageSize
+                            : editorialTotalItems
+                    }}
+                    registros de
+                    {{ editorialTotalItems }}
+                </p>
+            </div>
             <!-- end paginacion -->
         </div>
     </div>
@@ -438,7 +542,59 @@
             </table>
 
             <!-- Paginacion -->
+            <div class="pagination">
+                <ul>
+                    <li
+                        *ngFor="let page of GeneroPages"
+                        [ngClass]="{
+                            active: page.number === GeneroCurrentPage
+                        }">
+                        <!-- botones -->
+                        <button
+                            *ngIf="page.type === 'page'"
+                            (click)="changePageGenero(page.number)">
+                            {{ page.number }}
+                        </button>
+                        <span *ngIf="page.type === 'dots'">...</span>
 
+                        <button
+                            *ngIf="page.type === 'prev'"
+                            (click)="changePageGenero(page.number)">
+                            <i class="fas fa-angle-left"></i> Prev
+                        </button>
+
+                        <button
+                            role="button"
+                            *ngIf="page.type === 'next'"
+                            (click)="changePageGenero(page.number)">
+                            Next <i class="fas fa-angle-right"></i>
+                        </button>
+                    </li>
+                </ul>
+                <div
+                    [formGroup]="generoPageSizeForm"
+                    class="page_size_cont mx-3">
+                    <select
+                        formControlName="pageSize"
+                        (change)="changePageSizeGenero()">
+                        <option
+                            *ngFor="let size of [5, 10, 20, 100]"
+                            [value]="size">
+                            {{ size }}
+                        </option>
+                    </select>
+                </div>
+                <p class="texto">
+                    Mostrando
+                    {{
+                        generoPageSize <= generoTotalItems
+                            ? generoPageSize
+                            : generoTotalItems
+                    }}
+                    registros de
+                    {{ generoTotalItems }}
+                </p>
+            </div>
             <!-- end paginacion -->
         </div>
     </div>
@@ -562,7 +718,59 @@
             </table>
 
             <!-- Paginacion -->
+            <div class="pagination">
+                <ul>
+                    <li
+                        *ngFor="let page of ProveedorPages"
+                        [ngClass]="{
+                            active: page.number === ProveedorCurrentPage
+                        }">
+                        <!-- botones -->
+                        <button
+                            *ngIf="page.type === 'page'"
+                            (click)="changePageProveedor(page.number)">
+                            {{ page.number }}
+                        </button>
+                        <span *ngIf="page.type === 'dots'">...</span>
 
+                        <button
+                            *ngIf="page.type === 'prev'"
+                            (click)="changePageProveedor(page.number)">
+                            <i class="fas fa-angle-left"></i> Prev
+                        </button>
+
+                        <button
+                            role="button"
+                            *ngIf="page.type === 'next'"
+                            (click)="changePageProveedor(page.number)">
+                            Next <i class="fas fa-angle-right"></i>
+                        </button>
+                    </li>
+                </ul>
+                <div
+                    [formGroup]="proveedorPageSizeForm"
+                    class="page_size_cont mx-3">
+                    <select
+                        formControlName="pageSize"
+                        (change)="changePageSizeProveedor()">
+                        <option
+                            *ngFor="let size of [5, 10, 20, 100]"
+                            [value]="size">
+                            {{ size }}
+                        </option>
+                    </select>
+                </div>
+                <p class="texto">
+                    Mostrando
+                    {{
+                        proveedorPageSize <= proveedorTotalItems
+                            ? proveedorPageSize
+                            : proveedorTotalItems
+                    }}
+                    registros de
+                    {{ proveedorTotalItems }}
+                </p>
+            </div>
             <!-- end paginacion -->
         </div>
     </div>

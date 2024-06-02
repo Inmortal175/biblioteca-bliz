@@ -41,12 +41,12 @@ import { UsuarioParam } from 'src/app/Models/UsuarioBiblioteca/params.model';
 export class ReportePageComponent implements OnInit {
     constructor(
         private reportePrestamoService: ReportePrestamoService,
-        private render: Renderer2,
-        private fb: FormBuilder,
-        private blbliotecarioServ: UserService,
         private libroService: LibrosService,
         private reporteUsuarioService: ReporteUsuarioService,
-        private usuarioService: UsuarioService
+        private blbliotecarioServ: UserService,
+        private usuarioService: UsuarioService,
+        private render: Renderer2,
+        private fb: FormBuilder,
     ) {
         this.reportePrestamoPageSizeForm = this.fb.group({
             pageSize: ['5', Validators.required],
@@ -142,6 +142,7 @@ export class ReportePageComponent implements OnInit {
         page: 1,
         page_size: 5,
     };
+
     // formGrupo para paginacion
     reportePrestamoPageSizeForm: FormGroup;
     // formGrupo para paginacion de reporte de usuarios

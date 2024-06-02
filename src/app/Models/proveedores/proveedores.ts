@@ -11,3 +11,8 @@ export interface ProveedorModel {
     previous: string;
     results: Proveedor[];
 }
+
+export interface ProveedorFilter {
+  page_size?: number;
+  page?: number;
+}
