@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Autor, CreateAutor } from '../../Models/autor/autor';
+import { Autor, CreateAutor, AutorParams } from '../../Models/autor/autor';
+import { base_url } from 'src/app/Models/Url/urls.model';
+import { AutorModel } from 'src/app/Models/autor/autor.interfaz';
 
 @Injectable({
     providedIn: 'root',
@@ -15,23 +17,14 @@ export class AutorService {
 
     constructor(private http: HttpClient) {}
 
-    obtenerAutores(
-        params: PrestamosFilter
-    ): Observable<ReportePrestamosModel> {
+    obtenerAutores(params: AutorParams): Observable<AutorModel> {
         const HttpOptions = {
             params: new HttpParams()
-                .set('usuario', params.usuario)
-                .set('bibliotecario', params.bibliotecario)
-                .set('title', params.titulo)
-                .set('fecha_inicio', params.fecha_inicio)
-                .set('fecha_limite', params.fecha_limite)
+                .set('search', params.search)
                 .set('page', params.page)
                 .set('page_size', params.page_size),
         };
-        return this.EndPoints.get<ReportePrestamosModel>(
-            `${base_url}reporte_prestamos/`,
-            HttpOptions
-        );
+        return this.http.get<AutorModel>(`${base_url}autor/`, HttpOptions);
     }
 
     getAutor(dato_buscado): Observable<Autor[]> {

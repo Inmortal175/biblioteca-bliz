@@ -81,7 +81,10 @@
         </thead>
         <tbody>
             <tr *ngFor="let libro of Libros.slice(0, 5)">
-                <td>{{ libro.titulo }}</td>
+                <td>
+                    {{ libro.titulo }} ({{ libro.autor }} -
+                    {{ libro.anio_publicacion }})
+                </td>
             </tr>
         </tbody>
     </table>

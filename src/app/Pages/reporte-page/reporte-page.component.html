@@ -297,7 +297,7 @@
                             class="form-select"
                             id="user"
                             name="genero"
-                            (change)="FiltroReportePrestamos()"
+                            (change)="FiltroReporteUsuarios()"
                             formControlName="bibliotecario"
                             required>
                             <option value="">Todos</option>
@@ -315,6 +315,7 @@
                             class="form-control"
                             formControlName="fecha_inicio"
                             name="autor"
+                            (input)="FiltroReporteUsuarios()"
                             required />
                     </div>
                     <div class="col-sm-3">
@@ -323,14 +324,14 @@
                             type="date"
                             class="form-control"
                             formControlName="fecha_limite"
-                            name="autor"
+                            (input)="FiltroReporteUsuarios()"
                             required />
                     </div>
                     <div class="col-sm-3 col_btn_gen">
                         <button
                             type="submit"
                             class="btn btn-generar"
-                            (click)="openModal()">
+                            (click)="generarReporte('usuario')">
                             Generar
                         </button>
                     </div>
@@ -360,9 +361,26 @@
                                 <td>{{ usuario.nombres }}</td>
                                 <td>{{ usuario.apellido_paterno }}</td>
                                 <td>{{ usuario.apellido_materno }}</td>
-                                <td>{{ usuario.fecha_creacion }}</td>
+                                <td>
+                                    {{ formatDate(usuario.fecha_creacion) }}
+                                </td>
                                 <td>{{ usuario.cant_prestamos }}</td>
-                                <td>{{ usuario.es_activo }}</td>
+                                <td>
+                                    <span
+                                        [class.text-bg-success]="
+                                            usuario.es_activo
+                                        "
+                                        [class.text-bg-danger]="
+                                            usuario.es_activo === false
+                                        "
+                                        class="badge rounded-pill"
+                                        >{{
+                                            usuario.es_activo
+                                                ? 'activo'
+                                                : 'inactivo'
+                                        }}</span
+                                    >
+                                </td>
                                 <td>{{ usuario.agregado_por }}</td>
                             </tr>
                         </tbody>
@@ -454,6 +472,7 @@
                             class="form-select"
                             formControlName="usuario"
                             name="genero"
+                            (change)="FiltroReporteDevoluciones()"
                             required>
                             <option value="">Todos</option>
                             <option
@@ -473,6 +492,7 @@
                             class="form-select"
                             formControlName="bibliotecario"
                             name="genero"
+                            (change)="FiltroReporteDevoluciones()"
                             required>
                             <option value="">Todos</option>
                             <option
@@ -491,6 +511,7 @@
                             class="form-control"
                             formControlName="fecha_inicio"
                             name="autor"
+                            (input)="FiltroReporteDevoluciones()"
                             required />
                     </div>
                     <div class="col-sm-2">
@@ -501,6 +522,7 @@
                             type="date"
                             class="form-control"
                             formControlName="fecha_limite"
+                            (input)="FiltroReporteDevoluciones()"
                             name="autor"
                             required />
                     </div>
@@ -508,7 +530,7 @@
                         <button
                             type="submit"
                             class="btn btn-generar"
-                            (click)="openModal()">
+                            (click)="generarReporte('devolucion')">
                             Generar
                         </button>
                     </div>
@@ -533,17 +555,88 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Otto</td>
-                                <td>10/02/24</td>
-                                <td>Ñacatita</td>
-                                <td>Otto</td>
-                                <td>10/02/24</td>
-                                <td>Ñacatita</td>
+                            <tr
+                                *ngFor="
+                                    let devolucion of ListaDevoluciones;
+                                    let i = index
+                                ">
+                                <td>
+                                    {{ (i + 1).toString().padStart(2, '0') }}
+                                </td>
+                                <td>{{ devolucion.libro }}</td>
+                                <td>{{ devolucion.fecha_devolucion }}</td>
+                                <td>{{ devolucion.nombres }}</td>
+                                <td>{{ devolucion.apellido_paterno }}</td>
+                                <td>{{ devolucion.apellido_materno }}</td>
+                                <td>{{ devolucion.bibliotecario }}</td>
                             </tr>
                         </tbody>
                     </table>
+
+                    <!-- Paginacion  reporte Devoluciones-->
+                    <div class="pagination">
+                        <ul>
+                            <li
+                                *ngFor="let page of ReporteDevolucionPages"
+                                [ngClass]="{
+                                    active:
+                                        page.number ===
+                                        ReporteDevolucionCurrentPage
+                                }">
+                                <!-- botones -->
+                                <button
+                                    *ngIf="page.type === 'page'"
+                                    (click)="
+                                        changePageReporteDevolucion(page.number)
+                                    ">
+                                    {{ page.number }}
+                                </button>
+                                <span *ngIf="page.type === 'dots'">...</span>
+
+                                <button
+                                    *ngIf="page.type === 'prev'"
+                                    (click)="
+                                        changePageReporteDevolucion(page.number)
+                                    ">
+                                    <i class="fas fa-angle-left"></i> Prev
+                                </button>
+
+                                <button
+                                    role="button"
+                                    *ngIf="page.type === 'next'"
+                                    (click)="
+                                        changePageReporteDevolucion(page.number)
+                                    ">
+                                    Next <i class="fas fa-angle-right"></i>
+                                </button>
+                            </li>
+                        </ul>
+                        <div
+                            [formGroup]="reporteDevolucionPageSizeForm"
+                            class="page_size_cont mx-3">
+                            <select
+                                formControlName="pageSize"
+                                (change)="changePageSizeReporteDevolucion()">
+                                <option
+                                    *ngFor="let size of [5, 10, 20, 100]"
+                                    [value]="size">
+                                    {{ size }}
+                                </option>
+                            </select>
+                        </div>
+                        <p class="texto">
+                            Mostrando
+                            {{
+                                reporteDevolucionPageSize <=
+                                reporteDevolucionTotalItems
+                                    ? reporteDevolucionPageSize
+                                    : reporteDevolucionTotalItems
+                            }}
+                            registros de
+                            {{ reporteDevolucionTotalItems }}
+                        </p>
+                    </div>
+                    <!-- end paginacion reporte Devoluciones-->
                 </div>
             </form>
         </div>

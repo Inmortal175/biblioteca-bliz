@@ -12,3 +12,9 @@ export interface CreateAutor {
     apellido_materno: string;
     id_nacionalidad: number;
 }
+
+export interface AutorParams {
+    search: string;
+    page: number;
+    page_size: number;
+}

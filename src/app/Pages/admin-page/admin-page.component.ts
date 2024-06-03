@@ -3,14 +3,24 @@ import { ProveedorService } from './../../Services/Proveedores/proveedores.servi
 import { GeneroService } from './../../Services/Genero/genero.service';
 import { AutorService } from './../../Services/Autor/autor.service';
 import { EditorialService } from '../../Services/Editorial/editorial.service';
-import { Component, OnInit } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { Autor } from 'src/app/Models/autor/autor';
 import {
     Editorial,
     EditorialModelResult,
     EditorialModel,
-} from 'src/app/Models/editorial/editorial';
-import { Genero, GeneroFilter, GeneroModel } from 'src/app/Models/genero/genero';
+} from 'src/app/Models/Editorial/editorial';
+import {
+    Genero,
+    GeneroFilter,
+    GeneroModel,
+} from 'src/app/Models/genero/genero';
 import {
     Proveedor,
     ProveedorFilter,
@@ -18,18 +28,19 @@ import {
 } from 'src/app/Models/proveedores/proveedores';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Nacionalidad } from 'src/app/Models/nacionalidad/nacionalidad';
-import { AutorFilter } from 'src/app/Models/autor/autor.model';
+import { AutorParams } from 'src/app/Models/autor//autor';
 import { UsuarioModel } from 'src/app/Models/Usuario/usuario.model';
 import { AutorModel } from 'src/app/Models/autor/autor.interfaz';
 import { createPagination } from 'src/app/Models/Paginacion/pagination.model';
-import { EditorialFilter } from 'src/app/Models/Editorial/editorial.model';
+import { EditorialParams } from 'src/app/Models/Editorial/editorial';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-admin-page',
     templateUrl: './admin-page.component.html',
     styleUrls: ['./admin-page.component.css'],
 })
-export class AdminPageComponent implements OnInit {
+export class AdminPageComponent implements OnInit, AfterViewInit {
     autores: Autor[] = [];
     editoriales: EditorialModelResult[] = [];
     generos: Genero[] = [];
@@ -75,17 +86,23 @@ export class AdminPageComponent implements OnInit {
         this.proveedorPageSizeForm = this.formBuilder.group({
             pageSize: ['5', Validators.required],
         });
+
+        this.NacionalidadForm = this.formBuilder.group({
+            pais: ['', [Validators.required]],
+            gentilicio: ['', Validators.required],
+        });
     }
 
     //Lista y parametros para paginación
     ListaAutores: Autor[];
-    AutorParams: AutorFilter = {
+    AutorParams: AutorParams = {
+        search: '',
         page: 1,
         page_size: 5,
     };
 
     ListaEditoriales: Editorial[];
-    EditorialParams: EditorialFilter = {
+    EditorialParams: EditorialParams = {
         page: 1,
         page_size: 5,
     };
@@ -101,8 +118,6 @@ export class AdminPageComponent implements OnInit {
         page: 1,
         page_size: 5,
     };
-
-
 
     ngOnInit(): void {
         this.cargarAutores();
@@ -136,6 +151,10 @@ export class AdminPageComponent implements OnInit {
             email: ['', [Validators.required]],
             telefono: ['', [Validators.required]],
         });
+        this.getAutor();
+        this.getEditorial();
+        this.getGenero();
+        this.getProveedor();
     }
 
     cargarNacionalidad(): void {
@@ -151,6 +170,7 @@ export class AdminPageComponent implements OnInit {
     BuscarAutor(event: any) {
         this.dato_buscar = event.target.value;
         this.cargarAutores();
+        this.getAutor();
     }
 
     //Leer, Agregar, eliminar y actualizar un Autor
@@ -161,6 +181,7 @@ export class AdminPageComponent implements OnInit {
                 console.log(this.autores);
             }
         );
+        this.getAutor();
     }
     sendAutor(): void {
         if (this.formAutor.valid) {
@@ -175,6 +196,7 @@ export class AdminPageComponent implements OnInit {
                 next: data => {
                     console.log('Autor añadido exitosamente:', data);
                     this.cargarAutores();
+
                     this.formAutor.reset(); // Resetear el formulario después de enviarlo
                 },
                 error: error => {
@@ -261,6 +283,7 @@ export class AdminPageComponent implements OnInit {
                 console.log(this.editoriales);
             }
         );
+        this.getEditorial();
     }
     sendEditorial(): void {
         if (this.formEditorial.valid) {
@@ -272,6 +295,7 @@ export class AdminPageComponent implements OnInit {
                 next: data => {
                     console.log('Autor añadido exitosamente:', data);
                     this.cargarEditorial();
+
                     this.formEditorial.reset(); // Resetear el formulario después de enviarlo
                 },
                 error: error => {
@@ -330,6 +354,7 @@ export class AdminPageComponent implements OnInit {
                     this.mostrarBotonActualizar = false;
                     this.mostrarBotonAdd = true;
                     this.cargarEditorial();
+
                     this.formEditorial.reset();
                 },
                 error => console.error('Error al actualizar autor:', error)
@@ -343,6 +368,7 @@ export class AdminPageComponent implements OnInit {
             this.generos = data.results;
             console.log(this.generos);
         });
+        this.getGenero();
     }
     deleteGenero(id: number): void {
         this.GeneroService.deleteGenero(id).subscribe(
@@ -366,6 +392,7 @@ export class AdminPageComponent implements OnInit {
                 next: data => {
                     console.log('Genero añadido exitosamente:', data);
                     this.cargarGenero();
+                    this.getGenero();
                     this.formGenero.reset(); // Resetear el formulario después de enviarlo
                 },
                 error: error => {
@@ -421,6 +448,7 @@ export class AdminPageComponent implements OnInit {
                 console.log(this.proveedores);
             }
         );
+        this.getProveedor();
     }
     sendProveedor(): void {
         if (this.formProveedor.valid) {
@@ -432,6 +460,7 @@ export class AdminPageComponent implements OnInit {
                 next: data => {
                     console.log('Proveedor añadido exitosamente:', data);
                     this.cargarProveedor();
+                    this.getProveedor();
                     this.formProveedor.reset(); // Resetear el formulario después de enviarlo
                 },
                 error: error => {
@@ -543,7 +572,7 @@ export class AdminPageComponent implements OnInit {
         this.AutorService.obtenerAutores(this.AutorParams).subscribe(
             (data: AutorModel) => {
                 this.autorTotalItems = data.count;
-                this.ListaAutores = data.results;
+                this.autores = data.results;
                 this.autorTotalPages = Math.ceil(
                     this.autorTotalItems / this.autorPageSize
                 );
@@ -562,9 +591,7 @@ export class AdminPageComponent implements OnInit {
     }
     changePageSizeAutor() {
         this.AutorCurrentPage = 1;
-        this.autorPageSize = parseInt(
-            this.autorPageSizeForm.value.pageSize
-        );
+        this.autorPageSize = parseInt(this.autorPageSizeForm.value.pageSize);
 
         this.AutorParams.page_size = this.autorPageSize;
         this.AutorParams.page = this.AutorCurrentPage;
@@ -573,21 +600,20 @@ export class AdminPageComponent implements OnInit {
 
     //PAG. EDITORIAL --------------------------
     getEditorial() {
-        this.EditorialService
-            .obtenerEditorial(this.EditorialParams)
-            .subscribe((data: EditorialModel) => {
+        this.EditorialService.obtenerEditorial(this.EditorialParams).subscribe(
+            (data: EditorialModel) => {
                 this.editorialTotalItems = data.count;
-                this.ListaEditoriales = data.results;
+                this.editoriales = data.results;
                 this.editorialTotalPages = Math.ceil(
-                    this.editorialTotalItems /
-                        this.editorialPageSize
+                    this.editorialTotalItems / this.editorialPageSize
                 );
                 //creamos la paginacion
                 this.EditorialPages = createPagination(
                     this.editorialTotalPages,
                     this.EditorialCurrentPage
                 );
-            });
+            }
+        );
     }
     changePageEditorial(page: number) {
         this.EditorialCurrentPage = page;
@@ -607,21 +633,20 @@ export class AdminPageComponent implements OnInit {
 
     //PAG. GENERO --------------------------
     getGenero() {
-        this.GeneroService
-            .obtenerGenero(this.GeneroParams)
-            .subscribe((data: GeneroModel) => {
-                this.generoTotalItems = data.count;
-                this.ListaGeneros = data.results;
-                this.generoTotalPages = Math.ceil(
-                    this.generoTotalItems /
-                        this.generoPageSize
-                );
-                //creamos la paginacion
-                this.GeneroPages = createPagination(
-                    this.generoTotalPages,
-                    this.GeneroCurrentPage
-                );
-            });
+        // this.GeneroService.obtenerGenero(this.GeneroParams).subscribe(
+        //     (data: GeneroModel) => {
+        //         this.generoTotalItems = data.count;
+        //         this.ListaGeneros = data.results;
+        //         this.generoTotalPages = Math.ceil(
+        //             this.generoTotalItems / this.generoPageSize
+        //         );
+        //         //creamos la paginacion
+        //         this.GeneroPages = createPagination(
+        //             this.generoTotalPages,
+        //             this.GeneroCurrentPage
+        //         );
+        //     }
+        // );
     }
     changePageGenero(page: number) {
         this.GeneroCurrentPage = page;
@@ -630,9 +655,7 @@ export class AdminPageComponent implements OnInit {
     }
     changePageSizeGenero() {
         this.GeneroCurrentPage = 1;
-        this.generoPageSize = parseInt(
-            this.generoPageSizeForm.value.pageSize
-        );
+        this.generoPageSize = parseInt(this.generoPageSizeForm.value.pageSize);
 
         this.GeneroParams.page_size = this.generoPageSize;
         this.GeneroParams.page = this.GeneroCurrentPage;
@@ -641,21 +664,20 @@ export class AdminPageComponent implements OnInit {
 
     //PAG. PROVEEDOR --------------------------
     getProveedor() {
-        this.ProveedorService
-            .obtenerProveedor(this.ProveedorParams)
-            .subscribe((data: ProveedorModel) => {
-                this.proveedorTotalItems = data.count;
-                this.ListaProveedores = data.results;
-                this.proveedorTotalPages = Math.ceil(
-                    this.proveedorTotalItems /
-                        this.proveedorPageSize
-                );
-                //creamos la paginacion
-                this.ProveedorPages = createPagination(
-                    this.proveedorTotalPages,
-                    this.ProveedorCurrentPage
-                );
-            });
+        // this.ProveedorService.obtenerProveedor(this.ProveedorParams).subscribe(
+        //     (data: ProveedorModel) => {
+        //         this.proveedorTotalItems = data.count;
+        //         this.ListaProveedores = data.results;
+        //         this.proveedorTotalPages = Math.ceil(
+        //             this.proveedorTotalItems / this.proveedorPageSize
+        //         );
+        //         //creamos la paginacion
+        //         this.ProveedorPages = createPagination(
+        //             this.proveedorTotalPages,
+        //             this.ProveedorCurrentPage
+        //         );
+        //     }
+        // );
     }
     changePageProveedor(page: number) {
         this.ProveedorCurrentPage = page;
@@ -671,5 +693,105 @@ export class AdminPageComponent implements OnInit {
         this.ProveedorParams.page_size = this.proveedorPageSize;
         this.ProveedorParams.page = this.ProveedorCurrentPage;
         this.getProveedor();
+    }
+
+    /// agragar nacionalidad
+    // esto es del modal para abrir con ts
+    private modalInstance: any;
+    @ViewChild('staticBackdrop', { static: true }) modalElement!: ElementRef;
+    ngAfterViewInit() {
+        this.modalInstance = new (window as any).bootstrap.Modal(
+            this.modalElement.nativeElement
+        );
+    }
+
+    openModal() {
+        this.modalInstance.show();
+    }
+
+    dismissModal() {
+        this.modalInstance.hide();
+    }
+
+    NacionalidadForm: FormGroup;
+
+    DataNacionalidad: Nacionalidad = {
+        pais: '',
+        gentilicio: '',
+    };
+
+    //cargarNacionalidad
+    SaveNacionalidad() {
+        const swalWithBootstrapButtons = Swal.mixin({
+            focusConfirm: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+        });
+        swalWithBootstrapButtons
+            .fire({
+                title: '¿Guardar?',
+                text: 'Estás seguro de agregar la nacionalidad',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí Agregar',
+                cancelButtonText: '!No, cancelar!',
+                reverseButtons: true,
+            })
+            .then(result => {
+                if (result.isConfirmed) {
+                    if (this.NacionalidadForm.valid) {
+                        this.DataNacionalidad.pais =
+                            this.NacionalidadForm.value.pais;
+                        this.DataNacionalidad.gentilicio =
+                            this.NacionalidadForm.value.gentilicio;
+
+                        this.NacionalidadService.addNacionalidad(
+                            this.DataNacionalidad
+                        ).subscribe(data => {
+                            swalWithBootstrapButtons
+                                .fire({
+                                    title: '¡Agregado con éxito!, ¿Desea continuar Agregando paises?',
+                                    text: `Se agrego el psís: ${data.pais}`,
+                                    icon: 'success',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Sí Continuar',
+                                    cancelButtonText: '¡No, cerrar!',
+                                    reverseButtons: true,
+                                })
+                                .then(result => {
+                                    if (result.isConfirmed) {
+                                        this.NacionalidadForm.reset();
+                                    } else if (
+                                        /* Read more about handling dismissals below */
+                                        result.dismiss ===
+                                        Swal.DismissReason.cancel
+                                    ) {
+                                        this.dismissModal();
+                                    }
+                                });
+                            this.cargarNacionalidad();
+                        });
+                    } else {
+                        swalWithBootstrapButtons.fire({
+                            toast: true,
+                            icon: 'error',
+                            timer: 2500,
+                            title: 'Incompleto',
+                            text: 'Datos icompletos, revise',
+                            position: 'top-end',
+                            showConfirmButton: false,
+                        });
+                    }
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire({
+                        title: 'Cancelled',
+                        text: 'Your imaginary file is safe :)',
+                        icon: 'error',
+                    });
+                }
+            });
     }
 }

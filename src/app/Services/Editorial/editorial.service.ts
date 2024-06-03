@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { EditorialModel, Editorial } from '../../Models/editorial/editorial';
+import {
+    EditorialModel,
+    Editorial,
+    EditorialParams,
+} from 'src/app/Models/Editorial/editorial';
+import { base_url } from 'src/app/Models/Url/urls.model';
 
 @Injectable({
     providedIn: 'root',
@@ -11,21 +16,14 @@ export class EditorialService {
 
     constructor(private http: HttpClient) {}
 
-    obtenerEditorial(
-        params: PrestamosFilter
-    ): Observable<ReportePrestamosModel> {
+    obtenerEditorial(params: EditorialParams): Observable<EditorialModel> {
         const HttpOptions = {
             params: new HttpParams()
-                .set('usuario', params.usuario)
-                .set('bibliotecario', params.bibliotecario)
-                .set('title', params.titulo)
-                .set('fecha_inicio', params.fecha_inicio)
-                .set('fecha_limite', params.fecha_limite)
                 .set('page', params.page)
                 .set('page_size', params.page_size),
         };
-        return this.EndPoints.get<ReportePrestamosModel>(
-            `${base_url}reporte_prestamos/`,
+        return this.http.get<EditorialModel>(
+            `${base_url}editorial/`,
             HttpOptions
         );
     }

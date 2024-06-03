@@ -1,3 +1,8 @@
+.admin_container{
+    background: #f3f3f3;
+    padding: 12px 24px;
+}
+
 .nav-link.active {
     background-color: #ffd977; /* Color de fondo del enlace activo */
     color: #000000; /* Color del texto del enlace activo */
@@ -7,6 +12,8 @@
 
 .nav-link {
     color: #000000;
+    background: #e1e1e1;
+    margin: 0 7px;
 }
 
 .containerNav {

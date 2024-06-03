@@ -20,3 +20,8 @@ export interface EditorialModelResult {
     email: string;
     telefono: string;
 }
+
+export interface EditorialParams {
+    page: number;
+    page_size: number;
+}
