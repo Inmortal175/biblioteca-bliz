@@ -27,7 +27,7 @@
                 <thead>
                     <tr>
                         <th scope="col"></th>
-                        <th scope="col">ID de prestamo</th>
+                        <th scope="col">N°</th>
                         <th scope="col">Usuario</th>
                         <th scope="col">Bibliotecario</th>
                         <th scope="col">Fecha de préstamo</th>
@@ -36,22 +36,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr
-                        *ngFor="
-                            let devolucion of prestamosEnDb;
-                            index as i
-                        ">
+                    <tr *ngFor="let devolucion of prestamosEnDb; index as i">
                         <th scope="row">
                             <input
                                 type="radio"
                                 [value]="devolucion.id_prestamo"
                                 [id]="'checkbox-' + i"
-                                [disabled]="devolucion.estado_devolucion === true"
+                                [disabled]="
+                                    devolucion.estado_devolucion === true
+                                "
                                 [(ngModel)]="selectedPrestamoId"
                                 class="checkboxesTabla" />
                             <label for="{{ 'checkbox-' + i }}"></label>
                         </th>
-                        <td>{{ devolucion.id_prestamo }}</td>
+                        <td>{{ (i + 1).toString().padStart(2, '0') }}</td>
                         <td>{{ devolucion.usuario }}</td>
                         <td>{{ devolucion.bibliotecario }}</td>
                         <td>{{ devolucion.fecha_prestamo }}</td>
@@ -67,15 +65,17 @@
                                     !isCaducado(devolucion.fecha_caducidad)
                                 "
                                 class="badge rounded-pill"
-
-                                [class.text-bg-primary]="devolucion.estado_devolucion === true"
+                                [class.text-bg-primary]="
+                                    devolucion.estado_devolucion === true
+                                "
                                 >{{
-                                    devolucion.estado_devolucion === false?
-                                    isCaducado(devolucion.fecha_caducidad) ===
-                                    true
-                                        ? 'Vigente'
-                                        : 'Caducado'
-                                    : 'Devuelto'
+                                    devolucion.estado_devolucion === false
+                                        ? isCaducado(
+                                              devolucion.fecha_caducidad
+                                          ) === true
+                                            ? 'Vigente'
+                                            : 'Caducado'
+                                        : 'Devuelto'
                                 }}</span
                             >
                         </td>

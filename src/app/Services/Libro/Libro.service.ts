@@ -1,12 +1,15 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LibroModelList } from 'src/app/Models/Libro/LibroCreateModel';
-import { LibroPagModel, LibroPagModelResult } from 'src/app/Models/Libro/libroPaginacionModel';
+// import { LibroModelList } from 'src/app/Models/Libro/LibroCreateModel';
+// import {
+//     LibroPagModel,
+//     LibroPagModelResult,
+// } from 'src/app/Models/Libro/libroPaginacionModel';
 
-
-import { CreateLibroModel } from 'src/app/Models/Libro/LibroCreateModel';
-import { LibroModelFilter } from 'src/app/Models/Libro/libroPaginacionModel';
+import { CreateLibroModel } from 'src/app/Models/Libros/libro_create.model';
+import { LibroModel } from 'src/app/Models/libro/libro.model';
+// import { LibroModelFilter } from 'src/app/Models/Libro/libroPaginacionModel';
 
 @Injectable({
     providedIn: 'root',
@@ -24,15 +27,16 @@ export class LibroService {
     getLibro(
         datoBuscado: string,
         pagina: number,
-        page_size: number): Observable<any> {
+        page_size: number
+    ): Observable<LibroModel> {
         const httpOptions = {
-            params : new HttpParams()
-            .set('search', datoBuscado)
-            .set('page', pagina)
-            .set('page_size', page_size),
+            params: new HttpParams()
+                .set('search', datoBuscado)
+                .set('page', pagina)
+                .set('page_size', page_size),
         };
 
-        return this.http.get(`${this.apiUrl}libro/`, httpOptions);
+        return this.http.get<LibroModel>(`${this.apiUrl}libro/`, httpOptions);
     }
 
     getProveedores(): Observable<any> {
@@ -47,7 +51,6 @@ export class LibroService {
         const url = `${this.apiUrl + 'libro/'}${id}/`;
         return this.http.get<CreateLibroModel>(url);
     }
-    
 
     publicarLibro(publicacion: any): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}publica/`, publicacion);
@@ -62,7 +65,7 @@ export class LibroService {
             httpOptions
         );
     }
-    
+
     updateLibro(idLibro: number, libroData: any): Observable<any> {
         const url = `${this.apiUrl}create/libro/${idLibro}/`;
         return this.http.put<any>(url, libroData);

@@ -45,7 +45,7 @@ export interface LibroModelListResult {
     id_genero?: number;
     id_proveedor?: number;
     id_bibliotecario: number;
-    id_editorial?: number
+    id_editorial?: number;
 }
 
 export interface DeleteLibroModel {

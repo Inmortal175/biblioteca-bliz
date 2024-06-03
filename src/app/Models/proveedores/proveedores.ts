@@ -13,6 +13,6 @@ export interface ProveedorModel {
 }
 
 export interface ProveedorFilter {
-  page_size?: number;
-  page?: number;
+    page_size?: number;
+    page?: number;
 }

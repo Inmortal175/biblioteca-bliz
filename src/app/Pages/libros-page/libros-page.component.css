@@ -74,55 +74,52 @@ button {
     color: blue;
 }
 
-
-
-
 /* paginacion start */
 .pagination ul {
     list-style: none;
     display: flex;
     justify-content: center;
     padding: 0;
-  }
-  
-  .pagination ul li {
+}
+
+.pagination ul li {
     margin: 0 5px;
-  }
-  
-  .pagination ul li span {
+}
+
+.pagination ul li span {
     cursor: pointer;
     padding: 10px 15px;
     background: #f1f1f1;
     border-radius: 5px;
-  }
-  
-  .pagination ul li button {
+}
+
+.pagination ul li button {
     cursor: pointer;
     padding: 10px 15px;
     background: #f1f1f1;
     border-radius: 5px;
     outline: none;
     border: none;
-  }
-  
-  .pagination ul li.active button {
+}
+
+.pagination ul li.active button {
     background: #007bff;
     color: #fff;
-  }
-  
-  .pagination ul li button:hover {
+}
+
+.pagination ul li button:hover {
     background: #007bff;
     color: #fff;
-  }
-  
-  /* page size */
-  .page_size_cont {
+}
+
+/* page size */
+.page_size_cont {
     display: flex;
     background-color: transparent;
     justify-content: center;
-  }
-  
-  .page_size_cont select {
+}
+
+.page_size_cont select {
     margin-bottom: 1rem;
     outline: none;
     width: 70px;
@@ -131,15 +128,15 @@ button {
     font-weight: 500;
     border: 1px solid #3f3f3f2f;
     border-radius: 7px;
-  }
-  
-  .page_size_cont select:hover {
+}
+
+.page_size_cont select:hover {
     border: 1px solid #3f3f3f70;
-  }
-  
-  .page_size_cont select > option {
+}
+
+.page_size_cont select > option {
     font-size: 20px;
     font-weight: 500;
-  }
-  
-  /* paginacion end */
+}
+
+/* paginacion end */

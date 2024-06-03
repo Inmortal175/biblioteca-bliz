@@ -8,7 +8,7 @@ import { base_url } from 'src/app/Models/Url/urls.model';
     providedIn: 'root',
 })
 export class GeneroService {
-    private apiUrl = 'http://localhost:8000/api/v0/';
+    private apiUrl = 'http://127.0.0.1:8000/api/v0/genero/';
 
     constructor(private http: HttpClient) {}
 
@@ -18,9 +18,35 @@ export class GeneroService {
                 .set('page', params.page)
                 .set('page_size', params.page_size),
         };
-        return this.http.get<GeneroModel>(
-            `${base_url}genero/`,
-            HttpOptions
-        );
+        return this.http.get<GeneroModel>(`${base_url}genero/`, HttpOptions);
+    }
+
+    getGenero(): Observable<GeneroModel> {
+        return this.http.get<GeneroModel>(this.apiUrl);
+    }
+
+    getGeneroById(id: number): Observable<Genero> {
+        const url = `${this.apiUrl}${id}/`;
+        return this.http.get<Genero>(url);
+    }
+
+    addGenero(genero: Genero): Observable<Genero> {
+        return this.http.post<Genero>(this.apiUrl, genero);
+    }
+
+    deleteGenero(id: number): Observable<any> {
+        const url = `${this.apiUrl}${id}/`;
+        return this.http.delete(url);
+    }
+
+    actualizarGenero(genero: Genero): Observable<Genero> {
+        const url = `${this.apiUrl}${genero.id_genero}/`;
+        return this.http.put<Genero>(url, genero);
+    }
+
+    private Url = 'http://localhost:8000/api/v0/';
+
+    getGeneros(): Observable<any> {
+        return this.http.get<any>(`${this.Url}genero/`);
     }
 }

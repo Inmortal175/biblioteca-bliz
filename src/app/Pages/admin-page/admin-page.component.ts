@@ -1,7 +1,7 @@
 import { NacionalidadService } from './../../Services/Nacionalidad/nacionalidad.service';
 import { ProveedorService } from './../../Services/Proveedores/proveedores.service';
-import { GeneroService } from './../../Services/Genero/genero.service';
-import { AutorService } from './../../Services/Autor/autor.service';
+import { GeneroService } from 'src/app/Services/Genero/Genero.service';
+import { AutorService } from 'src/app/Services/Autor/Autor.service';
 import { EditorialService } from '../../Services/Editorial/editorial.service';
 import {
     AfterViewInit,
@@ -178,7 +178,7 @@ export class AdminPageComponent implements OnInit, AfterViewInit {
         this.AutorService.getAutor(this.dato_buscar).subscribe(
             (data: Autor[]) => {
                 this.autores = data;
-                console.log(this.autores);
+                // console.log(data);
             }
         );
         this.getAutor();
@@ -581,6 +581,7 @@ export class AdminPageComponent implements OnInit, AfterViewInit {
                     this.autorTotalPages,
                     this.AutorCurrentPage
                 );
+                console.log(data);
             }
         );
     }

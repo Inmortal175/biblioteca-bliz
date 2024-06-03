@@ -17,16 +17,16 @@ export class ProveedorService {
     constructor(private http: HttpClient) {}
 
     obtenerProveedor(params: ProveedorFilter): Observable<ProveedorModel> {
-      const HttpOptions = {
-          params: new HttpParams()
-              .set('page', params.page)
-              .set('page_size', params.page_size),
-      };
-      return this.http.get<ProveedorModel>(
-          `${base_url}proveedor/`,
-          HttpOptions
-      );
-  }
+        const HttpOptions = {
+            params: new HttpParams()
+                .set('page', params.page)
+                .set('page_size', params.page_size),
+        };
+        return this.http.get<ProveedorModel>(
+            `${base_url}proveedor/`,
+            HttpOptions
+        );
+    }
 
     getProveedor(): Observable<ProveedorModel> {
         return this.http.get<ProveedorModel>(this.apiUrl);

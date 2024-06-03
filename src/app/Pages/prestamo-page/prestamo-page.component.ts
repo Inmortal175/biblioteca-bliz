@@ -109,7 +109,7 @@ export class PrestamoPageComponent implements OnInit, AfterViewInit {
 
     DetallePrestamo: CreateDetallePrestamoModel = {
         id_libro: 0,
-        id_prestamo: 32,
+        id_prestamo: 0,
     };
 
     // disable checkbox
@@ -456,6 +456,33 @@ export class PrestamoPageComponent implements OnInit, AfterViewInit {
             },
         };
 
+        PDFMAKE.fonts = {
+            Roboto: {
+                normal: 'Roboto-Regular.ttf',
+                bold: 'Roboto-Medium.ttf',
+                italics: 'Roboto-Italic.ttf',
+                bolditalics: 'Roboto-MediumItalic.ttf',
+            },
+            Arial: {
+                normal: 'Arial-Regular.ttf',
+                bold: 'Arial-Bold.ttf',
+                italics: 'Arial-Italic.ttf',
+            },
+            Ticket: {
+                normal: 'Ticketing.ttf',
+                bold: 'Ticketing.ttf',
+            },
+            IBM: {
+                normal: 'IBMPlexMono-SemiBold.ttf',
+                bold: 'IBMPlexMono-SemiBold.ttf',
+            },
+            Montserrat: {
+                normal: 'Montserrat-Regular.ttf',
+                bold: 'Montserrat-Bold.ttf',
+                italics: 'Montserrat-Italic.ttf',
+            },
+        };
+
         //obtener el nombre del bibliotecario
         this.bibliotecarioService
             .getBibliotecario_name(this.Id_bibliotecario)
@@ -602,12 +629,7 @@ export class PrestamoPageComponent implements OnInit, AfterViewInit {
                             layout: {
                                 vLineWidth: function (i, node) {
                                     return 0;
-                                }, // Establecer grosor 0 para todas las líneas verticales
-                                // hLineWidth: function (i, node) {
-                                //     return i === 0 || i === node.table.body.length
-                                //         ? 1
-                                //         : 1;
-                                // },
+                                },
                                 hLineColor: function (i, node) {
                                     return i === 0 ||
                                         i === node.table.body.length

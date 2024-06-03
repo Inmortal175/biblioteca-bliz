@@ -68,6 +68,7 @@ export class UsuariosPageComponent implements OnInit {
             apellido_materno: ['', Validators.required],
             telefono: ['', Validators.required],
             email: ['', Validators.required],
+            es_activo: ['', Validators.required],
         });
     }
 
@@ -95,6 +96,7 @@ export class UsuariosPageComponent implements OnInit {
             apellido_materno: usuarioSe.apellido_materno,
             telefono: usuarioSe.telefono,
             email: usuarioSe.email,
+            es_activo: usuarioSe.es_activo,
         });
     }
     resetForm() {
@@ -150,7 +152,7 @@ export class UsuariosPageComponent implements OnInit {
                 response => {
                     Swal.fire({
                         title: 'Usuario modificado',
-                        text: `ID del Usuario: ${response.id_usuario}`,
+                        text: `Se modifico con éxito`,
                         icon: 'success',
                     });
                     this.verDatosUsuario(); // Refrescar la lista de usuarios

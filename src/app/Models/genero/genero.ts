@@ -11,6 +11,6 @@ export interface GeneroModel {
 }
 
 export interface GeneroFilter {
-  page_size?: number;
-  page?: number;
+    page_size?: number;
+    page?: number;
 }

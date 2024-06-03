@@ -16,4 +16,5 @@ export interface LibroResult {
     descripcion: string;
     prestados: number;
     devuelto: number;
+    id_proveedor?: number;
 }

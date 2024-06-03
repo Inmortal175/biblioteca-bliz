@@ -34,12 +34,13 @@
         role="tabpanel"
         aria-labelledby="pills-home-tab"
         tabindex="0">
-        <input type="search"
-        type="search"
-                id="texto"
-                name="texto"
-                placeholder="Buscar Libro..."
-                (input)="bucarNombreEnDb($event)">
+        <input
+            type="search"
+            type="search"
+            id="texto"
+            name="texto"
+            placeholder="Buscar Libro..."
+            (input)="bucarNombreEnDb($event)" />
         <section class="libros">
             <table class="table" border="0" cellspacing="0" cellpadding="0">
                 <thead>
@@ -47,6 +48,7 @@
                         <th>N°</th>
                         <th>Título</th>
                         <th>Genero</th>
+                        <th>Autor</th>
                         <th>Editorial</th>
                         <th>Catidad</th>
                         <th>Prestados</th>
@@ -54,11 +56,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let libro of libros, let i = index">
-                        <td>{{i+1}}</td>
+                    <tr *ngFor="let libro of libros; let i = index">
+                        <td>{{ i + 1 }}</td>
                         <td>{{ libro.titulo }}</td>
                         <td>{{ libro.genero }}</td>
-                        <td>{{libro.editorial}} </td>
+                        <td>{{ libro.autor }}</td>
+                        <td>{{ libro.editorial }}</td>
                         <td>{{ libro.cantidad }}</td>
                         <td>{{ libro.prestados }}</td>
                         <td>
@@ -137,24 +140,24 @@
                                                                 <select
                                                                     class="form-select"
                                                                     name="autor"
-                                                                    formControlName="id_autor"
-                                                                    id="autor">
-                                                                    
-                                                                    <option
-                                                                        selected
-                                                                        >
-                                                                        {{libroActual.id_autor}}
-                                                                    </option>
+                                                                    formControlName="id_autor">
                                                                     <option
                                                                         *ngFor="
                                                                             let autor of autores
                                                                         "
-                                                                        [value]="
-                                                                            autor.id_autor
+                                                                        [selected]="
+                                                                            autor.id_autor ===
+                                                                            libroActual.id
                                                                         ">
-                                                                        {{autor.nombres}}
-                                                                        {{autor.apellido_paterno}}
-                                                                        {{autor.apellido_materno}}
+                                                                        {{
+                                                                            autor.nombres
+                                                                        }}
+                                                                        {{
+                                                                            autor.apellido_paterno
+                                                                        }}
+                                                                        {{
+                                                                            autor.apellido_materno
+                                                                        }}
                                                                     </option>
                                                                 </select>
                                                             </div>
@@ -209,18 +212,12 @@
                                                                     formControlName="id_genero"
                                                                     required>
                                                                     <option
-                                                                        selected
-                                                                        disabled>
-                                                                        {{
-                                                                            libroActual.genero
-                                                                        }}
-                                                                    </option>
-                                                                    <option
                                                                         *ngFor="
                                                                             let genero of generos
                                                                         "
-                                                                        [value]="
-                                                                            genero.id_genero
+                                                                        [selected]="
+                                                                            genero.nombre ===
+                                                                            libroActual.genero
                                                                         ">
                                                                         {{
                                                                             genero.nombre
@@ -241,18 +238,12 @@
                                                                     formControlName="id_proveedor"
                                                                     id="proveedor">
                                                                     <option
-                                                                        selected
-                                                                        disabled>
-                                                                        {{
-                                                                            libroActual.proveedor
-                                                                        }}
-                                                                    </option>
-                                                                    <option
                                                                         *ngFor="
                                                                             let proveedor of proveedores
                                                                         "
-                                                                        [value]="
-                                                                            proveedor.id_proveedor
+                                                                        [selected]="
+                                                                            proveedor.id_proveedor ===
+                                                                            libroActual.id_proveedor
                                                                         ">
                                                                         {{
                                                                             proveedor.nombre
@@ -288,19 +279,16 @@
                                                                 <select
                                                                     class="form-select"
                                                                     name="editorial"
+                                                                    formControlName="id_editorial"
                                                                     id="editorial">
-                                                                    <option
-                                                                        selected
-                                                                        disabled>
-                                                                        {{
-                                                                            libroActual.editorial
-                                                                        }}
-                                                                    </option>
                                                                     <option
                                                                         *ngFor="
                                                                             let editorial of editoriales
                                                                         "
-                                                                        value="editorial.id_editorial">
+                                                                        [selected]="
+                                                                            editorial.id_editorial ===
+                                                                            libroActual.id_editorial
+                                                                        ">
                                                                         {{
                                                                             editorial.nombre
                                                                         }}
@@ -390,7 +378,6 @@
                 </p>
             </div>
             <!-- end paginacion -->
-
         </section>
     </div>
     <!-- FORMULARIO PARA REGISTRAR LIBRO -->
@@ -412,7 +399,7 @@
                             class="form-control"
                             id="titulo"
                             name="titulo"
-                            formControlName = "titulo"
+                            formControlName="titulo"
                             required />
                     </div>
                     <div class="col-sm-5">
@@ -421,7 +408,7 @@
                             class="form-select"
                             name="id_autor"
                             id="id_autor"
-                            formControlName = "id_autor"
+                            formControlName="id_autor"
                             required>
                             <option selected disabled>Seleccionar</option>
                             <option
@@ -554,7 +541,11 @@
                         </select>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-segundo" id="saveButton" (click)="registrarLibro()">
+                <button
+                    type="submit"
+                    class="btn btn-segundo"
+                    id="saveButton"
+                    (click)="registrarLibro()">
                     Guardar
                 </button>
             </form>
