@@ -7,16 +7,15 @@
         <div id="ContenedorBuscarUsuario">
             <label id="promtUsuario" for="texto"></label>
             <input
-                type="text"
+                type="search"
                 id="texto"
                 name="texto"
                 placeholder="Nombre de usuario..."
-                [(ngModel)]="nombreUsuarioPrompt" />
+                (input)="bucarNombreEnDb($event)" />
 
             <button
                 class="btn btn-primary square-circle"
-                id="botonBuscarNombre"
-                (click)="bucarNombreEnDb()">
+                id="botonBuscarNombre">
                 <i
                     class="fa-solid fa-magnifying-glass"
                     style="color: #ffffff"></i>
@@ -29,32 +28,117 @@
                     <tr>
                         <th scope="col"></th>
                         <th scope="col">ID de prestamo</th>
-                        <th scope="col">Título del libro</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Bibliotecario</th>
                         <th scope="col">Fecha de préstamo</th>
+                        <th scope="col">Fecha de caducidad</th>
+                        <th scope="col">Estado</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let devolucion of devoluciones; index as i">
+                    <tr
+                        *ngFor="
+                            let devolucion of prestamosEnDb;
+                            index as i
+                        ">
                         <th scope="row">
                             <input
-                                type="checkbox"
+                                type="radio"
+                                [value]="devolucion.id_prestamo"
                                 [id]="'checkbox-' + i"
-                                [(ngModel)]="devolucion.selected"
+                                [disabled]="devolucion.estado_devolucion === true"
+                                [(ngModel)]="selectedPrestamoId"
                                 class="checkboxesTabla" />
                             <label for="{{ 'checkbox-' + i }}"></label>
                         </th>
-                        <td>{{ devolucion.ID_de_prestamo }}</td>
-                        <td>{{ devolucion.Titulo_del_libro }}</td>
-                        <td>{{ devolucion.Fecha_de_prestamo }}</td>
+                        <td>{{ devolucion.id_prestamo }}</td>
+                        <td>{{ devolucion.usuario }}</td>
+                        <td>{{ devolucion.bibliotecario }}</td>
+                        <td>{{ devolucion.fecha_prestamo }}</td>
+                        <td>{{ devolucion.fecha_caducidad }}</td>
+                        <td>
+                            <span
+                                [class.text-bg-success]="
+                                    devolucion.estado_devolucion === false &&
+                                    isCaducado(devolucion.fecha_caducidad)
+                                "
+                                [class.text-bg-danger]="
+                                    devolucion.estado_devolucion === false &&
+                                    !isCaducado(devolucion.fecha_caducidad)
+                                "
+                                class="badge rounded-pill"
+
+                                [class.text-bg-primary]="devolucion.estado_devolucion === true"
+                                >{{
+                                    devolucion.estado_devolucion === false?
+                                    isCaducado(devolucion.fecha_caducidad) ===
+                                    true
+                                        ? 'Vigente'
+                                        : 'Caducado'
+                                    : 'Devuelto'
+                                }}</span
+                            >
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <!-- Paginacion -->
+        <div class="pagination">
+            <ul>
+                <li
+                    *ngFor="let page of UsuarioPage"
+                    [ngClass]="{
+                        active: page.number === UsuarioCurrentPage
+                    }">
+                    <!-- botones -->
+                    <button
+                        *ngIf="page.type === 'page'"
+                        (click)="changePageUsuario(page.number)">
+                        {{ page.number }}
+                    </button>
+                    <span *ngIf="page.type === 'dots'">...</span>
+
+                    <button
+                        *ngIf="page.type === 'prev'"
+                        (click)="changePageUsuario(page.number)">
+                        <i class="fas fa-angle-left"></i> Prev
+                    </button>
+
+                    <button
+                        role="button"
+                        *ngIf="page.type === 'next'"
+                        (click)="changePageUsuario(page.number)">
+                        Next <i class="fas fa-angle-right"></i>
+                    </button>
+                </li>
+            </ul>
+            <div [formGroup]="UsuarioPageSizeForm" class="page_size_cont mx-3">
+                <select
+                    formControlName="pageSize"
+                    (change)="changePageSizeUsuario()">
+                    <option
+                        *ngFor="let size of [5, 10, 20, 100]"
+                        [value]="size">
+                        {{ size }}
+                    </option>
+                </select>
+            </div>
+            <p class="texto">
+                Mostrando
+                {{
+                    UsuarioPageSize <= UsuarioTotalItems
+                        ? UsuarioPageSize
+                        : UsuarioTotalItems
+                }}
+                registros de
+                {{ UsuarioTotalItems }}
+            </p>
+        </div>
+        <!-- end paginacion -->
 
         <div id="ContenedorBotonDevolverLibro">
-            <button
-                (click)="EnviarListaIdPrestamosDevueltos()"
-                id="botonDevolverLibro">
+            <button (click)="RealizarDevolucion()" id="botonDevolverLibro">
                 Devolver libro
             </button>
         </div>

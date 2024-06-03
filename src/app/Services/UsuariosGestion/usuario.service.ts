@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,9 +11,12 @@ export class UsuarioService {
 
     constructor(private http: HttpClient) {}
 
-    ObtenerUsuarios(): Observable<any> {
+    ObtenerUsuarios(pagina: number, page_size: number): Observable<any> {
         const httpOptions = {
             headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+            params: new HttpParams()
+                .set('page', pagina)
+                .set('page_size', page_size),
         };
 
         return this.http.get(`${this.url_base}usuario`, httpOptions);
