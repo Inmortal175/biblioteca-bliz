@@ -26,6 +26,7 @@
         </button>
     </li>
 </ul>
+<!-- TABLA LIBROS -->
 <div class="tab-content" id="pills-tabContent">
     <div
         class="tab-pane fade show active"
@@ -33,19 +34,33 @@
         role="tabpanel"
         aria-labelledby="pills-home-tab"
         tabindex="0">
+        <input type="search"
+        type="search"
+                id="texto"
+                name="texto"
+                placeholder="Buscar Libro..."
+                (input)="bucarNombreEnDb($event)">
         <section class="libros">
             <table class="table" border="0" cellspacing="0" cellpadding="0">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>N°</th>
                         <th>Título</th>
+                        <th>Genero</th>
+                        <th>Editorial</th>
+                        <th>Catidad</th>
+                        <th>Prestados</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Oscar y sus gatos</td>
+                    <tr *ngFor="let libro of libros, let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{ libro.titulo }}</td>
+                        <td>{{ libro.genero }}</td>
+                        <td>{{libro.editorial}} </td>
+                        <td>{{ libro.cantidad }}</td>
+                        <td>{{ libro.prestados }}</td>
                         <td>
                             <div class="editModal">
                                 <a
@@ -53,6 +68,7 @@
                                     class="btn btn-editar"
                                     data-bs-toggle="modal"
                                     data-bs-target="#editModal"
+                                    (click)="abrirModalActualizar(libro)"
                                     ><i class="fas fa-pencil"></i
                                 ></a>
                                 |
@@ -61,6 +77,7 @@
                                     class="btn btn-eliminar"
                                     data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
+                                    (click)="eliminarLibro(libro.id)"
                                     ><i class="fas fa-trash-alt"></i
                                 ></a>
                                 <div
@@ -74,7 +91,8 @@
                                             <div class="modal-header">
                                                 <h5
                                                     class="modal-title"
-                                                    id="editModalLabel">
+                                                    id="editModalLabel"
+                                                    (click)="actualizarLibro()">
                                                     <i
                                                         class="fas fa-pencil"></i>
                                                     Actualizar Datos
@@ -89,6 +107,7 @@
                                                 <div
                                                     class="container_modal mt-5">
                                                     <form
+                                                        [formGroup]="libroForm"
                                                         action=""
                                                         method="post">
                                                         <div class="row mb-3">
@@ -101,6 +120,7 @@
                                                                 >
                                                                 <input
                                                                     type="text"
+                                                                    formControlName="titulo"
                                                                     class="form-control"
                                                                     id="titulo"
                                                                     name="titulo"
@@ -113,12 +133,30 @@
                                                                     class="form-label"
                                                                     >Autor:</label
                                                                 >
-                                                                <input
-                                                                    type="text"
-                                                                    class="form-control"
-                                                                    id="autor"
+                                                                <!-- <input type="text" class="form-control" id="autor" name="autor" formControlName="autor"> -->
+                                                                <select
+                                                                    class="form-select"
                                                                     name="autor"
-                                                                    required />
+                                                                    formControlName="id_autor"
+                                                                    id="autor">
+                                                                    
+                                                                    <option
+                                                                        selected
+                                                                        >
+                                                                        {{libroActual.id_autor}}
+                                                                    </option>
+                                                                    <option
+                                                                        *ngFor="
+                                                                            let autor of autores
+                                                                        "
+                                                                        [value]="
+                                                                            autor.id_autor
+                                                                        ">
+                                                                        {{autor.nombres}}
+                                                                        {{autor.apellido_paterno}}
+                                                                        {{autor.apellido_materno}}
+                                                                    </option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                         <div class="row mb-3">
@@ -130,7 +168,8 @@
                                                                     >Año:</label
                                                                 >
                                                                 <input
-                                                                    type="date"
+                                                                    type="number"
+                                                                    formControlName="anio_publicacion"
                                                                     class="form-control"
                                                                     id="año"
                                                                     name="año"
@@ -147,6 +186,7 @@
                                                                 >
                                                                 <input
                                                                     type="number"
+                                                                    formControlName="cantidad"
                                                                     class="form-control"
                                                                     id="cantidad"
                                                                     name="cantidad"
@@ -166,282 +206,106 @@
                                                                     class="form-select"
                                                                     id="genero"
                                                                     name="genero"
+                                                                    formControlName="id_genero"
                                                                     required>
                                                                     <option
-                                                                        selected>
-                                                                        Seleccionar
+                                                                        selected
+                                                                        disabled>
+                                                                        {{
+                                                                            libroActual.genero
+                                                                        }}
                                                                     </option>
                                                                     <option
-                                                                        value="Narrativa">
-                                                                        Narrativa
-                                                                    </option>
-                                                                    <option
-                                                                        value="Poesía">
-                                                                        Poesía
-                                                                    </option>
-                                                                    <option
-                                                                        value="Ensayo">
-                                                                        Ensayo
-                                                                    </option>
-                                                                    <option
-                                                                        value="Drama">
-                                                                        Drama
-                                                                    </option>
-                                                                    <option
-                                                                        value="Otro">
-                                                                        Otro
+                                                                        *ngFor="
+                                                                            let genero of generos
+                                                                        "
+                                                                        [value]="
+                                                                            genero.id_genero
+                                                                        ">
+                                                                        {{
+                                                                            genero.nombre
+                                                                        }}
                                                                     </option>
                                                                 </select>
                                                             </div>
                                                             <div
                                                                 class="col-sm-6">
                                                                 <label
-                                                                    for="editorial"
+                                                                    for="proveedor"
                                                                     class="form-label"
-                                                                    >Editorial:</label
-                                                                >
-                                                                <input
-                                                                    type="text"
-                                                                    class="form-control"
-                                                                    id="editorial"
-                                                                    name="editorial"
-                                                                    required />
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">
-                                                    Cancelar
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-success"
-                                                    data-bs-dismiss="modal">
-                                                    Actulizar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- DELETE MODAL -->
-                            <div class="deleteModal">
-                                <div
-                                    class="modal fade"
-                                    id="deleteModal"
-                                    tabindex="-1"
-                                    aria-labelledby="deleteModalLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5
-                                                    class="modal-title"
-                                                    id="deleteModalLabel">
-                                                    <i
-                                                        class="fas fa-trash-alt"></i>
-                                                    Eliminar Libro
-                                                </h5>
-                                                <button
-                                                    type="button"
-                                                    class="btn-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>
-                                                    ¿Está seguro de eliminar el
-                                                    libro de forma permanente?
-                                                </p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">
-                                                    No
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-danger"
-                                                    data-bs-dismiss="modal">
-                                                    Sí, eliminar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Oscar y sus gatos</td>
-                        <td>
-                            <div class="editModal">
-                                <a
-                                    href="#"
-                                    class="btn btn-editar"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editModal"
-                                    ><i class="fas fa-pencil"></i
-                                ></a>
-                                |
-                                <a
-                                    href="#"
-                                    class="btn btn-eliminar"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal"
-                                    ><i class="fas fa-trash-alt"></i
-                                ></a>
-                                <div
-                                    class="modal fade"
-                                    id="editModal"
-                                    tabindex="-1"
-                                    aria-labelledby="editModalLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5
-                                                    class="modal-title"
-                                                    id="editModalLabel">
-                                                    <i
-                                                        class="fas fa-pencil"></i>
-                                                    Actualizar Datos
-                                                </h5>
-                                                <button
-                                                    type="button"
-                                                    class="btn-close"
-                                                    data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div
-                                                    class="container_modal mt-5">
-                                                    <form
-                                                        action=""
-                                                        method="post">
-                                                        <div class="row mb-3">
-                                                            <div
-                                                                class="col-sm-6">
-                                                                <label
-                                                                    for="titulo"
-                                                                    class="form-label"
-                                                                    >Título:</label
-                                                                >
-                                                                <input
-                                                                    type="text"
-                                                                    class="form-control"
-                                                                    id="titulo"
-                                                                    name="titulo"
-                                                                    required />
-                                                            </div>
-                                                            <div
-                                                                class="col-sm-6">
-                                                                <label
-                                                                    for="autor"
-                                                                    class="form-label"
-                                                                    >Autor:</label
-                                                                >
-                                                                <input
-                                                                    type="text"
-                                                                    class="form-control"
-                                                                    id="autor"
-                                                                    name="autor"
-                                                                    required />
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-3">
-                                                            <div
-                                                                class="col-sm-6">
-                                                                <label
-                                                                    for="año"
-                                                                    class="form-label"
-                                                                    >Año:</label
-                                                                >
-                                                                <input
-                                                                    type="date"
-                                                                    class="form-control"
-                                                                    id="año"
-                                                                    name="año"
-                                                                    min="1900"
-                                                                    max="2099"
-                                                                    required />
-                                                            </div>
-                                                            <div
-                                                                class="col-sm-6">
-                                                                <label
-                                                                    for="cantidad"
-                                                                    class="form-label"
-                                                                    >Cantidad:</label
-                                                                >
-                                                                <input
-                                                                    type="number"
-                                                                    class="form-control"
-                                                                    id="cantidad"
-                                                                    name="cantidad"
-                                                                    min="1"
-                                                                    required />
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-3">
-                                                            <div
-                                                                class="col-sm-6">
-                                                                <label
-                                                                    for="genero"
-                                                                    class="form-label"
-                                                                    >Género:</label
+                                                                    >Proveedor:</label
                                                                 >
                                                                 <select
                                                                     class="form-select"
-                                                                    id="genero"
-                                                                    name="genero"
-                                                                    required>
+                                                                    name="porveedor"
+                                                                    formControlName="id_proveedor"
+                                                                    id="proveedor">
                                                                     <option
-                                                                        selected>
-                                                                        Seleccionar
+                                                                        selected
+                                                                        disabled>
+                                                                        {{
+                                                                            libroActual.proveedor
+                                                                        }}
                                                                     </option>
                                                                     <option
-                                                                        value="Narrativa">
-                                                                        Narrativa
-                                                                    </option>
-                                                                    <option
-                                                                        value="Poesía">
-                                                                        Poesía
-                                                                    </option>
-                                                                    <option
-                                                                        value="Ensayo">
-                                                                        Ensayo
-                                                                    </option>
-                                                                    <option
-                                                                        value="Drama">
-                                                                        Drama
-                                                                    </option>
-                                                                    <option
-                                                                        value="Otro">
-                                                                        Otro
+                                                                        *ngFor="
+                                                                            let proveedor of proveedores
+                                                                        "
+                                                                        [value]="
+                                                                            proveedor.id_proveedor
+                                                                        ">
+                                                                        {{
+                                                                            proveedor.nombre
+                                                                        }}
                                                                     </option>
                                                                 </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div
+                                                                class="col-sm-6">
+                                                                <label
+                                                                    for="descripcion"
+                                                                    class="form-label"
+                                                                    >Descripción</label
+                                                                >
+                                                                <textarea
+                                                                    type="text"
+                                                                    formControlName="descripcion"
+                                                                    class="form-control"
+                                                                    name="descripcion"
+                                                                    id="descripcion"
+                                                                    rows="2">
+                                                                </textarea>
                                                             </div>
                                                             <div
                                                                 class="col-sm-6">
                                                                 <label
-                                                                    for="editorial"
+                                                                    for="edotorial"
                                                                     class="form-label"
-                                                                    >Editorial:</label
+                                                                    >Editorial</label
                                                                 >
-                                                                <input
-                                                                    type="text"
-                                                                    class="form-control"
-                                                                    id="editorial"
+                                                                <select
+                                                                    class="form-select"
                                                                     name="editorial"
-                                                                    required />
+                                                                    id="editorial">
+                                                                    <option
+                                                                        selected
+                                                                        disabled>
+                                                                        {{
+                                                                            libroActual.editorial
+                                                                        }}
+                                                                    </option>
+                                                                    <option
+                                                                        *ngFor="
+                                                                            let editorial of editoriales
+                                                                        "
+                                                                        value="editorial.id_editorial">
+                                                                        {{
+                                                                            editorial.nombre
+                                                                        }}
+                                                                    </option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </form>
@@ -457,56 +321,9 @@
                                                 <button
                                                     type="button"
                                                     class="btn btn-success"
-                                                    data-bs-dismiss="modal">
-                                                    Actulizar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- DELETE MODAL -->
-                            <div class="deleteModal">
-                                <div
-                                    class="modal fade"
-                                    id="deleteModal"
-                                    tabindex="-1"
-                                    aria-labelledby="deleteModalLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5
-                                                    class="modal-title"
-                                                    id="deleteModalLabel">
-                                                    <i
-                                                        class="fas fa-trash-alt"></i>
-                                                    Eliminar Libro
-                                                </h5>
-                                                <button
-                                                    type="button"
-                                                    class="btn-close"
                                                     data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>
-                                                    ¿Está seguro de eliminar el
-                                                    libro de forma permanente?
-                                                </p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">
-                                                    No
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-danger"
-                                                    data-bs-dismiss="modal">
-                                                    Sí, eliminar
+                                                    (click)="actualizarLibro()">
+                                                    Actulizar
                                                 </button>
                                             </div>
                                         </div>
@@ -517,8 +334,66 @@
                     </tr>
                 </tbody>
             </table>
+
+            <!-- Paginacion -->
+            <div class="pagination">
+                <ul>
+                    <li
+                        *ngFor="let page of LibroPage"
+                        [ngClass]="{
+                            active: page.number === LibroCurrentPage
+                        }">
+                        <!-- botones -->
+                        <button
+                            *ngIf="page.type === 'page'"
+                            (click)="changePageLibro(page.number)">
+                            {{ page.number }}
+                        </button>
+                        <span *ngIf="page.type === 'dots'">...</span>
+
+                        <button
+                            *ngIf="page.type === 'prev'"
+                            (click)="changePageLibro(page.number)">
+                            <i class="fas fa-angle-left"></i> Prev
+                        </button>
+
+                        <button
+                            role="button"
+                            *ngIf="page.type === 'next'"
+                            (click)="changePageLibro(page.number)">
+                            Next <i class="fas fa-angle-right"></i>
+                        </button>
+                    </li>
+                </ul>
+                <div
+                    [formGroup]="LibroPageSizeForm"
+                    class="page_size_cont mx-3">
+                    <select
+                        formControlName="pageSize"
+                        (change)="changePageSizeLibro()">
+                        <option
+                            *ngFor="let size of [5, 10, 20, 100]"
+                            [value]="size">
+                            {{ size }}
+                        </option>
+                    </select>
+                </div>
+                <p class="texto">
+                    Mostrando
+                    {{
+                        LibroPageSize <= LibroTotalItems
+                            ? LibroPageSize
+                            : LibroTotalItems
+                    }}
+                    registros de
+                    {{ LibroTotalItems }}
+                </p>
+            </div>
+            <!-- end paginacion -->
+
         </section>
     </div>
+    <!-- FORMULARIO PARA REGISTRAR LIBRO -->
     <div
         class="tab-pane fade"
         id="pills-profile"
@@ -526,41 +401,66 @@
         aria-labelledby="pills-profile-tab"
         tabindex="0">
         <div class="container mt-5">
-            <form action="" method="post">
+            <form [formGroup]="libroForm">
                 <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <label for="titulo" class="form-label">Título:</label>
+                    <div class="col-sm-5">
+                        <label for="exampleFormControlInput1" class="form-label"
+                            >Título:</label
+                        >
                         <input
                             type="text"
                             class="form-control"
                             id="titulo"
                             name="titulo"
+                            formControlName = "titulo"
                             required />
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-5">
                         <label for="autor" class="form-label">Autor:</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="autor"
-                            name="autor"
-                            required />
+                        <select
+                            class="form-select"
+                            name="id_autor"
+                            id="id_autor"
+                            formControlName = "id_autor"
+                            required>
+                            <option selected disabled>Seleccionar</option>
+                            <option
+                                *ngFor="let autor of autores"
+                                [value]="autor.id_autor">
+                                {{ autor.nombres }}
+                                {{ autor.apellido_paterno }}
+                                {{ autor.apellido_materno }}
+                            </option>
+                        </select>
+                        <!-- <input type="text" class="form-control" id="autor" name="autor" required> -->
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="text" class="form-label">Agregar:</label>
+                        <button
+                            type="submit"
+                            class="btn btn-success"
+                            (click)="DirigirAdmin()">
+                            +
+                        </button>
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <label for="año" class="form-label">Año:</label>
+                    <div class="col-sm-5">
+                        <label for="año" class="form-label"
+                            >Año de Publicación:</label
+                        >
                         <input
-                            type="date"
+                            type="integer"
                             class="form-control"
-                            id="año"
-                            name="año"
+                            id="anio_publicacion"
+                            name="anio_publicacion"
                             min="1900"
                             max="2099"
+                            formControlName="anio_publicacion"
                             required />
                     </div>
-                    <div class="col-sm-6">
-                        <label for="cantidad" class="form-label"
+                    <div class="col-sm-5">
+                        <label for="exampleFormControlInput1" class="form-label"
                             >Cantidad:</label
                         >
                         <input
@@ -569,38 +469,94 @@
                             id="cantidad"
                             name="cantidad"
                             min="1"
+                            formControlName="cantidad"
                             required />
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-sm-6">
-                        <label for="genero" class="form-label">Género:</label>
+                    <div class="col-sm-5">
+                        <label for="exampleFormControlInput1" class="form-label"
+                            >Género:</label
+                        >
                         <select
                             class="form-select"
-                            id="genero"
-                            name="genero"
+                            name="id_genero"
+                            id="id_genero"
+                            formControlName="id_genero"
                             required>
-                            <option selected>Seleccionar</option>
-                            <option value="Narrativa">Narrativa</option>
-                            <option value="Poesía">Poesía</option>
-                            <option value="Ensayo">Ensayo</option>
-                            <option value="Drama">Drama</option>
-                            <option value="Otro">Otro</option>
+                            <option selected disabled>Seleccionar</option>
+                            <option
+                                *ngFor="let genero of generos"
+                                [value]="genero.id_genero">
+                                {{ genero.nombre }}
+                            </option>
                         </select>
                     </div>
-                    <div class="col-sm-6">
-                        <label for="editorial" class="form-label"
-                            >Editorial:</label
+
+                    <div class="col-sm-5">
+                        <label for="id_proveedor" class="form-label"
+                            >Proveedor:</label
                         >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="editorial"
-                            name="editorial"
-                            required />
+                        <select
+                            class="form-select"
+                            name="id_proveedor"
+                            id="id_proveedor"
+                            formControlName="id_proveedor"
+                            required>
+                            <option selected disabled>Seleccionar</option>
+                            <option
+                                *ngFor="let proveedor of proveedores"
+                                [value]="proveedor.id_proveedor">
+                                {{ proveedor.nombre }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="text" class="form-label">Agregar:</label>
+                        <button
+                            type="submit"
+                            class="btn btn-success"
+                            (click)="DirigirAdmin()">
+                            +
+                        </button>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-segundo">Registrar</button>
+
+                <div class="row mb-3">
+                    <div class="col-sm-5">
+                        <label for="descripcion" class="form-label"
+                            >Descripción:</label
+                        >
+                        <textarea
+                            type="text"
+                            class="form-control"
+                            id="descripcion"
+                            name="descripcion"
+                            formControlName="descripcion"
+                            rows="3"></textarea>
+                    </div>
+                    <div class="col-sm-5">
+                        <label for="id_editorial" class="form-label"
+                            >Editorial:</label
+                        >
+                        <select
+                            class="form-select"
+                            id="id_editorial"
+                            name="id_editorial"
+                            formControlName="id_editorial"
+                            required>
+                            <option selected disabled>Seleccionar</option>
+                            <option
+                                *ngFor="let editorial of editoriales"
+                                [value]="editorial.id_editorial">
+                                {{ editorial.nombre }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-segundo" id="saveButton" (click)="registrarLibro()">
+                    Guardar
+                </button>
             </form>
         </div>
     </div>

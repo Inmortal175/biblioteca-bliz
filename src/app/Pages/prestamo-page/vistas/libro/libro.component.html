@@ -1,0 +1,88 @@
+<div class="container overflow-hidden text-center">
+    <div class="row gx-5">
+        <div class="col">
+            <div class="p-3 usuario">Usuario</div>
+        </div>
+        <div class="col">
+            <div class="p-3 libro">Libro</div>
+        </div>
+    </div>
+</div>
+<div class="nuevo-contenedor">
+    <div class="nuevo-contenedor2">
+        <input type="text" placeholder="Buscar..." />
+        <button>
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </div>
+    <table class="table custom-table">
+        <thead>
+            <tr>
+                <th scope="col">ID Libro</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Género</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let libro of libros">
+                <td scope="row">{{ libro.id }}</td>
+                <td scope="row">{{ libro.titulo }}</td>
+                <td scope="row">{{ libro.autor }}</td>
+                <td scope="row">{{ libro.genero }}</td>
+                <td scope>
+                    <form [formGroup]="userSelectForm">
+                        <label class="btn btn-sm" for="select-user">
+                            <input
+                                type="checkbox"
+                                name="select-book"
+                                id="select-book"
+                                formControlName="seleccion"
+                                (change)="gestionarSeleccion(libro)" />
+                        </label>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="nuevo-contenedor3 nuevo-contenedor2">
+        <button (click)="Volver_Libro()" class="botonBACK">BACK</button>
+        <button (click)="Mostrar_Detalle()" class="botonNEXT">FINALIZAR</button>
+    </div>
+</div>
+
+<div id="Detalle Prestamo" style="display: none">
+    <div class="container overflow-hidden text-center">
+        <div class="row gx-5">
+            <div class="col">
+                <div class="p-3 detalle">Detalle Prestamo</div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="nuevo-contenedor2">
+            <table class="table custom-table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID Prestamo</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Titulo del libro</th>
+                        <th scope="col">Fecha de préstamo</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let prestamo of prestamosSeleccionados">
+                        <td scope="row">{{ prestamo.id }}</td>
+                        <td scope="row">{{ prestamo.nombre }}</td>
+                        <td scope="row">{{ prestamo.titulo }}</td>
+                        <td scope="row">{{ prestamo.fecha }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button (click)="Volver_casa()" class="botonHOME">Inicio</button>
+    </div>
+</div>

@@ -1,0 +1,175 @@
+.oculto {
+    display: none;
+}
+
+.container {
+    margin-top: 15px;
+    max-width: 100%; /* Asegura que el contenedor no exceda el ancho disponible */
+}
+
+.row {
+    display: flex; /* Usa flexbox para las filas */
+    justify-content: center; /* Centra las columnas horizontalmente */
+    margin: 0 -15px; /* Añade márgenes negativos para compensar el padding en las columnas */
+}
+
+.col {
+    height: 52px;
+    flex: 0 0 25%; /* Ajusta el tamaño de las columnas a un 25% del contenedor */
+    max-width: 20%; /* Ajusta el ancho máximo de las columnas a un 20% */
+    box-sizing: border-box; /* Incluye padding y border en el ancho total */
+}
+.usuario {
+    font-weight: bold;
+    height: 100%;
+    text-align: center; /* Centra el texto dentro del elemento */
+    background-color: #ffd977; /* Añade un fondo claro */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.libro {
+    height: 100%;
+    text-align: center; /* Centra el texto dentro del elemento */
+    background-color: #f4f4f4; /* Añade un fondo claro */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos horizontalmente */
+    padding: 20px;
+    margin: 0; /* Eliminamos cualquier margen predeterminado */
+}
+.botonNEXT.active,
+.botonBACK.active {
+    background-color: yellow;
+}
+nav-Usurio {
+    display: flex;
+    justify-content: center; /* Centra los contenedores horizontalmente */
+    flex-wrap: wrap; /* Permite que los contenedores se envuelvan si es necesario */
+    gap: 10px; /* Espacio entre los contenedores */
+    margin-bottom: 20px; /* Espacio debajo de los contenedores */
+    margin-top: 20px;
+    background-color: #ffd977;
+    font-weight: bold;
+}
+
+.contenedor {
+    width: 278px;
+    text-align: center;
+    padding: 10px;
+    font-style: normal;
+    border-radius: 5px;
+}
+
+.nuevo-contenedor {
+    background-color: #f0f0f0; /* Color para el nuevo contenedor */
+    width: 100%; /* Ocupa todo el ancho del contenedor padre */
+    /* height: 600px; */
+    padding: 20px;
+    justify-content: flex-start;
+    text-align: center;
+    margin-top: 20px; /* Añadir margen superior para separar de los elementos anteriores */
+    flex-direction: column;
+}
+.nuevo-contenedor2 {
+    padding: 0%;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+input {
+    font-size: 15px;
+    background-color: #ffffff;
+    padding: 15px;
+    margin: 10px 0;
+    width: 270px;
+    margin-right: 10px;
+    text-align: justify;
+    font-style: italic;
+    border: none;
+}
+
+button {
+    color: #ffffff; /* Color del texto blanco */
+    background-color: #458efc; /* Color de fondo azul */
+    padding: 15px; /* Espaciado interno de 15px */
+    margin: 10px 0; /* Margen superior e inferior de 10px, sin margen lateral */
+    width: 83px; /* Ancho fijo del botón */
+    border: none; /* Sin borde */
+    display: flex; /* Uso de flexbox para centrar */
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
+    box-sizing: border-box; /* Incluye padding y borde en el tamaño total del elemento */
+}
+
+.custom-table {
+    padding-top: 20px;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Espacio entre las filas */
+    font-family: Arial, sans-serif; /* Fuente para todo el documento */
+}
+
+.custom-table th {
+    color: #000000; /* Color del texto del encabezado */
+    padding: 10px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto */
+    background-color: #f4f4f4;
+}
+
+.custom-table td {
+    background-color: #ffffff; /* Color de fondo para las celdas del cuerpo de la tabla */
+    padding: 10px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto */
+}
+
+.nuevo-contenedor3 {
+    width: 100%;
+    height: 90px;
+    padding: 0%;
+}
+.botonNEXT {
+    padding-right: 15px;
+    align-items: center;
+    font-style: normal;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #64e061;
+    width: 180px;
+    color: #ffffff;
+    height: 50px;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    border: none;
+}
+.botonBACK {
+    align-items: center;
+    font-style: normal;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #64e061;
+    width: 180px;
+    color: #ffffff;
+    height: 50px;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    border: none;
+}
+.nuevo-contenedor3 {
+    justify-content: end;
+}
+
+.Agregar {
+    justify-content: center;
+}
+
+.btn:hover {
+    border: 1px solid #0000004e;
+    background: linear-gradient(#458efc58, #9170ff43);
+    /* filter: opacity(.2); */
+}
